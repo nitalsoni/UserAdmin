@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'playground-app';
+
+  constructor(private modalService: NgbModal) {
+    
+  }
 }

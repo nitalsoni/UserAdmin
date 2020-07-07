@@ -8,7 +8,8 @@ import { AppContentComponent } from './app-content/app-content.component';
 import { UsersComponent } from './users/users.component';
 import { UserConfigService } from './services/user-config.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddConfigModalComponent } from './add-config-modal/add-config-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +17,22 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     AppHeaderComponent,
     AppLeftMenuComponent,
     AppContentComponent,
-    UsersComponent
+    UsersComponent,
+    AddConfigModalComponent
   ],
   imports: [
     FormsModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
-  providers: [UserConfigService],
-  bootstrap: [AppComponent]
+  providers: [
+    UserConfigService,
+    NgbActiveModal
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AddConfigModalComponent
+  ]
 })
 export class AppModule { }
