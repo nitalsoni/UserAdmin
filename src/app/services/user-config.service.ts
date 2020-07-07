@@ -11,15 +11,15 @@ export class UserConfigService {
 
   private _request = new Request();
   private searchResult: UserConfig[] = new Array();
-  //private searchParam: string = 'nsoni5';
   private localUrl = 'http://localhost:50197/api/UserConfig';
 
   constructor(private http: HttpClient) {
+
   }
 
   searchConfig(searchClause: string): Observable<Response> {
     let requestParams = this._request.header.GetHeader();
-    requestParams['params'] = { 'searchParam': 'nsoni5' }
+    requestParams['params'] = { 'searchParam': searchClause }
     return this.http.get<Response>(this.localUrl, requestParams);
   }
 }

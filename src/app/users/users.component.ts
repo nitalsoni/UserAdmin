@@ -10,16 +10,22 @@ import { Response, StatusCode } from '../models/Response';
 })
 export class UsersComponent implements OnInit {
 
-  searchResult: UserConfig[] = new Array();
   private _userConfigService: UserConfigService;
+  searchResult: UserConfig[] = new Array();
+  searchString: string = 'nsoni5';
   
   constructor(private userConfigService: UserConfigService) {
     this._userConfigService = userConfigService;
   }
 
   ngOnInit() {
-    this._userConfigService.searchConfig("nsoni5").subscribe((resp: any) => {
+    
+  }
+
+  onSearch() {
+    this._userConfigService.searchConfig(this.searchString).subscribe((resp: any) => {
       if (resp.statusCode == StatusCode.Ok) {
+        this.searchResult = [];
         resp.data.forEach(element => {
           let newUserConfig: UserConfig = { userId: element.userID, controlName: element.name, item: element.type, dataValue: element.item };
           this.searchResult.push(newUserConfig);
