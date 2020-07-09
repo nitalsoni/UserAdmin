@@ -4,4 +4,11 @@ export class UserConfig {
     controlName: string;
     item: string;
     dataValue: string;
+
+    constructor(_userId?: string, _controlName?: string, _item?: string, _dataValue?: string) {
+        this.userId = _userId;
+        this.controlName = _controlName;
+        this.item = _item;
+        this.dataValue = _dataValue;
+    }
 }
