@@ -27,37 +27,29 @@ export class UsersComponent implements OnInit {
   }
 
   openConfigDialog(editConfig?: UserConfig) {
-    console.log(editConfig);
-
     const modalRef = this.modalService.open(AddConfigModalComponent, { centered: true });
+
+    //to check if action is add or edit
     if (_.isNull(editConfig) == null || _.isUndefined(editConfig))
       modalRef.componentInstance.config = new UserConfig();
     else
       modalRef.componentInstance.config = editConfig;
-
-    modalRef.componentInstance.messageEvent.subscribe(response => {
-      if (response.isEditAction) {
-        let result = _.remove(this.searchResult, (x =>
-          x.userId == response.data.userId
-          && x.controlName == response.data.controlName
-          && x.item == response.data.item
-        ));
-      }
-      this.searchResult.push(response.data);
-
-      this._userConfigService.addConfig(editConfig).subscribe((resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          console.log(`add config response ${resp.data}`) ;
-        }
-      });
-    });
+    modalRef.componentInstance.dataService = this._userConfigService;
+    modalRef.componentInstance.messageEvent.subscribe(this.modalCallback);
   }
 
   deleteConfig(deleteConfig: UserConfig) {
-    _.remove(this.searchResult, (x =>
-      x.userId == deleteConfig.userId
-      && x.controlName == deleteConfig.controlName
-      && x.item == deleteConfig.item));
+    this._userConfigService.deleteConfig(deleteConfig).subscribe({
+      next: (resp: any) => {
+        if (resp.statusCode == StatusCode.Ok) {
+          _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
+        }
+        else {
+          console.log(`failed to delete config item ${resp.message}`);
+        }
+      },
+      error: e => console.error('There was an error!', e)
+    });
   }
 
   onSearch() {
@@ -65,10 +57,43 @@ export class UsersComponent implements OnInit {
       if (resp.statusCode == StatusCode.Ok) {
         this.searchResult = [];
         resp.data.forEach(element => {
-          //let newUserConfig: UserConfig = { userId: element.userID, controlName: element.name, item: element.type, dataValue: element.item };
           this.searchResult.push(element);
         });
       }
     });
+  }
+
+  modalCallback(response: any) {
+    //Edit action
+    if (response.isEditAction) {
+      response.userConfigService.editConfig(response.data).subscribe({
+        next: (resp: any) => {
+          if (resp.statusCode == StatusCode.Ok) {
+            _.remove(this.searchResult, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
+            this.searchResult.push(response.data);
+            console.log(`succssfully edited config item ${resp.data}`);
+          }
+          else {
+            console.log(`failed to edited config item ${resp.message}`);
+          }
+        },
+        error: e => console.error('There was an error!', e)
+      });
+    }
+    //Add action
+    else {
+      response.userConfigService.addConfig(response.data).subscribe({
+        next: (resp: any) => {
+          if (resp.statusCode == StatusCode.Ok) {
+            this.searchResult.push(response.data);
+            console.log(`succssfully added config item ${resp.data}`);
+          }
+          else {
+            console.log(`failed to add config item ${resp.message}`);
+          }
+        },
+        error: e => console.error('There was an error!', e)
+      });
+    }
   }
 }

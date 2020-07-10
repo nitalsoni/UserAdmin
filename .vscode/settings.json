@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "**/*.spec.ts": true,
+        "**/e2e": true,
+        "**/node_modules": true
+    }
+}

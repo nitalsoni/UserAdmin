@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserConfig } from '../models/userConfig';
+import { UserConfigService } from '../services/user-config.service';
 import * as _ from "lodash";
 
 @Component({
@@ -16,6 +17,7 @@ export class AddConfigModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
   @Input() public config: UserConfig;
+  @Input() public dataService: UserConfigService;
   @Output() messageEvent = new EventEmitter<any>();
 
   ngOnInit() {
@@ -24,7 +26,7 @@ export class AddConfigModalComponent implements OnInit {
   }
 
   saveConfig() {
-    let response = {'isEditAction': this.isEditAction , 'data' : this.userConfig};
+    let response = {'isEditAction': this.isEditAction , 'data' : this.userConfig, 'userConfigService' : this.dataService};
     this.messageEvent.emit(response);
     this.activeModal.close();
   }

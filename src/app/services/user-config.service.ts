@@ -29,4 +29,16 @@ export class UserConfigService {
     let requestParams = request.header.GetHeader();
     return this.http.post<Response>(this.localUrl, newConfig, requestParams);
   }
+
+  editConfig(replaceConfig: UserConfig): Observable<Response> {
+    let request = new Request();
+    let requestParams = request.header.GetHeader();
+    return this.http.put<Response>(this.localUrl, replaceConfig, requestParams);
+  }
+
+  deleteConfig(deleteConfig: UserConfig): Observable<Response> {
+    let request = new Request();
+    let requestParams = request.header.GetHeader();
+    return this.http.post<Response>("http://localhost:50197/api/UserConfig/DeleteConfig", deleteConfig, requestParams);
+  }
 }
