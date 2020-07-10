@@ -16,7 +16,7 @@ export class AddConfigModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
   @Input() public config: UserConfig;
-  @Output() messageEvent = new EventEmitter<UserConfig>();
+  @Output() messageEvent = new EventEmitter<any>();
 
   ngOnInit() {
     this.userConfig = this.config;
@@ -24,7 +24,8 @@ export class AddConfigModalComponent implements OnInit {
   }
 
   saveConfig() {
-    this.messageEvent.emit(this.userConfig);
+    let response = {'isEditAction': this.isEditAction , 'data' : this.userConfig};
+    this.messageEvent.emit(response);
     this.activeModal.close();
   }
 

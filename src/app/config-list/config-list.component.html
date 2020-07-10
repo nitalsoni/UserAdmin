@@ -4,8 +4,8 @@
       <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
     </div>
     <input class="form-control my-0 py-1" type="text" placeholder="search anything" aria-label="Search"
-    [(ngModel)]="searchString" />
-      <input type="button" value="Search" (click)="onSearch()"/>
+      [(ngModel)]="searchString" />
+    <input type="button" value="Search" (click)="onSearch()" />
   </div>
 
   <div>
@@ -27,8 +27,10 @@
           <td>{{config.controlName}}</td>
           <td>{{config.dataValue}}</td>
           <td>{{config.item}}</td>
-          <td><button class="btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
-          <td><button class="btn"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+          <td><button class="btn" (click)="openConfigDialog(config)"> <i class="fa fa-pencil-square-o"
+                aria-hidden="true"></i></button></td>
+          <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          </td>
         </tr>
       </tbody>
     </table>

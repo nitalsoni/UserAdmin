@@ -9,7 +9,7 @@ import { Request, RequestHeader } from '../models/Request';
 })
 export class UserConfigService {
 
-  private _request = new Request();
+
   private searchResult: UserConfig[] = new Array();
   private localUrl = 'http://localhost:50197/api/UserConfig';
 
@@ -18,8 +18,15 @@ export class UserConfigService {
   }
 
   searchConfig(searchClause: string): Observable<Response> {
-    let requestParams = this._request.header.GetHeader();
+    let request = new Request();
+    let requestParams = request.header.GetHeader();
     requestParams['params'] = { 'searchParam': searchClause }
     return this.http.get<Response>(this.localUrl, requestParams);
+  }
+
+  addConfig(newConfig: UserConfig): Observable<Response> {
+    let request = new Request();
+    let requestParams = request.header.GetHeader();
+    return this.http.post<Response>(this.localUrl, newConfig, requestParams);
   }
 }

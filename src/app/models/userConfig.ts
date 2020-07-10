@@ -4,6 +4,8 @@ export class UserConfig {
     controlName: string;
     item: string;
     dataValue: string;
+    updatedBy: string;
+    hostName: string;
 
     constructor(_userId?: string, _controlName?: string, _item?: string, _dataValue?: string) {
         this.userId = _userId;

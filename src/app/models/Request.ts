@@ -7,25 +7,21 @@ export class RequestHeader {
     region: string;
     environment: string;
     userID: string;
+    contenType: string
     constructor() {
         this.environment = 'DEV';
         this.region = 'EMEA'
         this.userID = 'nital.soni@gmail.com';
+        this.contenType = 'application/json';
     }
 
     GetHeader() {
-        // let header = {};
-        // header[this.region] = this.region;
-        // header['environment'] = this.environment;
-        // header['userID'] = this.userID;
-        // return { 'headers' : header };
-
         let reqParams = {};
         Object.keys(this).map(k => {
             reqParams[k] = this[k];
         });
 
-        reqParams['headers'] = reqParams;
-        return reqParams;
+        //reqParams['headers'] = reqParams;
+        return {'headers' : reqParams};
     }
 }
