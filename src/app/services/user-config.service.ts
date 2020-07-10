@@ -39,6 +39,7 @@ export class UserConfigService {
   deleteConfig(deleteConfig: UserConfig): Observable<Response> {
     let request = new Request();
     let requestParams = request.header.GetHeader();
-    return this.http.post<Response>("http://localhost:50197/api/UserConfig/DeleteConfig", deleteConfig, requestParams);
+    requestParams['body'] = deleteConfig;
+    return this.http.delete<Response>(this.localUrl, requestParams);
   }
 }
