@@ -4,6 +4,7 @@ import { UserConfigService } from '../services/user-config.service';
 import { AddConfigModalComponent } from '../add-config-modal/add-config-modal.component'
 import { Response, StatusCode } from '../models/Response';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from "ngx-spinner";
 import * as _ from "lodash";
 
 @Component({
@@ -18,12 +19,12 @@ export class UsersComponent implements OnInit {
   searchResult: UserConfig[] = new Array();
   searchString: string = 'nsoni5';
 
-  constructor(private userConfigService: UserConfigService, private modalService: NgbModal) {
+  constructor(private userConfigService: UserConfigService, private modalService: NgbModal,
+    private spinner: NgxSpinnerService) {
     this._userConfigService = userConfigService;
   }
 
   ngOnInit() {
-
   }
 
   openConfigDialog(editConfig?: UserConfig) {
@@ -34,14 +35,15 @@ export class UsersComponent implements OnInit {
       modalRef.componentInstance.config = new UserConfig();
     else
       modalRef.componentInstance.config = editConfig;
-    
-      modalRef.componentInstance.dataService = this._userConfigService;
+
+    modalRef.componentInstance.dataService = this._userConfigService;
     modalRef.componentInstance.messageEvent.subscribe(this.modalCallback);
   }
 
   public modalCallback: (response: any) => void = (response) => {
     //Edit action
     if (response.isEditAction) {
+      this.spinner.show();
       response.userConfigService.editConfig(response.data).subscribe({
         next: (resp: any) => {
           if (resp.statusCode == StatusCode.Ok) {
@@ -53,11 +55,13 @@ export class UsersComponent implements OnInit {
             console.log(`failed to edited config item ${resp.message}`);
           }
         },
-        error: e => console.error('There was an error!', e)
+        error: e => console.error('There was an error!', e),
+        complete: () => this.spinner.hide()
       });
     }
     //Add action
     else {
+      this.spinner.show();
       response.userConfigService.addConfig(response.data).subscribe({
         next: (resp: any) => {
           if (resp.statusCode == StatusCode.Ok) {
@@ -68,12 +72,14 @@ export class UsersComponent implements OnInit {
             console.log(`failed to add config item ${resp.message}`);
           }
         },
-        error: e => console.error('There was an error!', e)
+        error: e => console.error('There was an error!', e),
+        complete: () => this.spinner.hide()
       });
     }
   }
 
   deleteConfig(deleteConfig: UserConfig) {
+    this.spinner.show();
     this._userConfigService.deleteConfig(deleteConfig).subscribe({
       next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
@@ -83,18 +89,24 @@ export class UsersComponent implements OnInit {
           console.log(`failed to delete config item ${resp.message}`);
         }
       },
-      error: e => console.error('There was an error!', e)
+      error: e => console.error('There was an error!', e),
+      complete: () => this.spinner.hide()
     });
   }
 
   onSearch() {
-    this._userConfigService.searchConfig(this.searchString).subscribe((resp: any) => {
-      if (resp.statusCode == StatusCode.Ok) {
-        this.searchResult = [];
-        resp.data.forEach(element => {
-          this.searchResult.push(element);
-        });
-      }
+    this.spinner.show();
+    this._userConfigService.searchConfig(this.searchString).subscribe({
+      next: (resp: any) => {
+        if (resp.statusCode == StatusCode.Ok) {
+          this.searchResult = [];
+          resp.data.forEach(element => {
+            this.searchResult.push(element);
+          });
+        }
+      },
+      error: e => console.error('There was an error!', e),
+      complete: () => this.spinner.hide()
     });
   }
 }
