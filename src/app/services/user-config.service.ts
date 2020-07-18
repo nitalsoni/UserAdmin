@@ -8,13 +8,9 @@ import { Request, RequestHeader } from '../models/Request';
   providedIn: 'root'
 })
 export class UserConfigService {
-
-
-  private searchResult: UserConfig[] = new Array();
   private localUrl = 'http://localhost:50197/api/UserConfig';
 
   constructor(private http: HttpClient) {
-
   }
 
   searchConfig(searchClause: string): Observable<Response> {

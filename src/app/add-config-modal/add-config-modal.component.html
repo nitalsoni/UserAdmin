@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel" *ngIf="isEditAction" >
+    <h4 class="modal-title" id="myModalLabel" *ngIf="isEditAction">
         Edit Config
     </h4>
     <h4 class="modal-title" id="myModalLabel" *ngIf="!isEditAction">
@@ -8,40 +8,49 @@
 </div>
 
 <div class="modal-body">
-    <form class="form-horizontal" role="form">
+    <form class="form-horizontal" role="form" [formGroup]="configForm" (ngSubmit)="saveConfig()">
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputUserName">User Name</label>
             <div class="col-sm-12">
-                <input type="text" class="form-control" name="inputUserName" placeholder="User_ID" [(ngModel)]="userConfig.userId"
-                [readonly] = "isEditAction"/>
+                <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="User_ID"
+                    formControlName="userId" [readonly]="isEditAction"
+                    [ngClass]="{ 'is-invalid': f.userId.touched && f.userId.errors }" />
             </div>
+            <small *ngIf="f.userId.touched && f.userId.errors" class="col-sm-4 text-danger">User Name is required(min 3 chars)</small>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputControl">Control Name</label>
             <div class="col-sm-12">
-                <input type="text" class="form-control" name="inputControl" placeholder="Control Name" [(ngModel)]="userConfig.controlName"
-                [readonly] = "isEditAction"/>
+                <input type="text" class="form-control" id="inputControl" name="inputControl" placeholder="Control Name"
+                    formControlName="controlName" [readonly]="isEditAction"
+                    [ngClass]="{ 'is-invalid': f.controlName.touched && f.controlName.errors }" />
             </div>
+            <small *ngIf="f.controlName.touched && f.controlName.errors" class="col-sm-4 text-danger">Control name is required(min 5 chars)</small>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputItem">Item</label>
             <div class="col-sm-12">
-                <input type="text" class="form-control" name="inputItem" placeholder="Item" [(ngModel)]="userConfig.item"
-                [readonly] = "isEditAction"/>
+                <input type="text" class="form-control" id="inputItem" name="inputItem" placeholder="Item"
+                    formControlName="item" [readonly]="isEditAction"
+                    [ngClass]="{ 'is-invalid': f.item.touched && f.item.errors }" />
             </div>
+            <small *ngIf="f.item.touched && f.item.errors" class="col-sm-4 text-danger">Item is required(min 5 chars)</small>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputValue">Value</label>
             <div class="col-sm-12">
-                <textarea name="message" rows="3" cols="30" class="form-control" name="inputValue" placeholder="Value" [(ngModel)]="userConfig.dataValue"></textarea>
+                <textarea name="message" rows="3" cols="30" class="form-control" id="inputValue" name="inputValue"
+                    placeholder="Value" formControlName="dataValue"
+                    [ngClass]="{ 'is-invalid': f.dataValue.touched && f.dataValue.errors }"></textarea>
+            </div>
+            <small *ngIf="f.dataValue.touched && f.dataValue.errors" class="col-sm-4 text-danger">Value is required(min 5 chars)</small>
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal" [disabled]="!configForm.valid">Save</button>
+                <button type="button" class="btn btn-outline-dark"
+                    (click)="activeModal.close('Close click')">Close</button>
             </div>
         </div>
     </form>
-</div>
-
-<div class="modal-footer">
-    <div>
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal" (click)="saveConfig()" >Save</button>
-        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-    </div>
 </div>

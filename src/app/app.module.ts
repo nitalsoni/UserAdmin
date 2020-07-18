@@ -10,6 +10,7 @@ import { UserConfigService } from './services/user-config.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddConfigModalComponent } from './add-config-modal/add-config-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddConfigModalComponent } from './add-config-modal/add-config-modal.com
     FormsModule,
     BrowserModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [
     UserConfigService,

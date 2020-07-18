@@ -34,36 +34,12 @@ export class UsersComponent implements OnInit {
       modalRef.componentInstance.config = new UserConfig();
     else
       modalRef.componentInstance.config = editConfig;
-    modalRef.componentInstance.dataService = this._userConfigService;
+    
+      modalRef.componentInstance.dataService = this._userConfigService;
     modalRef.componentInstance.messageEvent.subscribe(this.modalCallback);
   }
 
-  deleteConfig(deleteConfig: UserConfig) {
-    this._userConfigService.deleteConfig(deleteConfig).subscribe({
-      next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
-        }
-        else {
-          console.log(`failed to delete config item ${resp.message}`);
-        }
-      },
-      error: e => console.error('There was an error!', e)
-    });
-  }
-
-  onSearch() {
-    this._userConfigService.searchConfig(this.searchString).subscribe((resp: any) => {
-      if (resp.statusCode == StatusCode.Ok) {
-        this.searchResult = [];
-        resp.data.forEach(element => {
-          this.searchResult.push(element);
-        });
-      }
-    });
-  }
-
-  modalCallback(response: any) {
+  public modalCallback: (response: any) => void = (response) => {
     //Edit action
     if (response.isEditAction) {
       response.userConfigService.editConfig(response.data).subscribe({
@@ -95,5 +71,30 @@ export class UsersComponent implements OnInit {
         error: e => console.error('There was an error!', e)
       });
     }
+  }
+
+  deleteConfig(deleteConfig: UserConfig) {
+    this._userConfigService.deleteConfig(deleteConfig).subscribe({
+      next: (resp: any) => {
+        if (resp.statusCode == StatusCode.Ok) {
+          _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
+        }
+        else {
+          console.log(`failed to delete config item ${resp.message}`);
+        }
+      },
+      error: e => console.error('There was an error!', e)
+    });
+  }
+
+  onSearch() {
+    this._userConfigService.searchConfig(this.searchString).subscribe((resp: any) => {
+      if (resp.statusCode == StatusCode.Ok) {
+        this.searchResult = [];
+        resp.data.forEach(element => {
+          this.searchResult.push(element);
+        });
+      }
+    });
   }
 }

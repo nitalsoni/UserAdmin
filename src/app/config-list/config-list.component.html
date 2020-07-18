@@ -25,8 +25,8 @@
         <tr *ngFor="let config of searchResult">
           <td>{{config.userId}}</td>
           <td>{{config.controlName}}</td>
-          <td>{{config.dataValue}}</td>
           <td>{{config.item}}</td>
+          <td>{{config.dataValue}}</td>
           <td><button class="btn" (click)="openConfigDialog(config)"> <i class="fa fa-pencil-square-o"
                 aria-hidden="true"></i></button></td>
           <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash" aria-hidden="true"></i></button>
