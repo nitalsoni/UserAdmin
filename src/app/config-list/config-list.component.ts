@@ -6,6 +6,7 @@ import { Response, StatusCode } from '../models/Response';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
 import * as _ from "lodash";
+import { GlobalVars } from '../services/app.global';
 
 @Component({
   selector: 'app-config-list',
@@ -20,7 +21,7 @@ export class UsersComponent implements OnInit {
   searchString: string = 'nsoni5';
 
   constructor(private userConfigService: UserConfigService, private modalService: NgbModal,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService, private globalVar: GlobalVars) {
     this._userConfigService = userConfigService;
   }
 
