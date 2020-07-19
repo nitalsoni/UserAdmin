@@ -1,17 +1,19 @@
+import { GlobalVars } from '../services/app.global'
+
 export class Request {
     payload: any;
     header: RequestHeader = new RequestHeader();
 }
 
 export class RequestHeader {
-    region: string;
-    environment: string;
+    region: Number;
+    environment: Number;
     userID: string;
     contenType: string
     constructor() {
-        this.environment = 'DEV';
-        this.region = 'EMEA'
-        this.userID = 'nital.soni@gmail.com';
+        this.environment = GlobalVars.instance.env;
+        this.region = GlobalVars.instance.region;
+        this.userID = GlobalVars.instance.userId;
         this.contenType = 'application/json';
     }
 
@@ -21,7 +23,7 @@ export class RequestHeader {
             reqParams[k] = this[k];
         });
 
-        //reqParams['headers'] = reqParams;
-        return {'headers' : reqParams};
+        console.log(reqParams);
+        return { 'headers': reqParams };
     }
 }

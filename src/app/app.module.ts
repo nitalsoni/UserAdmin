@@ -45,4 +45,8 @@ import { GlobalVars } from './services/app.global';
     AddConfigModalComponent
   ]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(private globalVars: GlobalVars) {
+    GlobalVars.instance = globalVars;
+}
+}
