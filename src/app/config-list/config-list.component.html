@@ -1,15 +1,17 @@
 <div>
-  <div class="input-group md-form form-sm form-1 pl-0">
+  <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
     </div>
     <input class="form-control my-0 py-1" type="text" placeholder="search anything" aria-label="Search"
       [(ngModel)]="searchString" />
-    <input type="button" value="Search" (click)="onSearch()" />
+    <button class="btn btn-primary" (click)="onSearch()">search</button>
   </div>
 
-  <div>
-    <button class="btn btn-sm btn-outline-danger" data-toggle="modal" (click)="openConfigDialog()">+config</button>
+  <div class="mt-1">
+    <button class="btn btn-sm btn-outline-primary mb-1" data-toggle="modal" (click)="openConfigDialog()">
+      <i class="fa fa-plus mr-2"></i>config
+    </button>
 
     <table class="table table-hover table-sm">
       <thead>

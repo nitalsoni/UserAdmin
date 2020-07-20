@@ -1,44 +1,62 @@
 <nav id="sidebar">
-    <div class="sidebar-header bg-dark">
-      <h4><span class="fa fa-users"> User Admin</span></h4>
-    </div>
+  <div class="sidebar-header bg-dark">
+    <h4><span class="fa fa-users"> User Admin</span></h4>
+  </div>
 
-    <ul class="list-unstyled">
-      
-      <li class="active">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Users</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-          <li>
-            <a href="#"><i class="fa fa-list-alt mr-2"></i>List User</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-user-plus mr-2"></i>Add User</a>
-          </li>
-        </ul>
-      </li>
-      
-      <li>
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Screens</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li>
-            <a href="#"><i class="fa fa-list-alt mr-2"></i>List Screen</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-desktop mr-2"></i>Add Screen</a>
-          </li>
-        </ul>
-      </li>
+  <ul class="list-unstyled">
+    <li>
+      <a href="#configMenu" data-toggle="collapse" aria-expanded="false"
+        class="dropdown-toggle header">Configuration</a>
+      <ul class="list-unstyled" id="configMenu">
+        <li>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'configSearch'}" (click)="activeTab = 'configSearch'"><i
+              class="fa fa-list-alt mr-2"></i>Search Config</a>
+        </li>
+        <li>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'configAdd'}"
+            (click)="activeTab = 'configAdd';addUserConfig()"><i class="fa fa-user-plus mr-2"></i>Add Config</a>
+        </li>
+      </ul>
+    </li>
 
-      <li>
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Others</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li>
-            <a href="#"><i class="fa fa-list-alt mr-2"></i>List Screen</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-desktop mr-2"></i>Add Screen</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+    <li>
+      <a href="#userMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Users</a>
+      <ul class=" list-unstyled" id="userMenu">
+        <li>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'userSearch'}" (click)="activeTab = 'userSearch'"><i
+              class="fa fa-list-alt mr-2"></i>List User</a>
+        </li>
+        <li>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'userAdd'}" (click)="activeTab = 'userAdd'"><i
+              class="fa fa-user-plus mr-2"></i>Add User</a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="#screenMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Screens</a>
+      <ul class="list-unstyled" id="screenMenu">
+        <li>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'screenSearch'}" (click)="activeTab = 'screenSearch'"><i
+              class="fa fa-list-alt mr-2"></i>List Screen</a>
+        </li>
+        <li>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'screenAdd'}" (click)="activeTab = 'screenAdd'"><i
+              class="fa fa-desktop mr-2"></i>Add Screen</a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <a href="#otherMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Others</a>
+      <ul class="collapse list-unstyled" id="otherMenu">
+        <li>
+          <a href="#"><i class="fa fa-list-alt mr-2"></i>List Screen</a>
+        </li>
+        <li>
+          <a href="#"><i class="fa fa-desktop mr-2"></i>Add Screen</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>

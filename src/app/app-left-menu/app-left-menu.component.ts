@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-left-menu',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-left-menu.component.css']
 })
 export class AppLeftMenuComponent implements OnInit {
+  activeTab: string;
 
-  constructor() { }
+  constructor(private sharedService: SharedService) { }
 
   ngOnInit() {
+    this.activeTab = 'configSearch';
+  }
+
+  addUserConfig() {
+    this.sharedService.sendOpenDialogEvent();
   }
 
 }

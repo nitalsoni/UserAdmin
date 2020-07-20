@@ -7,6 +7,8 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
 import * as _ from "lodash";
 import { GlobalVars } from '../services/app.global';
+import { SharedService } from '../services/shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-config-list',
@@ -17,12 +19,17 @@ import { GlobalVars } from '../services/app.global';
 export class UsersComponent implements OnInit {
 
   private _userConfigService: UserConfigService;
+  openDialogEventsubscription: Subscription;
   searchResult: UserConfig[] = new Array();
   searchString: string = 'nsoni5';
 
   constructor(private userConfigService: UserConfigService, private modalService: NgbModal,
-    private spinner: NgxSpinnerService, private globalVar: GlobalVars) {
+    private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService) {
     this._userConfigService = userConfigService;
+
+    this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
+      this.openConfigDialog();
+    })
   }
 
   ngOnInit() {
@@ -104,6 +111,8 @@ export class UsersComponent implements OnInit {
           resp.data.forEach(element => {
             this.searchResult.push(element);
           });
+
+          //alert(this.searchResult.some(e=>e.userId.indexOf(this.searchString) >= 0));
         }
       },
       error: e => console.error('There was an error!', e),

@@ -16,6 +16,7 @@ import { UsersComponent } from './config-list/config-list.component';
 import { UserConfigService } from './services/user-config.service';
 import { AddConfigModalComponent } from './add-config-modal/add-config-modal.component';
 import { GlobalVars } from './services/app.global';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { GlobalVars } from './services/app.global';
     AppLeftMenuComponent,
     AppContentComponent,
     UsersComponent,
-    AddConfigModalComponent
+    AddConfigModalComponent,
+    UserListComponent
   ],
   imports: [
     FormsModule,

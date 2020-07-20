@@ -13,20 +13,4 @@ export class AppHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  onButtonGroupClick($event){
-    let clickedElement = $event.target || $event.srcElement;
-    if( clickedElement.nodeName === "BUTTON" ) {
-  debugger;
-      let isCertainButtonAlreadyActive = clickedElement.parentElement.querySelector(".active");
-      // if a Button already has Class: .active
-      if( isCertainButtonAlreadyActive ) {
-        isCertainButtonAlreadyActive.classList.remove("active");
-      }
-  
-      clickedElement.classList.add("active");
-      //clickedElement.className += " active";
-    }
-  
-  }
-
 }

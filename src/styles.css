@@ -9,9 +9,18 @@ body {
     background: #fafafa;
 }
 
+a.header {
+    background-color: #9ea1ef;
+}
+
+a.activeTab {
+    background-color: yellowgreen;
+}
+
 button.header {
     width: 5em;
 }
+
 
 p {
     font-family: 'Poppins', sans-serif;
