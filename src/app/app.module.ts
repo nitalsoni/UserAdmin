@@ -3,10 +3,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxSpinnerModule } from "ngx-spinner";
-
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -35,7 +36,8 @@ import { UserListComponent } from './user-list/user-list.component';
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    AppRoutingModule
   ],
   providers: [
     UserConfigService,
@@ -47,8 +49,8 @@ import { UserListComponent } from './user-list/user-list.component';
     AddConfigModalComponent
   ]
 })
-export class AppModule { 
+export class AppModule {
   constructor(private globalVars: GlobalVars) {
     GlobalVars.instance = globalVars;
-}
+  }
 }

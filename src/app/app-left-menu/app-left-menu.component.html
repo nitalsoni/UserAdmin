@@ -9,12 +9,14 @@
         class="dropdown-toggle header">Configuration</a>
       <ul class="list-unstyled" id="configMenu">
         <li>
-          <a href="#" [ngClass]="{activeTab: activeTab === 'configSearch'}" (click)="activeTab = 'configSearch'"><i
-              class="fa fa-list-alt mr-2"></i>Search Config</a>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'configSearch'}" (click)="activeTab = 'configSearch'"
+            routerLink="/config-list" routerLinkActive="active">
+            <i class="fa fa-list-alt mr-2"></i>Search Config</a>
         </li>
         <li>
           <a href="#" [ngClass]="{activeTab: activeTab === 'configAdd'}"
-            (click)="activeTab = 'configAdd';addUserConfig()"><i class="fa fa-user-plus mr-2"></i>Add Config</a>
+            (click)="activeTab = 'configAdd';addUserConfig()">
+            <i class="fa fa-user-plus mr-2"></i>Add Config</a>
         </li>
       </ul>
     </li>
@@ -23,8 +25,9 @@
       <a href="#userMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Users</a>
       <ul class=" list-unstyled" id="userMenu">
         <li>
-          <a href="#" [ngClass]="{activeTab: activeTab === 'userSearch'}" (click)="activeTab = 'userSearch'"><i
-              class="fa fa-list-alt mr-2"></i>List User</a>
+          <a href="#" [ngClass]="{activeTab: activeTab === 'userSearch'}" (click)="activeTab = 'userSearch'"
+            routerLink="/user-list" routerLinkActive="active">
+            <i class="fa fa-list-alt mr-2"></i>List User</a>
         </li>
         <li>
           <a href="#" [ngClass]="{activeTab: activeTab === 'userAdd'}" (click)="activeTab = 'userAdd'"><i
