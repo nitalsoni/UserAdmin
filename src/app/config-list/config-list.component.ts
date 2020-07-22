@@ -9,6 +9,7 @@ import * as _ from "lodash";
 import { GlobalVars } from '../services/app.global';
 import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
+//import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-config-list',
@@ -33,6 +34,10 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.route.queryParams.subscribe(params => {
+    //   let name;
+    //   name = params['name'];
+    // });
   }
 
   openConfigDialog(editConfig?: UserConfig) {

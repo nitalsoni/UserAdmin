@@ -15,7 +15,7 @@
         </li>
         <li>
           <a href="#" [ngClass]="{activeTab: activeTab === 'configAdd'}"
-            (click)="activeTab = 'configAdd';addUserConfig()">
+            (click)="activeTab = 'configAdd';addUserConfig();">
             <i class="fa fa-user-plus mr-2"></i>Add Config</a>
         </li>
       </ul>
@@ -40,7 +40,8 @@
       <a href="#screenMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Screens</a>
       <ul class="list-unstyled" id="screenMenu">
         <li>
-          <a href="#" [ngClass]="{activeTab: activeTab === 'screenSearch'}" (click)="activeTab = 'screenSearch'"><i
+          <a href="#" [ngClass]="{activeTab: activeTab === 'scre-enSearch'}" (click)="activeTab = 'screenSearch'"
+          routerLink="/page-not-found" routerLinkActive="active"><i
               class="fa fa-list-alt mr-2"></i>List Screen</a>
         </li>
         <li>
@@ -54,7 +55,7 @@
       <a href="#otherMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Others</a>
       <ul class="collapse list-unstyled" id="otherMenu">
         <li>
-          <a href="#"><i class="fa fa-list-alt mr-2"></i>List Screen</a>
+          <a href="#" routerLink="/page-not-found" routerLinkActive="active"><i class="fa fa-list-alt mr-2"></i>List Screen</a>
         </li>
         <li>
           <a href="#"><i class="fa fa-desktop mr-2"></i>Add Screen</a>

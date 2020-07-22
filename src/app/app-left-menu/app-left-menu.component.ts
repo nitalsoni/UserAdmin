@@ -17,6 +17,7 @@ export class AppLeftMenuComponent implements OnInit {
 
   addUserConfig() {
     this.sharedService.sendOpenDialogEvent();
+    return false;
   }
 
 }
