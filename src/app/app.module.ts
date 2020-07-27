@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -15,10 +16,14 @@ import { AppLeftMenuComponent } from './app-left-menu/app-left-menu.component';
 import { AppContentComponent } from './app-content/app-content.component';
 import { UsersComponent } from './config-list/config-list.component';
 import { UserConfigService } from './services/user-config.service';
+import { SectorInfoService } from './services/sector-info.service'
+import { UsageInfoService } from './services/usage-info.service';
 import { AddConfigModalComponent } from './add-config-modal/add-config-modal.component';
 import { GlobalVars } from './services/app.global';
 import { UserListComponent } from './user-list/user-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AddSectorComponent } from './add-sector/add-sector.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     UsersComponent,
     AddConfigModalComponent,
     UserListComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AddSectorComponent,
+    AddUserComponent
   ],
   imports: [
     FormsModule,
@@ -39,16 +46,21 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     NgbModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [
     UserConfigService,
+    SectorInfoService,
+    UsageInfoService,
     NgbActiveModal,
     GlobalVars
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    AddConfigModalComponent
+    AddConfigModalComponent,
+    AddSectorComponent,
+    AddUserComponent
   ]
 })
 export class AppModule {

@@ -3,14 +3,15 @@ import { UserConfig } from '../models/userConfig';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Request, RequestHeader } from '../models/Request';
+import { GlobalVars } from './app.global';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserConfigService {
-  private localUrl = 'http://localhost:50197/api/UserConfig';
+  private localUrl =  GlobalVars.baseAppUrl + 'UserConfig';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private globalVar: GlobalVars) {
   }
 
   searchConfig(searchClause: string): Observable<Response> {

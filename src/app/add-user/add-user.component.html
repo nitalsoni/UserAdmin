@@ -1,0 +1,41 @@
+<!-- add user modal dialog -->
+<div class="modal-header">
+    <h4 class="modal-title">Add User</h4>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form" [formGroup]="newUserForm" (ngSubmit)="save()">
+        <div class="form-group">
+            <label class="control-label" for="inputUserId">User Id</label>
+            <input type="text" class="form-control" id="inputUserId" name="inputUserId" placeholder="User Id"
+                formControlName="userId" [ngClass]="{ 'is-invalid': f.userId.touched && f.userId.errors }" />
+            <small *ngIf="f.userId.touched && f.userId.errors" class="col-sm-4 text-danger">User-Id is
+                required</small>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="inputCloneUserId">Clone User</label>
+            <select name="cars" id="inputCloneUserId" name="inputCloneUserId" placeholder="test"
+                formControlName="cloneUserId" class="form-control" (change)="onChange($event)">
+                <option>--None--</option>
+                <option *ngFor="let user of userList" [ngValue]="user">{{user}}</option>
+            </select>
+        </div>
+
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="inputCopySector" name="inputCopySector"
+                placeholder="clone sector" formControlName="copySector" />
+            <label class="form-check-label" for="inputCopySector">Clone Sector</label>
+            <!-- <div class="col-sm-12">
+                
+            </div> -->
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal"
+                    [disabled]="!newUserForm.valid">Save</button>
+                <button type="button" class="btn btn-outline-dark"
+                    (click)="activeModal.close('Close click')">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

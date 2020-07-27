@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class GlobalVars {
     static instance: GlobalVars;
-    readonly baseAppUrl: string = 'http://localhost:3000/';
+    static readonly baseAppUrl: string = 'http://localhost:50197/api/';
 
     env: Environment = Environment.DEV;
     region: Region = Region.EMEA;

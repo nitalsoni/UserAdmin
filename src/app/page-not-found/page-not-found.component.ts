@@ -10,13 +10,11 @@ export class PageNotFoundComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    debugger;
     const visual = document.getElementById("visual")
     const events = ['resize', 'load']
 
     events.forEach(function (e) {
       window.addEventListener(e, function () {
-        debugger;
         const width = window.innerWidth
         const height = window.innerHeight
         const ratio = 45 / (width / height)

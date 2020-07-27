@@ -1,1 +1,76 @@
-<p>user-list works!</p>
+<div class="row">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
+        </div>
+        <input class="form-control my-0 py-1" type="text" placeholder="search user-id" aria-label="user name"
+            [(ngModel)]="searchUserId" />
+        <button class="btn btn-primary" (click)="onSearch()">search</button>
+    </div>
+</div>
+<div class="row mt-1">
+    <button class="btn btn-sm btn-success mb-1" data-toggle="modal" (click)="openUserDialog()">
+        <i class="fa fa-plus mr-2"></i>User
+    </button>
+</div>
+<div class="row">
+    <div class="card bg-light mb-1" style="width: 100%;">
+        <div class="card-header">General Info</div>
+        <div class="card-body">
+            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p> -->
+            <div class="row">
+                <p class="col-md-4 text-primary">{{userGeneralInfo.userId}}</p>
+                <p class="col-md-4 text-primary">{{userGeneralInfo.hostName}}</p>
+                <p class="col-md-4 text-primary">{{userGeneralInfo.lastAccess | date: 'dd MMM yyyy'}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 pad2">
+        <div class="card bg-light mb-3" style="width:100%">
+            <div class="card-header">
+                Sector coverage
+                <button class="btn btn-success mb-1 pull-right btn-xsm" data-toggle="modal"
+                    (click)="openSectorDialog()">
+                    <i class="fa fa-plus mr-2"></i>
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <th>user_Name</th>
+                        <th>Control</th>
+                        <th>item</th>
+                        <th>Delete</th>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let info of userSectorInfo">
+                            <td>{{info.sector}}</td>
+                            <td>{{info.subSector}}</td>
+                            <td>{{info.other}}</td>
+                            <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
+                                        aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6  pad2">
+        <div class="card bg-light mb-3">
+            <div class="card-header">Usage information</div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="timer" [fullScreen]="true">
+    <p style="color: white"> Work in progress... </p>
+</ngx-spinner>

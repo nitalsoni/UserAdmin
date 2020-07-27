@@ -1,0 +1,37 @@
+<!-- add sector modal dialog -->
+<div class="modal-header">
+    <h4 class="modal-title">Add Sector</h4>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal" role="form" [formGroup]="sectorForm" (ngSubmit)="save()">
+        <div class="form-group">
+            <label class="control-label" for="inputSector">Sector</label>
+            <input type="text" class="form-control" id="inputSector" name="inputSector" placeholder="sector"
+                formControlName="sector" [ngClass]="{ 'is-invalid': f.sector.touched && f.sector.errors }" />
+            <small *ngIf="f.sector.touched && f.sector.errors" class="text-danger">sector is
+                required</small>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="inputSubSector">Sub Sector</label>
+            <input type="text" class="form-control" id="inputSubSector" name="inputSubSector" placeholder="sub sector"
+                formControlName="subSector" [ngClass]="{ 'is-invalid': f.subSector.touched && f.subSector.errors }" />
+            <small *ngIf="f.subSector.touched && f.subSector.errors" class="text-danger">sub sector is
+                required</small>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="inputAccount">Account</label>
+            <input type="text" class="form-control" id="inputAccount" name="inputAccount" placeholder="account"
+                formControlName="account" />
+            <!-- <small *ngIf="f.account.touched && f.item.errors" class="text-danger">Item is required(min 5 chars)</small> -->
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal"
+                    [disabled]="!sectorForm.valid">Save</button>
+                <button type="button" class="btn btn-outline-dark"
+                    (click)="activeModal.close('Close click')">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

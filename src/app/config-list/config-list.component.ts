@@ -19,21 +19,19 @@ import { Subscription } from 'rxjs';
 
 export class UsersComponent implements OnInit {
 
-  private _userConfigService: UserConfigService;
   openDialogEventsubscription: Subscription;
   searchResult: UserConfig[] = new Array();
   searchString: string = 'nsoni5';
 
   constructor(private userConfigService: UserConfigService, private modalService: NgbModal,
     private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService) {
-    this._userConfigService = userConfigService;
-
-    this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
-      this.openConfigDialog();
-    })
   }
 
   ngOnInit() {
+    this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
+      this.openConfigDialog();
+    });
+
     // this.route.queryParams.subscribe(params => {
     //   let name;
     //   name = params['name'];
@@ -49,7 +47,7 @@ export class UsersComponent implements OnInit {
     else
       modalRef.componentInstance.config = editConfig;
 
-    modalRef.componentInstance.dataService = this._userConfigService;
+    modalRef.componentInstance.dataService = this.userConfigService;
     modalRef.componentInstance.messageEvent.subscribe(this.modalCallback);
   }
 
@@ -85,7 +83,7 @@ export class UsersComponent implements OnInit {
             console.log(`failed to add config item ${resp.message}`);
           }
         },
-        error: e => console.error('There was an error!', e),
+        error: e => console.error('There is an error!', e),
         complete: () => this.spinner.hide()
       });
     }
@@ -93,7 +91,7 @@ export class UsersComponent implements OnInit {
 
   deleteConfig(deleteConfig: UserConfig) {
     this.spinner.show();
-    this._userConfigService.deleteConfig(deleteConfig).subscribe({
+    this.userConfigService.deleteConfig(deleteConfig).subscribe({
       next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
           _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
@@ -109,7 +107,7 @@ export class UsersComponent implements OnInit {
 
   onSearch() {
     this.spinner.show();
-    this._userConfigService.searchConfig(this.searchString).subscribe({
+    this.userConfigService.searchConfig(this.searchString).subscribe({
       next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
           this.searchResult = [];
