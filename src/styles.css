@@ -10,11 +10,12 @@ body {
 }
 
 a.header {
-    background-color: #9ea1ef;
+    background-color: #525355;
 }
 
 a.activeTab {
-    background-color: yellowgreen;
+    background-color: #d0af37;
+    color: #b54d4d;
 }
 
 button.header {
@@ -97,7 +98,7 @@ a:focus {
 #sidebar {
     min-width: 200px;
     max-width: 200px;
-    background: #7386D5;
+    background: black;
     color: #fff;
     transition: all 0.3s;
 }
@@ -113,7 +114,7 @@ a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border-bottom: 1px solid #30393d;
 }
 
 #sidebar ul p {
@@ -128,14 +129,14 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: #b54d4d;
+    background: #bead6e;
 }
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: #525355;
 }
 
 a[data-toggle="collapse"] {
@@ -153,7 +154,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: rgb(112, 110, 110);
 }
 
 ul.CTAs {
