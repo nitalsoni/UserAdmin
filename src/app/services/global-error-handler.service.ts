@@ -11,6 +11,5 @@ export class GlobalErrorHandlerService {
 
   handleError(error: Error | HttpErrorResponse) {
     console.log('GlobalErrorHandlerService');
-    //console.error(error.message);
   }
 }

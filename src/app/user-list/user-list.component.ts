@@ -20,7 +20,7 @@ import { Response, StatusCode } from '../models/Response';
 import { UsageInfoService } from '../services/usage-info.service';
 
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-user-list',
@@ -41,6 +41,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
       this.openSectorDialog();
     });
@@ -56,9 +57,9 @@ export class UserListComponent implements OnInit {
     this.userInfoService.getGeneralInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
+          debugger;
           this.userGeneralInfo = resp.data;
           console.log(`successfully fetched UserGeneralInfo ${resp.data}`);
-          throw new Error('Im errorn');
         }
         else {
           console.log(`failed to fetched UserGeneralInfo item ${resp.message}`);
@@ -109,6 +110,22 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  addScreenToUser(screenName) {
+    this.userInfoService.addScreenToUser(this.searchUserId, screenName).subscribe({
+      next: (resp: any) => {
+        if (resp.statusCode == StatusCode.Ok) {
+          _.remove(this.userGeneralInfo.availableScreens, (x) => x.trim() == screenName.trim());
+          this.userGeneralInfo.screenList = _.concat(this.userGeneralInfo.screenList, screenName.trim());
+        }
+        else {
+          console.log(`failed to add screen to user ${resp.message}`);
+        }
+      },
+      error: e => console.error('There is an error!', e)
+    });
+
+
+  }
 
   openSectorDialog() {
     const modalRef = this.modalService.open(AddSectorComponent, { centered: true });
@@ -139,10 +156,10 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  public userModalCallback: (response: any) => void = (response) =>{
+  public userModalCallback: (response: any) => void = (response) => {
     this.spinner.show();
     response.service.createNewUser(response.data).subscribe({
-      next: (resp: any) =>{
+      next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
           console.log(`succssfully added user ${resp.data}`);
         }

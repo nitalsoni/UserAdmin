@@ -2,10 +2,11 @@ export class UserGeneralInfo {
     userId: string;
     hostName: string;
     lastAccess: Date;
+    screenList: string[];
+    availableScreens: string[];
 
-    // constructor(userid, hostname, lastaccess) {
-    //     this.userId = userid;
-    //     this.hostName = hostname;
-    //     this.lastAccess = lastaccess;
-    // }
+    constructor() {
+        this.availableScreens = [];
+        this.screenList = [];
+    }
 }

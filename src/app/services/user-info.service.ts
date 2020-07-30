@@ -17,4 +17,8 @@ export class UserInfoService {
     let params = new HttpParams().append('userid', userId);
     return this.http.get<Response>(this.localUrl, { params: params });
   }
+
+  addScreenToUser(userId: string, screenName: string): Observable<Response> {
+    return this.http.post<Response>(this.localUrl, { 'userId': userId, 'screenName': screenName });
+  }
 }
