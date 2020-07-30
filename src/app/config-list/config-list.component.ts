@@ -23,6 +23,11 @@ export class UsersComponent implements OnInit {
   searchResult: UserConfig[] = new Array();
   searchString: string = 'nsoni5';
 
+  options = {
+    autoClose: false,
+    keepAfterRouteChange: true
+  };
+
   constructor(private userConfigService: UserConfigService, private modalService: NgbModal,
     private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService) {
   }

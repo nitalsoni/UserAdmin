@@ -16,7 +16,8 @@ export class AddSectorComponent implements OnInit {
   @Output() messageEvent = new EventEmitter<any>();
 
   private sectorForm: FormGroup;
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder) { }
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder) { 
+  }
 
   ngOnInit() {
     this.initForm();

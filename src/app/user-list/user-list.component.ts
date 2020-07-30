@@ -13,11 +13,14 @@ import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
 import { Chart, ChartOptions, ChartType, ChartDataSets } from 'chart.js'
 import { Label } from 'ng2-charts';
-import { Helper } from '../helper';
+import { Helper } from '../common/helper';
 import { AddSectorComponent } from '../add-sector/add-sector.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { Response, StatusCode } from '../models/Response';
 import { UsageInfoService } from '../services/usage-info.service';
+
+
+declare var $:any;
 
 @Component({
   selector: 'app-user-list',
@@ -55,6 +58,7 @@ export class UserListComponent implements OnInit {
         if (resp.statusCode == StatusCode.Ok) {
           this.userGeneralInfo = resp.data;
           console.log(`successfully fetched UserGeneralInfo ${resp.data}`);
+          throw new Error('Im errorn');
         }
         else {
           console.log(`failed to fetched UserGeneralInfo item ${resp.message}`);

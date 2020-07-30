@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +24,8 @@ import { UserListComponent } from './user-list/user-list.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AddSectorComponent } from './add-sector/add-sector.component';
 import { AddUserComponent } from './add-user/add-user.component';
+import { AppHttpInterceptorService } from "./services/app-http-interceptor.service";
+import { GlobalErrorHandlerService  } from "./services/global-error-handler.service";
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { AddUserComponent } from './add-user/add-user.component';
     SectorInfoService,
     UsageInfoService,
     NgbActiveModal,
-    GlobalVars
+    GlobalVars,
+    { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptorService, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService}
   ],
   bootstrap: [AppComponent],
   entryComponents: [
