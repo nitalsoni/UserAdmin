@@ -10,6 +10,7 @@ import { GlobalVars } from '../services/app.global';
 import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
 //import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-config-list',
@@ -21,26 +22,35 @@ export class UsersComponent implements OnInit {
 
   openDialogEventsubscription: Subscription;
   searchResult: UserConfig[] = new Array();
-  searchString: string = 'nsoni5';
+  globalSearch: string;
+  sUserId: string;
+  sScreenName: string;
 
   options = {
     autoClose: false,
     keepAfterRouteChange: true
   };
 
-  constructor(private userConfigService: UserConfigService, private modalService: NgbModal,
-    private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService) {
+  constructor(private userConfigService: UserConfigService, private modalService: NgbModal
+    , private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService
+    , private Activatedroute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
-      this.openConfigDialog();
-    });
-
-    // this.route.queryParams.subscribe(params => {
-    //   let name;
-    //   name = params['name'];
+    // this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
+    //   this.openConfigDialog();
     // });
+
+    this.Activatedroute.paramMap.subscribe(params => {
+      if (params.keys.length > 0) {
+        if (params.get('userid'))
+          this.sUserId = params.get('userid');
+        if (params.get('screen'))
+          this.sScreenName = params.get('screen');
+
+        this.onSearch();
+      }
+    });
   }
 
   openConfigDialog(editConfig?: UserConfig) {
@@ -112,7 +122,12 @@ export class UsersComponent implements OnInit {
 
   onSearch() {
     this.spinner.show();
-    this.userConfigService.searchConfig(this.searchString).subscribe({
+    debugger;
+    this.userConfigService.searchConfig({
+      'globalSearch': this.globalSearch,
+      'userid': this.sUserId,
+      'screen': this.sScreenName
+    }).subscribe({
       next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
           this.searchResult = [];

@@ -5,7 +5,8 @@
         </div>
         <input class="form-control my-0 py-1" type="text" placeholder="search user-id" aria-label="user name"
             [(ngModel)]="searchUserId" />
-        <button class="btn btn-primary" (click)="onSearch()">search</button>
+        <button class="btn btn-primary" [disabled]="(searchUserId !== undefined && searchUserId !== '') ? false : true"
+            (click)="onSearch()">search</button>
     </div>
 </div>
 <div class="row mt-1">
@@ -20,7 +21,9 @@
             <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
                 content.</p> -->
             <div class="row">
-                <p class="col-md-4 text-primary">{{userGeneralInfo.userId}}</p>
+                <p class="col-md-4 text-primary">
+                    <a href="#" [routerLink]="['/config-list',userGeneralInfo.userId]">{{userGeneralInfo.userId}}</a>
+                </p>
                 <p class="col-md-4 text-primary">{{userGeneralInfo.hostName}}</p>
                 <p class="col-md-4 text-primary">{{userGeneralInfo.lastAccess | date: 'dd MMM yyyy'}}</p>
             </div>
@@ -29,38 +32,50 @@
 </div>
 <div class="row">
     <div class="col-md-6 pad2">
-        <div class="card bg-light mb-3" style="width:100%">
-            <div class="card-header pb-1">
-                Sector coverage
-                <button class="btn btn-success mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1" data-toggle="modal"
-                    (click)="openSectorDialog()">
-                    <i class="fa fa-plus mr-2"></i>Sector
-                </button>
-            </div>
-            <div class="card-body">
-                <table class="table table-hover table-sm">
-                    <thead>
-                        <th>Sector</th>
-                        <th>Sub sector</th>
-                        <th>Account</th>
-                        <th>Delete</th>
-                    </thead>
+        <div class="col-md-12 pad2">
+            <div class="card bg-light mb-3">
+                <div class="card-header pb-1">
+                    Sector coverage
+                    <button class="btn btn-success mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1" data-toggle="modal"
+                        (click)="openSectorDialog()">
+                        <i class="fa fa-plus mr-2"></i>Sector
+                    </button>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <th>Sector</th>
+                            <th>Sub sector</th>
+                            <th>Account</th>
+                            <th>Delete</th>
+                        </thead>
 
-                    <tbody>
-                        <tr *ngFor="let info of userSectorInfo">
-                            <td>{{info.sector}}</td>
-                            <td>{{info.subSector}}</td>
-                            <td>{{info.other}}</td>
-                            <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
-                                        aria-hidden="true"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                            <tr *ngFor="let info of userSectorInfo">
+                                <td>{{info.sector}}</td>
+                                <td>{{info.subSector}}</td>
+                                <td>{{info.other}}</td>
+                                <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
+                                            aria-hidden="true"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 pad2">
+            <div class="card bg-light mb-3">
+                <div class="card-header">Usage information</div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6  pad2">
+    <div class="col-md-6 pad2">
         <div class="card bg-light mb-3">
             <div class="card-header">
                 Screen List
@@ -88,7 +103,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let screen of userGeneralInfo.screenList">
-                            <td>{{screen}}</td>
+                            <td>
+                                <a href="#" [routerLink]="['/config-list',userGeneralInfo.userId,screen]">{{screen}}</a>
+                            </td>
                             <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
                                         aria-hidden="true"></i></button>
                             </td>
@@ -99,18 +116,7 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 pad2">
-        <div class="card bg-light mb-3" style="width: 50%;">
-            <div class="card-header">Usage information</div>
-            <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="canvas"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="timer" [fullScreen]="true">
     <p style="color: white"> Work in progress... </p>
 </ngx-spinner>

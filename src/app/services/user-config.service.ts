@@ -13,8 +13,16 @@ export class UserConfigService {
   constructor(private http: HttpClient, private globalVar: GlobalVars) {
   }
 
-  searchConfig(searchClause: string): Observable<Response> {
-    let params = new HttpParams().append('searchParam', searchClause);
+  searchConfig(searchParams: any): Observable<Response> {
+    debugger;
+    let params = new HttpParams();
+    if (searchParams.globalSearch)
+      params = params.append('globalSearch', searchParams.globalSearch);
+    if(searchParams.userid)
+      params = params.append('userid', searchParams.userid);
+    if(searchParams.screen)
+      params = params.append('screen', searchParams.screen);
+
     return this.http.get<Response>(this.localUrl, { params: params });
   }
 
