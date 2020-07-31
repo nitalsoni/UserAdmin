@@ -24,7 +24,6 @@ export class AppHttpInterceptorService implements HttpInterceptor {
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error instanceof HttpErrorResponse) {
-      debugger;
       if (error.error instanceof ErrorEvent) {
         errorMessage = `Error: ${error.error.message}`;
       }

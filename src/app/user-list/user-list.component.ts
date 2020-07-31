@@ -57,7 +57,6 @@ export class UserListComponent implements OnInit {
     this.userInfoService.getGeneralInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
         if (resp.statusCode == StatusCode.Ok) {
-          debugger;
           this.userGeneralInfo = resp.data;
           console.log(`successfully fetched UserGeneralInfo ${resp.data}`);
         }

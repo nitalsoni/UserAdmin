@@ -122,7 +122,6 @@ export class UsersComponent implements OnInit {
 
   onSearch() {
     this.spinner.show();
-    debugger;
     this.userConfigService.searchConfig({
       'globalSearch': this.globalSearch,
       'userid': this.sUserId,

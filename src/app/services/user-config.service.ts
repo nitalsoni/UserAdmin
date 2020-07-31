@@ -14,7 +14,6 @@ export class UserConfigService {
   }
 
   searchConfig(searchParams: any): Observable<Response> {
-    debugger;
     let params = new HttpParams();
     if (searchParams.globalSearch)
       params = params.append('globalSearch', searchParams.globalSearch);
