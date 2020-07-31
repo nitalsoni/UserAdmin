@@ -3,7 +3,7 @@ import { UserGeneralInfo } from '../models/UserGeneralInfo';
 import { UsageInfo } from '../models/UsageInfo';
 import { GlobalVars } from './app.global';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,4 +21,15 @@ export class UserInfoService {
   addScreenToUser(userId: string, screenName: string): Observable<Response> {
     return this.http.post<Response>(this.localUrl, { 'userId': userId, 'screenName': screenName });
   }
+
+  removeScreenFromUser(userId: string, screenName: string): Observable<Response> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: { 'userId': userId, 'screenName': screenName },
+    };
+    return this.http.delete<Response>(this.localUrl, options);
+  }
+
 }

@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
       this.openSectorDialog();
     });
@@ -89,6 +89,21 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  deleteSector(deleteSector: SectorInfo) {
+    this.sectorInfoService.deleteSector(deleteSector).subscribe({
+      next: (resp: any) => {
+        if (resp.statusCode == StatusCode.Ok) {
+          _.remove(this.userSectorInfo, (x) => x.sector.trim() == deleteSector.sector.trim()
+            && x.subSector.trim() == deleteSector.subSector.trim());
+        }
+        else {
+          console.log(`failed to delete screen from user ${resp.message}`);
+        }
+      },
+      error: e => console.error('There is an error!', e)
+    });
+  }
+
   getUsageInfo() {
     this.usageInfoService.getUsageInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
@@ -122,8 +137,21 @@ export class UserListComponent implements OnInit {
       },
       error: e => console.error('There is an error!', e)
     });
+  }
 
-
+  removeScreen(screenName) {
+    this.userInfoService.removeScreenFromUser(this.searchUserId, screenName).subscribe({
+      next: (resp: any) => {
+        if (resp.statusCode == StatusCode.Ok) {
+          _.remove(this.userGeneralInfo.screenList, (x) => x.trim() == screenName.trim());
+          this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screenName.trim());
+        }
+        else {
+          console.log(`failed to delete screen from user ${resp.message}`);
+        }
+      },
+      error: e => console.error('There is an error!', e)
+    });
   }
 
   openSectorDialog() {

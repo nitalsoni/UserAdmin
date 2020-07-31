@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserConfig } from '../models/userConfig';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GlobalVars } from './app.global';
 
@@ -17,9 +17,9 @@ export class UserConfigService {
     let params = new HttpParams();
     if (searchParams.globalSearch)
       params = params.append('globalSearch', searchParams.globalSearch);
-    if(searchParams.userid)
+    if (searchParams.userid)
       params = params.append('userid', searchParams.userid);
-    if(searchParams.screen)
+    if (searchParams.screen)
       params = params.append('screen', searchParams.screen);
 
     return this.http.get<Response>(this.localUrl, { params: params });
@@ -34,13 +34,12 @@ export class UserConfigService {
   }
 
   deleteConfig(deleteConfig: UserConfig): Observable<Response> {
-    // let request = new Request();
-    // let requestParams = request.header.GetHeader();
-    // requestParams['body'] = deleteConfig;
     const options = {
-      body: deleteConfig
-    }
-    //return this.http.delete<Response>(this.localUrl, {params: options});
-    return null;
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: deleteConfig,
+    };
+    return this.http.delete<Response>(this.localUrl, options);
   }
 }

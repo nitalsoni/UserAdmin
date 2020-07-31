@@ -4,9 +4,9 @@
       <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
     </div>
     <input class="form-control my-0 py-1" type="text" placeholder="search anything" aria-label="Search"
-      [(ngModel)]="globalSearch" />
+      [(ngModel)]="globalSearch" (keydown.enter)="doSearch()" />
     <button class="btn btn-primary" [disabled]="(globalSearch !== undefined && globalSearch !== '') ? false : true"
-      (click)="onSearch()">search</button>
+      (click)="doSearch()">search</button>
   </div>
 
   <div class="mt-1">

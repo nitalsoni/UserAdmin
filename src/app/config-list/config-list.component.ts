@@ -10,7 +10,7 @@ import { GlobalVars } from '../services/app.global';
 import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
 //import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-config-list',
@@ -33,7 +33,7 @@ export class UsersComponent implements OnInit {
 
   constructor(private userConfigService: UserConfigService, private modalService: NgbModal
     , private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService
-    , private Activatedroute: ActivatedRoute) {
+    , private activatedroute: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class UsersComponent implements OnInit {
     //   this.openConfigDialog();
     // });
 
-    this.Activatedroute.paramMap.subscribe(params => {
+    this.activatedroute.paramMap.subscribe(params => {
       if (params.keys.length > 0) {
         if (params.get('userid'))
           this.sUserId = params.get('userid');
@@ -118,6 +118,10 @@ export class UsersComponent implements OnInit {
       error: e => console.error('There was an error!', e),
       complete: () => this.spinner.hide()
     });
+  }
+
+  doSearch() {
+    this.router.navigate(['config-list', this.globalSearch]);
   }
 
   onSearch() {

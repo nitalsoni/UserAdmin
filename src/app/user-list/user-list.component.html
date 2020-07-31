@@ -55,7 +55,7 @@
                                 <td>{{info.sector}}</td>
                                 <td>{{info.subSector}}</td>
                                 <td>{{info.other}}</td>
-                                <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
+                                <td><button class="btn" (click)="deleteSector(info)"><i class="fa fa-trash"
                                             aria-hidden="true"></i></button>
                                 </td>
                             </tr>
@@ -106,7 +106,7 @@
                             <td>
                                 <a href="#" [routerLink]="['/config-list',userGeneralInfo.userId,screen]">{{screen}}</a>
                             </td>
-                            <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
+                            <td><button class="btn" (click)="removeScreen(screen)"><i class="fa fa-trash"
                                         aria-hidden="true"></i></button>
                             </td>
                         </tr>
