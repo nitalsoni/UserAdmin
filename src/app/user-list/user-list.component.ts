@@ -56,16 +56,12 @@ export class UserListComponent implements OnInit {
   getUserGeneralInfo() {
     this.userInfoService.getGeneralInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          this.userGeneralInfo = resp.data;
-          console.log(`successfully fetched UserGeneralInfo ${resp.data}`);
-        }
-        else {
-          console.log(`failed to fetched UserGeneralInfo item ${resp.message}`);
-        }
+        this.userGeneralInfo = resp;
+        console.log(`successfully fetched UserGeneralInfo ${resp}`);
       },
-      error: e => console.error('There is an error!', e),
-      //complete: () => this.spinner.hide()
+      error: e => {
+        console.log(`failed to fetch user general Info ${e}`);
+      },
     });
   }
 
@@ -73,18 +69,15 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     this.sectorInfoService.getSectorInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          this.userSectorInfo = [];
-          resp.data.forEach(element => {
-            this.userSectorInfo.push(element);
-          });
-          console.log(`succssfully added sectorInfo ${resp.data}`);
-        }
-        else {
-          console.log(`failed to add sectorInfo item ${resp.message}`);
-        }
+        this.userSectorInfo = [];
+        resp.forEach(element => {
+          this.userSectorInfo.push(element);
+        });
+        console.log(`succssfully added sectorInfo ${resp}`);
       },
-      error: e => console.error('There is an error!', e),
+      error: e => {
+        console.log(`failed to get sector Info ${e}`);
+      },
       complete: () => this.spinner.hide()
     });
   }
@@ -92,65 +85,53 @@ export class UserListComponent implements OnInit {
   deleteSector(deleteSector: SectorInfo) {
     this.sectorInfoService.deleteSector(deleteSector).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          _.remove(this.userSectorInfo, (x) => x.sector.trim() == deleteSector.sector.trim()
-            && x.subSector.trim() == deleteSector.subSector.trim());
-        }
-        else {
-          console.log(`failed to delete screen from user ${resp.message}`);
-        }
+        _.remove(this.userSectorInfo, (x) => x.sector.trim() == deleteSector.sector.trim()
+          && x.subSector.trim() == deleteSector.subSector.trim());
       },
-      error: e => console.error('There is an error!', e)
+      error: e => {
+        console.log(`failed to  fetch all UserIds ${e}`);
+      }
     });
   }
 
   getUsageInfo() {
     this.usageInfoService.getUsageInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          this.usageInfo = [];
-          resp.data.forEach(element => {
-            this.usageInfo.push(element);
-          });
-          this.populateBarChart(this.usageInfo);
-          console.log(`successfully fetched UsageInfo ${resp.data}`);
-        }
-        else {
-          console.log(`failed to fetched UsageInfo item ${resp.message}`);
-        }
+        this.usageInfo = [];
+        resp.forEach(element => {
+          this.usageInfo.push(element);
+        });
+        this.populateBarChart(this.usageInfo);
+
+        console.log(`successfully fetched UsageInfo ${resp}`);
       },
-      error: e => console.error('There is an error!', e),
-      //complete: () => this.spinner.hide()
+      error: e => {
+        console.log(`failed to get Usage Info ${e}`);
+      },
     });
   }
 
   addScreenToUser(screenName) {
     this.userInfoService.addScreenToUser(this.searchUserId, screenName).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          _.remove(this.userGeneralInfo.availableScreens, (x) => x.trim() == screenName.trim());
-          this.userGeneralInfo.screenList = _.concat(this.userGeneralInfo.screenList, screenName.trim());
-        }
-        else {
-          console.log(`failed to add screen to user ${resp.message}`);
-        }
+        _.remove(this.userGeneralInfo.availableScreens, (x) => x.trim() == screenName.trim());
+        this.userGeneralInfo.screenList = _.concat(this.userGeneralInfo.screenList, screenName.trim());
       },
-      error: e => console.error('There is an error!', e)
+      error: e => {
+        console.log(`failed to add screen to user ${e}`);
+      }
     });
   }
 
   removeScreen(screenName) {
     this.userInfoService.removeScreenFromUser(this.searchUserId, screenName).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          _.remove(this.userGeneralInfo.screenList, (x) => x.trim() == screenName.trim());
-          this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screenName.trim());
-        }
-        else {
-          console.log(`failed to delete screen from user ${resp.message}`);
-        }
+        _.remove(this.userGeneralInfo.screenList, (x) => x.trim() == screenName.trim());
+        this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screenName.trim());
       },
-      error: e => console.error('There is an error!', e)
+      error: e => {
+        console.log(`failed to remove screen from user ${e}`);
+      }
     });
   }
 
@@ -170,15 +151,12 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          this.userSectorInfo.push(response.data);
-          console.log(`succssfully added sectorInfo ${resp.data}`);
-        }
-        else {
-          console.log(`failed to add sectorInfo item ${resp.message}`);
-        }
+        this.userSectorInfo.push(response.data);
+        console.log(`succssfully added sectorInfo ${resp}`);
       },
-      error: e => console.error('There is an error!', e),
+      error: e => {
+        console.log(`failed to add new sector ${e}`);
+      },
       complete: () => this.spinner.hide()
     });
   }
@@ -187,14 +165,11 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     response.service.createNewUser(response.data).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          console.log(`succssfully added user ${resp.data}`);
-        }
-        else {
-          console.log(`failed to add user item ${resp.message}`);
-        }
+        console.log(`succssfully added user ${resp}`);
       },
-      error: e => console.error(`there is an error!`, e),
+      error: e => {
+        console.log(`failed to create new user ${e}`);
+      },
       complete: () => this.spinner.hide()
     });
   }

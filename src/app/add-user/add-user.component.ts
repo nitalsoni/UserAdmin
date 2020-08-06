@@ -41,15 +41,12 @@ export class AddUserComponent implements OnInit {
   getAllUsers() {
     this.userService.getAllUserId().subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          this.userList = resp.data;
-          console.log(`succssfully fetched all UserIds ${resp.data}`);
-        }
-        else {
-          console.log(`failed to  fetch all UserIds ${resp.message}`);
-        }
+          this.userList = resp;
+          console.log(`succssfully fetched all UserIds ${resp}`);
       },
-      error: e => console.error('There is an error!', e),
+      error: e => {
+        console.log(`failed to  fetch all UserIds ${e}`);
+      }
     });
   }
 

@@ -72,16 +72,13 @@ export class UsersComponent implements OnInit {
       this.spinner.show();
       response.userConfigService.editConfig(response.data).subscribe({
         next: (resp: any) => {
-          if (resp.statusCode == StatusCode.Ok) {
-            _.remove(this.searchResult, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
-            this.searchResult.push(response.data);
-            console.log(`succssfully edited config item ${resp.data}`);
-          }
-          else {
-            console.log(`failed to edited config item ${resp.message}`);
-          }
+          _.remove(this.searchResult, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
+          this.searchResult.push(response.data);
+          console.log(`succssfully edited config item ${resp}`);
         },
-        error: e => console.error('There was an error!', e),
+        error: e => {
+          console.log(`failed to edit config ${e}`);
+        },
         complete: () => this.spinner.hide()
       });
     }
@@ -90,15 +87,12 @@ export class UsersComponent implements OnInit {
       this.spinner.show();
       response.userConfigService.addConfig(response.data).subscribe({
         next: (resp: any) => {
-          if (resp.statusCode == StatusCode.Ok) {
-            this.searchResult.push(response.data);
-            console.log(`succssfully added config item ${resp.data}`);
-          }
-          else {
-            console.log(`failed to add config item ${resp.message}`);
-          }
+          this.searchResult.push(response.data);
+          console.log(`succssfully added config item ${resp}`);
         },
-        error: e => console.error('There is an error!', e),
+        error: e => {
+          console.log(`failed to add user config ${e}`);
+        },
         complete: () => this.spinner.hide()
       });
     }
@@ -108,14 +102,11 @@ export class UsersComponent implements OnInit {
     this.spinner.show();
     this.userConfigService.deleteConfig(deleteConfig).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
-        }
-        else {
-          console.log(`failed to delete config item ${resp.message}`);
-        }
+        _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
       },
-      error: e => console.error('There was an error!', e),
+      error: e => {
+        console.log(`failed to delete user config ${e}`);
+      },
       complete: () => this.spinner.hide()
     });
   }
@@ -132,16 +123,14 @@ export class UsersComponent implements OnInit {
       'screen': this.sScreenName
     }).subscribe({
       next: (resp: any) => {
-        if (resp.statusCode == StatusCode.Ok) {
-          this.searchResult = [];
-          resp.data.forEach(element => {
-            this.searchResult.push(element);
-          });
-
-          //alert(this.searchResult.some(e=>e.userId.indexOf(this.searchString) >= 0));
-        }
+        this.searchResult = [];
+        resp.forEach(element => {
+          this.searchResult.push(element);
+        });
       },
-      error: e => console.error('There was an error!', e),
+      error: e => {
+        console.log(`failed to find user config ${e}`);
+      },
       complete: () => this.spinner.hide()
     });
   }

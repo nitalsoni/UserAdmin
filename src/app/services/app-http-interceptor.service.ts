@@ -33,7 +33,11 @@ export class AppHttpInterceptorService implements HttpInterceptor {
           case 403:
           case 404: {
             errorMessage = `Error series 4** received --> ${error.status}`;
-            break;
+            return throwError(errorMessage);
+          }
+          case 500:{
+            errorMessage = `Error Code: ${error.status} \nMessage: ${error.error}`;
+            return throwError(errorMessage);
           }
           default: {
             errorMessage = `Error Code: ${error.status} \nMessage: ${error.statusText}`;
