@@ -13,7 +13,6 @@ export class AppHttpInterceptorService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     request = HttpHelper.GetRequestHeader(request);
-    console.log(request);
 
     return next.handle(request).pipe(
       retry(2),

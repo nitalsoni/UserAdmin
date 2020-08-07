@@ -11,12 +11,12 @@ export class GlobalVars {
 }
 
 export enum Environment {
-    DEV,
-    PROD
+    DEV = 'DEV',
+    PROD = 'PROD'
 }
 
 export enum Region {
-    APAC,
-    EMEA,
-    AMER
+    APAC = 'APAC',
+    EMEA = 'EMEA',
+    AMER = 'AMER'
 }

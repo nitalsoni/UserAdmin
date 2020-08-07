@@ -3,9 +3,10 @@ import { GlobalVars as G } from "../services/app.global";
 
 export class HttpHelper {
     public static GetRequestHeader(request: HttpRequest<any>): any {
+        debugger;
         const customHeader = new HttpHeaders({
-            'region': G.instance.region.toString(),
-            'environment': G.instance.env.toString(),
+            'region': G.instance.region,
+            'environment': G.instance.env,
             'userId': G.instance.userId,
             'contenType': 'application/json'
         });
