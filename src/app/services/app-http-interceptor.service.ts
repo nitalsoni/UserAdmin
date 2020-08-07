@@ -15,7 +15,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
     request = HttpHelper.GetRequestHeader(request);
 
     return next.handle(request).pipe(
-      retry(2),
+      retry(0),
       catchError(this.handleError)
     );
   }

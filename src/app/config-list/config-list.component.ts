@@ -42,6 +42,7 @@ export class UsersComponent implements OnInit {
     // });
 
     this.activatedroute.paramMap.subscribe(params => {
+      console.log(this.globalSearch);
       if (params.keys.length > 0) {
         if (params.get('userid'))
           this.sUserId = params.get('userid');
@@ -112,7 +113,9 @@ export class UsersComponent implements OnInit {
   }
 
   doSearch() {
-    this.router.navigate(['config-list', this.globalSearch]);
+    //this.router.navigate(['config-list', this.globalSearch]);
+    this.sUserId = this.sScreenName = '';
+    this.onSearch();
   }
 
   onSearch() {

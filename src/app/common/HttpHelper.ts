@@ -3,7 +3,6 @@ import { GlobalVars as G } from "../services/app.global";
 
 export class HttpHelper {
     public static GetRequestHeader(request: HttpRequest<any>): any {
-        debugger;
         const customHeader = new HttpHeaders({
             'region': G.instance.region,
             'environment': G.instance.env,
