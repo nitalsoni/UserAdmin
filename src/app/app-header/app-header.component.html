@@ -2,33 +2,26 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div>
       <div class="row">
-
-        <!-- <div class="col">
-            <button type="button" id="sidebarCollapse" class="btn btn-danger">
-              <i class="fa fa-bars"></i>
-              
-            </button>
-          </div> -->
         <div class="row">
           <div class="btn-group btn-group-toggle col-md-7" data-toggle="buttons">
             <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true ,'btn-danger': globalVar.region === 0 }"
-              (click)="globalVar.region = 0">APAC</button>
+              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true ,'btn-danger': globalVar.region === 'APAC' }"
+              (click)="globalVar.region = 'APAC'">APAC</button>
             <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true, 'btn-danger': globalVar.region === 1 }"
-              (click)="globalVar.region = 1">EMEA</button>
+              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true, 'btn-danger': globalVar.region === 'EMEA' }"
+              (click)="globalVar.region = 'EMEA'">EMEA</button>
             <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true , 'btn-danger': globalVar.region === 2 }"
-              (click)="globalVar.region = 2">AMER</button>
+              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true , 'btn-danger': globalVar.region === 'AMER' }"
+              (click)="globalVar.region = 'AMER'">AMER</button>
           </div>
 
           <div class="btn-group btn-group-toggle col-md-5" data-toggle="buttons">
             <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 0 }"
-              (click)="globalVar.env = 0">DEV</button>
+              [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 'DEV' }"
+              (click)="globalVar.env = 'DEV'">DEV</button>
             <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 1 }"
-              (click)="globalVar.env = 1">PROD</button>
+              [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 'PROD' }"
+              (click)="globalVar.env = 'PROD'">PROD</button>
           </div>
         </div>
         <div class="col pull-right">
