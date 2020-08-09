@@ -13,10 +13,11 @@ import * as _ from "lodash";
 export class AddSectorComponent implements OnInit {
 
   @Input() public dataService: UserInfoService;
+  @Input() public userId: string;
   @Output() messageEvent = new EventEmitter<any>();
 
   private sectorForm: FormGroup;
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder) { 
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -25,6 +26,7 @@ export class AddSectorComponent implements OnInit {
 
   initForm() {
     this.sectorForm = this.formBuilder.group({
+      userId: [this.userId, [Validators.required]],
       sector: ['', [Validators.required]],
       subSector: ['', [Validators.required]],
       account: ['']

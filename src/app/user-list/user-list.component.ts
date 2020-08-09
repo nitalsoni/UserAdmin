@@ -138,6 +138,7 @@ export class UserListComponent implements OnInit {
   openSectorDialog() {
     const modalRef = this.modalService.open(AddSectorComponent, { centered: true });
     modalRef.componentInstance.dataService = this.sectorInfoService;
+    modalRef.componentInstance.userId = this.searchUserId;
     modalRef.componentInstance.messageEvent.subscribe(this.sectorModalCallback);
   }
 
@@ -151,7 +152,9 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
-        this.userSectorInfo.push(response.data);
+        debugger;
+        if(this.searchUserId == response.data.userId)
+          this.userSectorInfo.push(response.data);
         console.log(`succssfully added sectorInfo ${resp}`);
       },
       error: e => {

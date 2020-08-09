@@ -6,6 +6,13 @@
 <div class="modal-body">
     <form class="form-horizontal" role="form" [formGroup]="sectorForm" (ngSubmit)="save()">
         <div class="form-group">
+            <label class="control-label" for="inputUserId">UserId</label>
+            <input type="text" class="form-control" id="inputUserId" name="inputUserId" placeholder="UserId"
+                formControlName="userId" [ngClass]="{ 'is-invalid': f.userId.touched && f.userId.errors }" />
+            <small *ngIf="f.userId.touched && f.userId.errors" class="text-danger">UsreId is
+                required</small>
+        </div>
+        <div class="form-group">
             <label class="control-label" for="inputSector">Sector</label>
             <input type="text" class="form-control" id="inputSector" name="inputSector" placeholder="sector"
                 formControlName="sector" [ngClass]="{ 'is-invalid': f.sector.touched && f.sector.errors }" />
