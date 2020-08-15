@@ -1,9 +1,11 @@
+import { ScreenInfo } from './ScreenInfo';
+
 export class UserGeneralInfo {
     userId: string;
     hostName: string;
     lastAccess: Date;
-    screenList: string[];
-    availableScreens: string[];
+    screenList: ScreenInfo[];
+    availableScreens: ScreenInfo[];
 
     constructor() {
         this.availableScreens = [];

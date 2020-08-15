@@ -19,7 +19,6 @@ import { AddUserComponent } from '../add-user/add-user.component';
 import { Response, StatusCode } from '../models/Response';
 import { UsageInfoService } from '../services/usage-info.service';
 
-
 declare var $: any;
 
 @Component({
@@ -28,7 +27,7 @@ declare var $: any;
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-  searchUserId: string = 'nital';
+  searchUserId: string = 'sbyrne1';
   openDialogEventsubscription: Subscription;
   userSectorInfo: SectorInfo[] = new Array();
   userGeneralInfo: UserGeneralInfo = new UserGeneralInfo();
@@ -38,6 +37,7 @@ export class UserListComponent implements OnInit {
     , private usageInfoService: UsageInfoService, private userService: UserService
     , private spinner: NgxSpinnerService, private globalVar: GlobalVars
     , private sharedService: SharedService, private modalService: NgbModal) {
+
   }
 
   ngOnInit() {
@@ -111,11 +111,11 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  addScreenToUser(screenName) {
-    this.userInfoService.addScreenToUser(this.searchUserId, screenName).subscribe({
+  addScreenToUser(screen) {
+    this.userInfoService.addScreenToUser(this.searchUserId, screen).subscribe({
       next: (resp: any) => {
-        _.remove(this.userGeneralInfo.availableScreens, (x) => x.trim() == screenName.trim());
-        this.userGeneralInfo.screenList = _.concat(this.userGeneralInfo.screenList, screenName.trim());
+        _.remove(this.userGeneralInfo.availableScreens, (x) => x.id == screen.id);
+        this.userGeneralInfo.screenList = _.concat(this.userGeneralInfo.screenList, screen);
       },
       error: e => {
         console.log(`failed to add screen to user ${e}`);
@@ -123,11 +123,11 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  removeScreen(screenName) {
-    this.userInfoService.removeScreenFromUser(this.searchUserId, screenName).subscribe({
+  removeScreen(screen) {
+    this.userInfoService.removeScreenFromUser(this.searchUserId, screen).subscribe({
       next: (resp: any) => {
-        _.remove(this.userGeneralInfo.screenList, (x) => x.trim() == screenName.trim());
-        this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screenName.trim());
+        _.remove(this.userGeneralInfo.screenList, (x) => x.id == screen.id);
+        this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screen);
       },
       error: e => {
         console.log(`failed to remove screen from user ${e}`);
@@ -153,7 +153,7 @@ export class UserListComponent implements OnInit {
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
         debugger;
-        if(this.searchUserId == response.data.userId)
+        if (this.searchUserId == response.data.userId)
           this.userSectorInfo.push(response.data);
         console.log(`succssfully added sectorInfo ${resp}`);
       },
@@ -193,8 +193,9 @@ export class UserListComponent implements OnInit {
         datasets: [
           {
             data: screenCount,
-            borderColor: '#3cba9f',
-            backgroundColor: Helper.dynamicColors(screenNames.length),
+            borderColor: 'rgba(0, 0, 0, 1)',
+            backgroundColor: Helper.GetBarColors(),
+            borderWidth: 0.6,
             fill: true
           }
         ]
@@ -205,14 +206,14 @@ export class UserListComponent implements OnInit {
         },
         scales: {
           xAxes: [{
-            display: true
+            display: true,
+            ticks: {
+              beginAtZero: true
+            }
           }],
           yAxes: [{
             display: true
           }],
-          ticks: {
-            beginAtZero: true
-          }
         }
       }
     });
