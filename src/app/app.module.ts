@@ -26,6 +26,7 @@ import { AddSectorComponent } from './add-sector/add-sector.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AppHttpInterceptorService } from "./services/app-http-interceptor.service";
 import { GlobalErrorHandlerService  } from "./services/global-error-handler.service";
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { GlobalErrorHandlerService  } from "./services/global-error-handler.serv
     ReactiveFormsModule,
     NgxSpinnerModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    AgGridModule.withComponents([])
   ],
   providers: [
     UserConfigService,
