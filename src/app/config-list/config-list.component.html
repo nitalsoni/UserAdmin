@@ -15,7 +15,26 @@
     </button>
 
     <div>
-      <table class="table table-hover table-sm">
+      <ag-grid-angular
+        #configGrid
+        style="width: 100%; height:600px;"
+        id="configListGrid"
+        class="ag-theme-alpine"
+        [modules]="modules"
+        
+        
+        [context]="context"
+        [frameworkComponents]="frameworkComponents"
+        [gridOptions] = "gridOptions"
+        (gridReady)="onGridReady($event)"
+      ></ag-grid-angular>
+
+      <!-- <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" 
+        [rowData]="searchResult"
+        [columnDefs]="columnDefs">
+      </ag-grid-angular> -->
+      
+      <!-- <table class="table table-hover table-sm">
         <thead>
           <th>User ID</th>
           <th>Control</th>
@@ -38,7 +57,7 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
     </div>
 
   </div>

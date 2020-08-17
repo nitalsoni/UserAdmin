@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ChartsModule } from 'ng2-charts';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -26,7 +27,8 @@ import { AddSectorComponent } from './add-sector/add-sector.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AppHttpInterceptorService } from "./services/app-http-interceptor.service";
 import { GlobalErrorHandlerService  } from "./services/global-error-handler.service";
-import { AgGridModule } from 'ag-grid-angular';
+import { ConfigAuditComponent } from './config-audit/config-audit.component';
+import { ActionBtnRendererComponent } from './action-btn-renderer/action-btn-renderer.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { AgGridModule } from 'ag-grid-angular';
     UserListComponent,
     PageNotFoundComponent,
     AddSectorComponent,
-    AddUserComponent
+    AddUserComponent,
+    ConfigAuditComponent,
+    ActionBtnRendererComponent
   ],
   imports: [
     FormsModule,
@@ -51,7 +55,7 @@ import { AgGridModule } from 'ag-grid-angular';
     NgxSpinnerModule,
     AppRoutingModule,
     ChartsModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([ActionBtnRendererComponent])
   ],
   providers: [
     UserConfigService,

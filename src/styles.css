@@ -9,6 +9,11 @@ body {
     padding-bottom: 2px;
 }
 
+.ag-grid-btn-cell {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
 a.header {
     background-color: #525355;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserConfig } from '../models/userConfig';
 import { UserConfigService } from '../services/user-config.service';
 import { AddConfigModalComponent } from '../add-config-modal/add-config-modal.component'
@@ -11,6 +11,11 @@ import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
 //import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Column } from 'ag-grid-community';
+import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
+import { GridOptions } from 'ag-grid-community';
+import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
 
 @Component({
   selector: 'app-config-list',
@@ -19,12 +24,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 
 export class UsersComponent implements OnInit {
-
   openDialogEventsubscription: Subscription;
+  gridOptions: GridOptions;
   searchResult: UserConfig[] = new Array();
   globalSearch: string;
   sUserId: string;
   sScreenName: string;
+  @ViewChild('configGrid', { static: false }) configGrid: AgGridAngular;
+
+  public modules: any[] = AllCommunityModules;
+  private context;
+  private frameworkComponents;
 
   options = {
     autoClose: false,
@@ -37,9 +47,9 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
-    //   this.openConfigDialog();
-    // });
+    this.gridOptions = this.defineGrid();
+    this.context = { componentParent: this };
+    this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
 
     this.activatedroute.paramMap.subscribe(params => {
       console.log(this.globalSearch);
@@ -52,6 +62,11 @@ export class UsersComponent implements OnInit {
         this.onSearch();
       }
     });
+  }
+
+  onGridReady(params) {
+    // this.gridApi = params.api;
+    // this.gridColumnApi = params.columnApi;
   }
 
   openConfigDialog(editConfig?: UserConfig) {
@@ -73,8 +88,9 @@ export class UsersComponent implements OnInit {
       this.spinner.show();
       response.userConfigService.editConfig(response.data).subscribe({
         next: (resp: any) => {
-          _.remove(this.searchResult, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
-          this.searchResult.push(response.data);
+          _.remove(this.gridOptions.rowData, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
+          this.gridOptions.rowData.push(response.data);
+          this.gridOptions.api.setRowData(this.gridOptions.rowData);
           console.log(`succssfully edited config item ${resp}`);
         },
         error: e => {
@@ -88,8 +104,10 @@ export class UsersComponent implements OnInit {
       this.spinner.show();
       response.userConfigService.addConfig(response.data).subscribe({
         next: (resp: any) => {
-          this.searchResult.push(response.data);
-          console.log(`succssfully added config item ${resp}`);
+          debugger;
+          this.gridOptions.rowData.push(resp);
+          this.gridOptions.api.setRowData(this.gridOptions.rowData);
+          console.log(`succssfully added config item ${response.data}`);
         },
         error: e => {
           console.log(`failed to add user config ${e}`);
@@ -103,7 +121,8 @@ export class UsersComponent implements OnInit {
     this.spinner.show();
     this.userConfigService.deleteConfig(deleteConfig).subscribe({
       next: (resp: any) => {
-        _.remove(this.searchResult, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
+        _.remove(this.gridOptions.rowData, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
+        this.gridOptions.api.setRowData(this.gridOptions.rowData);
       },
       error: e => {
         console.log(`failed to delete user config ${e}`);
@@ -113,7 +132,6 @@ export class UsersComponent implements OnInit {
   }
 
   doSearch() {
-    //this.router.navigate(['config-list', this.globalSearch]);
     this.sUserId = this.sScreenName = '';
     this.onSearch();
   }
@@ -126,15 +144,39 @@ export class UsersComponent implements OnInit {
       'screen': this.sScreenName
     }).subscribe({
       next: (resp: any) => {
-        this.searchResult = [];
+        this.gridOptions.rowData = [];
         resp.forEach(element => {
-          this.searchResult.push(element);
+          this.gridOptions.rowData.push(element);
         });
+        this.gridOptions.api.setRowData(this.gridOptions.rowData);
       },
       error: e => {
         console.log(`failed to find user config ${e}`);
       },
       complete: () => this.spinner.hide()
     });
+  }
+
+  private defineGrid(): GridOptions {
+    return <GridOptions>{
+      pagination: true,
+      paginationPageSize: 15,
+      enableRangeSelection: false,
+      defaultColDef: { resizable: true },
+      rowData: [],
+      columnDefs: [
+        { headerName: 'UserID', field: 'userId', sortable: true, filter: 'agTextColumnFilter', minWidth: 50 },
+        { headerName: 'Control', field: 'controlName', sortable: true, filter: 'agTextColumnFilter', minWidth: 100 },
+        { headerName: 'Item', field: 'item', sortable: true, filter: 'agTextColumnFilter', minWidth: 100 },
+        { headerName: 'Value', field: 'dataValue', sortable: true, filter: 'agTextColumnFilter', minWidth: 300 },
+        { headerName: 'Updated By', field: 'updatedBy', sortable: true, filter: 'agTextColumnFilter', minWidth: 100 },
+        { headerName: 'Host Name', field: 'hostName', sortable: true, filter: 'agTextColumnFilter', minWidth: 100 },
+        { headerName: 'Edit', cellRenderer: 'actionBtnRenderer', colId: 'edit', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+      ],
+      onRowDoubleClicked: (event) => {
+        this.openConfigDialog(event.data);
+      }
+    };
   }
 }

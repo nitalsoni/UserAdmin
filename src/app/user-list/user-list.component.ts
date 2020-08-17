@@ -152,7 +152,6 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
-        debugger;
         if (this.searchUserId == response.data.userId)
           this.userSectorInfo.push(response.data);
         console.log(`succssfully added sectorInfo ${resp}`);
