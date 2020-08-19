@@ -4,7 +4,7 @@
             <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
         </div>
         <input class="form-control my-0 py-1" type="text" placeholder="search user-id" aria-label="user name"
-            [(ngModel)]="searchUserId" (keydown.enter)="onSearch()"/>
+            [(ngModel)]="searchUserId" (keydown.enter)="onSearch()" />
         <button class="btn btn-primary" [disabled]="(searchUserId !== undefined && searchUserId !== '') ? false : true"
             (click)="onSearch()">search</button>
     </div>
@@ -26,7 +26,8 @@
                     <a href="#" [routerLink]="['/config-list',userGeneralInfo.userId]">{{userGeneralInfo.userId}}</a>
                 </p>
                 <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">{{userGeneralInfo.hostName}}</p>
-                <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">{{userGeneralInfo.lastAccess | date: 'dd MMM yyyy'}}</p>
+                <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">
+                    {{userGeneralInfo.lastAccess | date: 'dd MMM yyyy'}}</p>
             </div>
         </div>
     </div>
@@ -43,7 +44,7 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover table-sm">
+                    <!-- <table class="table table-hover table-sm">
                         <thead>
                             <th>Sector</th>
                             <th>Sub sector</th>
@@ -61,7 +62,11 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
+                    <ag-grid-angular #sectorGrid style="width: 100%; height:300px;" id="sectorListGrid"
+                    class="ag-theme-alpine" [modules]="modules" [context]="context"
+                    [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
+                    (gridReady)="onGridReady($event)"></ag-grid-angular>
                 </div>
             </div>
         </div>
@@ -93,7 +98,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-hover table-sm">
+                <!-- <table class="table table-hover table-sm">
                     <thead>
                         <th>Screen Name</th>
                         <th>Delete</th>
@@ -108,7 +113,11 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
+                <ag-grid-angular #screenGrid style="width: 100%; height:300px;" id="screenListGrid"
+                    class="ag-theme-alpine" [modules]="modules" [context]="context"
+                    [frameworkComponents]="frameworkComponents" [gridOptions]="screenGridOption"
+                    (gridReady)="onGridReady($event)"></ag-grid-angular>
             </div>
         </div>
     </div>

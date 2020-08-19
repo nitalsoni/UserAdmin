@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserGeneralInfo } from '../models/UserGeneralInfo';
 import { SectorInfo } from '../models/sectorInfo';
 import { UsageInfo } from '../models/UsageInfo';
@@ -18,20 +18,35 @@ import { AddSectorComponent } from '../add-sector/add-sector.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { Response, StatusCode } from '../models/Response';
 import { UsageInfoService } from '../services/usage-info.service';
+import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
+import { GridOptions } from 'ag-grid-community';
+import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
+import { ScreenInfo } from '../models/ScreenInfo';
 
-declare var $: any;
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
+
 export class UserListComponent implements OnInit {
   searchUserId: string = 'sbyrne1';
   openDialogEventsubscription: Subscription;
-  userSectorInfo: SectorInfo[] = new Array();
+  //userSectorInfo: SectorInfo[] = new Array();
   userGeneralInfo: UserGeneralInfo = new UserGeneralInfo();
   usageInfo: UsageInfo[] = new Array();
+
+  screenGridOption: GridOptions;
+  sectorGridOption: GridOptions;
+
+  public modules: any[] = AllCommunityModules;
+  private context;
+  private frameworkComponents;
+
+  @ViewChild('screenGrid', { static: false }) screenGrid: AgGridAngular;
+  @ViewChild('sectorGrid', { static: false }) sectorGrid: AgGridAngular;
 
   constructor(private userInfoService: UserInfoService, private sectorInfoService: SectorInfoService
     , private usageInfoService: UsageInfoService, private userService: UserService
@@ -41,6 +56,10 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.screenGridOption = this.initScreenGrid();
+    this.sectorGridOption = this.initSectorGrid();
+    this.context = { componentParent: this };
+    this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
 
     this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
       this.openSectorDialog();
@@ -53,10 +72,25 @@ export class UserListComponent implements OnInit {
     this.getUsageInfo();
   }
 
+  onDelete(data: any) {
+    debugger;
+    if (data.hasOwnProperty('sector')) {
+      this.deleteSector(data);
+    }
+    else if (data.hasOwnProperty('name')) {
+      this.onDeleteScreen(data);
+    }
+  }
+
   getUserGeneralInfo() {
     this.userInfoService.getGeneralInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
         this.userGeneralInfo = resp;
+        this.screenGridOption.rowData = [];
+        resp.screenList.forEach(s => {
+          this.screenGridOption.rowData.push(s);
+        });
+        this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
         console.log(`successfully fetched UserGeneralInfo ${resp}`);
       },
       error: e => {
@@ -69,10 +103,11 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     this.sectorInfoService.getSectorInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
-        this.userSectorInfo = [];
-        resp.forEach(element => {
-          this.userSectorInfo.push(element);
+        this.sectorGridOption.rowData = [];
+        resp.forEach(s => {
+          this.sectorGridOption.rowData.push(s);
         });
+        this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
         console.log(`succssfully added sectorInfo ${resp}`);
       },
       error: e => {
@@ -85,8 +120,10 @@ export class UserListComponent implements OnInit {
   deleteSector(deleteSector: SectorInfo) {
     this.sectorInfoService.deleteSector(deleteSector).subscribe({
       next: (resp: any) => {
-        _.remove(this.userSectorInfo, (x) => x.sector.trim() == deleteSector.sector.trim()
+        debugger;
+        _.remove(this.sectorGridOption.rowData, (x) => x.sector.trim() == deleteSector.sector.trim()
           && x.subSector.trim() == deleteSector.subSector.trim());
+        this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
       },
       error: e => {
         console.log(`failed to  fetch all UserIds ${e}`);
@@ -115,7 +152,8 @@ export class UserListComponent implements OnInit {
     this.userInfoService.addScreenToUser(this.searchUserId, screen).subscribe({
       next: (resp: any) => {
         _.remove(this.userGeneralInfo.availableScreens, (x) => x.id == screen.id);
-        this.userGeneralInfo.screenList = _.concat(this.userGeneralInfo.screenList, screen);
+        this.screenGridOption.rowData = _.concat(this.screenGridOption.rowData, screen);
+        this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
       },
       error: e => {
         console.log(`failed to add screen to user ${e}`);
@@ -123,10 +161,11 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  removeScreen(screen) {
+  onDeleteScreen(screen) {
     this.userInfoService.removeScreenFromUser(this.searchUserId, screen).subscribe({
       next: (resp: any) => {
-        _.remove(this.userGeneralInfo.screenList, (x) => x.id == screen.id);
+        _.remove(this.screenGridOption.rowData, (x) => x.id == screen.id);
+        this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
         this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screen);
       },
       error: e => {
@@ -152,8 +191,10 @@ export class UserListComponent implements OnInit {
     this.spinner.show();
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
-        if (this.searchUserId == response.data.userId)
-          this.userSectorInfo.push(response.data);
+        if (this.searchUserId == response.data.userId) {
+          this.sectorGridOption.rowData.push(response.data);
+          this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
+        }
         console.log(`succssfully added sectorInfo ${resp}`);
       },
       error: e => {
@@ -174,6 +215,34 @@ export class UserListComponent implements OnInit {
       },
       complete: () => this.spinner.hide()
     });
+  }
+
+  initScreenGrid(): GridOptions {
+    return <GridOptions>{
+      pagination: true,
+      paginationPageSize: 10,
+      defaultColDef: { resizable: true },
+      rowData: [],
+      columnDefs: [
+        { headerName: 'Screen', field: 'name', sortable: true, filter: 'agTextColumnFilter', minWidth: 200 },
+        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+      ],
+    };
+  }
+
+  initSectorGrid(): GridOptions {
+    return <GridOptions>{
+      pagination: true,
+      paginationPageSize: 10,
+      defaultColDef: { resizable: true },
+      rowData: [],
+      columnDefs: [
+        { headerName: 'Sector', field: 'sector', sortable: true, filter: 'agTextColumnFilter', minWidth: 150 },
+        { headerName: 'Sub Sector', field: 'subSector', sortable: true, filter: 'agTextColumnFilter', minWidth: 150 },
+        { headerName: 'Account', field: 'account', sortable: true, filter: 'agTextColumnFilter', minWidth: 60 },
+        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+      ],
+    }
   }
 
   populateBarChart(usageData: UsageInfo[]) {

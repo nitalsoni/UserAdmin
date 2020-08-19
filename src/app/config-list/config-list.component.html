@@ -10,7 +10,7 @@
   </div>
 
   <div class="mt-1">
-    <button class="btn btn-sm btn-success mb-1" data-toggle="modal" (click)="openConfigDialog()">
+    <button class="btn btn-sm btn-success mb-1" data-toggle="modal" (click)="onOpenConfigDialog()">
       <i class="fa fa-plus mr-2"></i>config
     </button>
 
@@ -21,8 +21,6 @@
         id="configListGrid"
         class="ag-theme-alpine"
         [modules]="modules"
-        
-        
         [context]="context"
         [frameworkComponents]="frameworkComponents"
         [gridOptions] = "gridOptions"
@@ -50,9 +48,9 @@
             <td>{{config.controlName}}</td>
             <td>{{config.item}}</td>
             <td>{{config.dataValue}}</td>
-            <td><button class="btn" (click)="openConfigDialog(config)"> <i class="fa fa-pencil-square-o"
+            <td><button class="btn" (click)="onOpenConfigDialog(config)"> <i class="fa fa-pencil-square-o"
                   aria-hidden="true"></i></button></td>
-            <td><button class="btn" (click)="deleteConfig(config)"><i class="fa fa-trash"
+            <td><button class="btn" (click)="onDelete(config)"><i class="fa fa-trash"
                   aria-hidden="true"></i></button>
             </td>
           </tr>

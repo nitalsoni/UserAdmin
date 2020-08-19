@@ -9,7 +9,6 @@ import * as _ from "lodash";
 import { GlobalVars } from '../services/app.global';
 import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
-//import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Column } from 'ag-grid-community';
 import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
@@ -26,10 +25,8 @@ import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-re
 export class UsersComponent implements OnInit {
   openDialogEventsubscription: Subscription;
   gridOptions: GridOptions;
-  searchResult: UserConfig[] = new Array();
   globalSearch: string;
-  sUserId: string;
-  sScreenName: string;
+  routerParam = { "userId": '', "screen": '' };
   @ViewChild('configGrid', { static: false }) configGrid: AgGridAngular;
 
   public modules: any[] = AllCommunityModules;
@@ -41,23 +38,22 @@ export class UsersComponent implements OnInit {
     keepAfterRouteChange: true
   };
 
-  constructor(private userConfigService: UserConfigService, private modalService: NgbModal
-    , private spinner: NgxSpinnerService, private globalVar: GlobalVars, private sharedService: SharedService
+  constructor(private userConfig$: UserConfigService, private modal$: NgbModal
+    , private spinner$: NgxSpinnerService, private globalVar: GlobalVars, private shared$: SharedService
     , private activatedroute: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    this.gridOptions = this.defineGrid();
+    this.gridOptions = this.initGrid();
     this.context = { componentParent: this };
     this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
 
     this.activatedroute.paramMap.subscribe(params => {
-      console.log(this.globalSearch);
       if (params.keys.length > 0) {
         if (params.get('userid'))
-          this.sUserId = params.get('userid');
+          this.routerParam.userId = params.get('userid');
         if (params.get('screen'))
-          this.sScreenName = params.get('screen');
+          this.routerParam.screen = params.get('screen');
 
         this.onSearch();
       }
@@ -69,8 +65,9 @@ export class UsersComponent implements OnInit {
     // this.gridColumnApi = params.columnApi;
   }
 
-  openConfigDialog(editConfig?: UserConfig) {
-    const modalRef = this.modalService.open(AddConfigModalComponent, { centered: true });
+  //On Add or Edit event
+  onOpenConfigDialog(editConfig?: UserConfig) {
+    const modalRef = this.modal$.open(AddConfigModalComponent, { centered: true });
 
     //to check if action is add or edit
     if (_.isNull(editConfig) == null || _.isUndefined(editConfig))
@@ -78,48 +75,13 @@ export class UsersComponent implements OnInit {
     else
       modalRef.componentInstance.config = editConfig;
 
-    modalRef.componentInstance.dataService = this.userConfigService;
+    modalRef.componentInstance.dataService = this.userConfig$;
     modalRef.componentInstance.messageEvent.subscribe(this.modalCallback);
   }
 
-  public modalCallback: (response: any) => void = (response) => {
-    //Edit action
-    if (response.isEditAction) {
-      this.spinner.show();
-      response.userConfigService.editConfig(response.data).subscribe({
-        next: (resp: any) => {
-          _.remove(this.gridOptions.rowData, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
-          this.gridOptions.rowData.push(response.data);
-          this.gridOptions.api.setRowData(this.gridOptions.rowData);
-          console.log(`succssfully edited config item ${resp}`);
-        },
-        error: e => {
-          console.log(`failed to edit config ${e}`);
-        },
-        complete: () => this.spinner.hide()
-      });
-    }
-    //Add action
-    else {
-      this.spinner.show();
-      response.userConfigService.addConfig(response.data).subscribe({
-        next: (resp: any) => {
-          debugger;
-          this.gridOptions.rowData.push(resp);
-          this.gridOptions.api.setRowData(this.gridOptions.rowData);
-          console.log(`succssfully added config item ${response.data}`);
-        },
-        error: e => {
-          console.log(`failed to add user config ${e}`);
-        },
-        complete: () => this.spinner.hide()
-      });
-    }
-  }
-
-  deleteConfig(deleteConfig: UserConfig) {
-    this.spinner.show();
-    this.userConfigService.deleteConfig(deleteConfig).subscribe({
+  onDelete(deleteConfig: UserConfig) {
+    this.spinner$.show();
+    this.userConfig$.deleteConfig(deleteConfig).subscribe({
       next: (resp: any) => {
         _.remove(this.gridOptions.rowData, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
         this.gridOptions.api.setRowData(this.gridOptions.rowData);
@@ -127,21 +89,16 @@ export class UsersComponent implements OnInit {
       error: e => {
         console.log(`failed to delete user config ${e}`);
       },
-      complete: () => this.spinner.hide()
+      complete: () => this.spinner$.hide()
     });
   }
 
-  doSearch() {
-    this.sUserId = this.sScreenName = '';
-    this.onSearch();
-  }
-
   onSearch() {
-    this.spinner.show();
-    this.userConfigService.searchConfig({
+    this.spinner$.show();
+    this.userConfig$.searchConfig({
       'globalSearch': this.globalSearch,
-      'userid': this.sUserId,
-      'screen': this.sScreenName
+      'userid': this.routerParam.userId,
+      'screen': this.routerParam.screen
     }).subscribe({
       next: (resp: any) => {
         this.gridOptions.rowData = [];
@@ -153,11 +110,56 @@ export class UsersComponent implements OnInit {
       error: e => {
         console.log(`failed to find user config ${e}`);
       },
-      complete: () => this.spinner.hide()
+      complete: () => this.spinner$.hide()
     });
   }
 
-  private defineGrid(): GridOptions {
+  doSearch() {
+    this.routerParam.userId = this.routerParam.screen = '';
+    this.onSearch();
+  }
+
+  onEdit(editConfig?: UserConfig) {
+    if (!_.isNull(editConfig) && !_.isUndefined(editConfig)) {
+      this.onOpenConfigDialog(editConfig);
+    }
+  }
+
+  public modalCallback: (response: any) => void = (response) => {
+    //Edit action
+    if (response.isEditAction) {
+      this.spinner$.show();
+      response.userConfig$.editConfig(response.data).subscribe({
+        next: (resp: any) => {
+          _.remove(this.gridOptions.rowData, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
+          this.gridOptions.rowData.push(response.data);
+          this.gridOptions.api.setRowData(this.gridOptions.rowData);
+          console.log(`succssfully edited config item ${resp}`);
+        },
+        error: e => {
+          console.log(`failed to edit config ${e}`);
+        },
+        complete: () => this.spinner$.hide()
+      });
+    }
+    //Add action
+    else {
+      this.spinner$.show();
+      response.userConfig$.addConfig(response.data).subscribe({
+        next: (resp: any) => {
+          this.gridOptions.rowData.push(resp);
+          this.gridOptions.api.setRowData(this.gridOptions.rowData);
+          console.log(`succssfully added config item ${response.data}`);
+        },
+        error: e => {
+          console.log(`failed to add user config ${e}`);
+        },
+        complete: () => this.spinner$.hide()
+      });
+    }
+  }
+
+  private initGrid(): GridOptions {
     return <GridOptions>{
       pagination: true,
       paginationPageSize: 15,
@@ -175,7 +177,7 @@ export class UsersComponent implements OnInit {
         { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
       ],
       onRowDoubleClicked: (event) => {
-        this.openConfigDialog(event.data);
+        this.onOpenConfigDialog(event.data);
       }
     };
   }

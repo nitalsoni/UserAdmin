@@ -20,11 +20,12 @@ export class ActionBtnRendererComponent implements ICellRendererAngularComp {
   }
 
   public onDelete() {
-    this.params.context.componentParent.deleteConfig(this.params.data);
+    debugger;
+    this.params.context.componentParent.onDelete(this.params.data);
   }
 
   public onEdit() {
-    this.params.context.componentParent.openConfigDialog(this.params.data);
+    this.params.context.componentParent.onEdit(this.params.data);
   }
 
   refresh(): boolean {
