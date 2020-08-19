@@ -20,7 +20,6 @@ export class ActionBtnRendererComponent implements ICellRendererAngularComp {
   }
 
   public onDelete() {
-    debugger;
     this.params.context.componentParent.onDelete(this.params.data);
   }
 

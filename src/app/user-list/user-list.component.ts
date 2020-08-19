@@ -48,10 +48,10 @@ export class UserListComponent implements OnInit {
   @ViewChild('screenGrid', { static: false }) screenGrid: AgGridAngular;
   @ViewChild('sectorGrid', { static: false }) sectorGrid: AgGridAngular;
 
-  constructor(private userInfoService: UserInfoService, private sectorInfoService: SectorInfoService
-    , private usageInfoService: UsageInfoService, private userService: UserService
+  constructor(private userInfo$: UserInfoService, private sectorInfo$: SectorInfoService
+    , private usageInfo$: UsageInfoService, private user$: UserService
     , private spinner: NgxSpinnerService, private globalVar: GlobalVars
-    , private sharedService: SharedService, private modalService: NgbModal) {
+    , private shared$: SharedService, private modal$: NgbModal) {
 
   }
 
@@ -61,8 +61,8 @@ export class UserListComponent implements OnInit {
     this.context = { componentParent: this };
     this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
 
-    this.openDialogEventsubscription = this.sharedService.triggerOpenDialogEvent().subscribe(() => {
-      this.openSectorDialog();
+    this.openDialogEventsubscription = this.shared$.triggerOpenDialogEvent().subscribe(() => {
+      this.onOpenSectorDialog();
     });
   }
 
@@ -73,54 +73,17 @@ export class UserListComponent implements OnInit {
   }
 
   onDelete(data: any) {
-    debugger;
     if (data.hasOwnProperty('sector')) {
-      this.deleteSector(data);
+      this.onDeleteSector(data);
     }
     else if (data.hasOwnProperty('name')) {
       this.onDeleteScreen(data);
     }
   }
 
-  getUserGeneralInfo() {
-    this.userInfoService.getGeneralInfo(this.searchUserId).subscribe({
+  onDeleteSector(deleteSector: SectorInfo) {
+    this.sectorInfo$.deleteSector(deleteSector).subscribe({
       next: (resp: any) => {
-        this.userGeneralInfo = resp;
-        this.screenGridOption.rowData = [];
-        resp.screenList.forEach(s => {
-          this.screenGridOption.rowData.push(s);
-        });
-        this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
-        console.log(`successfully fetched UserGeneralInfo ${resp}`);
-      },
-      error: e => {
-        console.log(`failed to fetch user general Info ${e}`);
-      },
-    });
-  }
-
-  getSectorInfo() {
-    this.spinner.show();
-    this.sectorInfoService.getSectorInfo(this.searchUserId).subscribe({
-      next: (resp: any) => {
-        this.sectorGridOption.rowData = [];
-        resp.forEach(s => {
-          this.sectorGridOption.rowData.push(s);
-        });
-        this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
-        console.log(`succssfully added sectorInfo ${resp}`);
-      },
-      error: e => {
-        console.log(`failed to get sector Info ${e}`);
-      },
-      complete: () => this.spinner.hide()
-    });
-  }
-
-  deleteSector(deleteSector: SectorInfo) {
-    this.sectorInfoService.deleteSector(deleteSector).subscribe({
-      next: (resp: any) => {
-        debugger;
         _.remove(this.sectorGridOption.rowData, (x) => x.sector.trim() == deleteSector.sector.trim()
           && x.subSector.trim() == deleteSector.subSector.trim());
         this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
@@ -131,25 +94,8 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  getUsageInfo() {
-    this.usageInfoService.getUsageInfo(this.searchUserId).subscribe({
-      next: (resp: any) => {
-        this.usageInfo = [];
-        resp.forEach(element => {
-          this.usageInfo.push(element);
-        });
-        this.populateBarChart(this.usageInfo);
-
-        console.log(`successfully fetched UsageInfo ${resp}`);
-      },
-      error: e => {
-        console.log(`failed to get Usage Info ${e}`);
-      },
-    });
-  }
-
-  addScreenToUser(screen) {
-    this.userInfoService.addScreenToUser(this.searchUserId, screen).subscribe({
+  onAssignScreen(screen) {
+    this.userInfo$.addScreenToUser(this.searchUserId, screen).subscribe({
       next: (resp: any) => {
         _.remove(this.userGeneralInfo.availableScreens, (x) => x.id == screen.id);
         this.screenGridOption.rowData = _.concat(this.screenGridOption.rowData, screen);
@@ -162,7 +108,7 @@ export class UserListComponent implements OnInit {
   }
 
   onDeleteScreen(screen) {
-    this.userInfoService.removeScreenFromUser(this.searchUserId, screen).subscribe({
+    this.userInfo$.removeScreenFromUser(this.searchUserId, screen).subscribe({
       next: (resp: any) => {
         _.remove(this.screenGridOption.rowData, (x) => x.id == screen.id);
         this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
@@ -174,16 +120,16 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  openSectorDialog() {
-    const modalRef = this.modalService.open(AddSectorComponent, { centered: true });
-    modalRef.componentInstance.dataService = this.sectorInfoService;
+  onOpenSectorDialog() {
+    const modalRef = this.modal$.open(AddSectorComponent, { centered: true });
+    modalRef.componentInstance.dataService = this.sectorInfo$;
     modalRef.componentInstance.userId = this.searchUserId;
     modalRef.componentInstance.messageEvent.subscribe(this.sectorModalCallback);
   }
 
-  openUserDialog() {
-    const modalRef = this.modalService.open(AddUserComponent, { centered: true });
-    modalRef.componentInstance.dataService = this.userService;
+  onOpenUserDialog() {
+    const modalRef = this.modal$.open(AddUserComponent, { centered: true });
+    modalRef.componentInstance.dataService = this.user$;
     modalRef.componentInstance.messageEvent.subscribe(this.userModalCallback);
   }
 
@@ -214,6 +160,58 @@ export class UserListComponent implements OnInit {
         console.log(`failed to create new user ${e}`);
       },
       complete: () => this.spinner.hide()
+    });
+  }
+
+  getUserGeneralInfo() {
+    this.userInfo$.getGeneralInfo(this.searchUserId).subscribe({
+      next: (resp: any) => {
+        this.userGeneralInfo = resp;
+        this.screenGridOption.rowData = [];
+        resp.screenList.forEach(s => {
+          this.screenGridOption.rowData.push(s);
+        });
+        this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
+        console.log(`successfully fetched UserGeneralInfo ${resp}`);
+      },
+      error: e => {
+        console.log(`failed to fetch user general Info ${e}`);
+      },
+    });
+  }
+
+  getSectorInfo() {
+    this.spinner.show();
+    this.sectorInfo$.getSectorInfo(this.searchUserId).subscribe({
+      next: (resp: any) => {
+        this.sectorGridOption.rowData = [];
+        resp.forEach(s => {
+          this.sectorGridOption.rowData.push(s);
+        });
+        this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
+        console.log(`succssfully added sectorInfo ${resp}`);
+      },
+      error: e => {
+        console.log(`failed to get sector Info ${e}`);
+      },
+      complete: () => this.spinner.hide()
+    });
+  }
+
+  getUsageInfo() {
+    this.usageInfo$.getUsageInfo(this.searchUserId).subscribe({
+      next: (resp: any) => {
+        this.usageInfo = [];
+        resp.forEach(element => {
+          this.usageInfo.push(element);
+        });
+        this.populateBarChart(this.usageInfo);
+
+        console.log(`successfully fetched UsageInfo ${resp}`);
+      },
+      error: e => {
+        console.log(`failed to get Usage Info ${e}`);
+      },
     });
   }
 

@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class="row mt-1">
-    <button class="btn btn-sm btn-success mb-1" data-toggle="modal" (click)="openUserDialog()">
+    <button class="btn btn-sm btn-success mb-1" data-toggle="modal" (click)="onOpenUserDialog()">
         <i class="fa fa-plus mr-2"></i>User
     </button>
 </div>
@@ -39,7 +39,7 @@
                 <div class="card-header pb-1">
                     Sector coverage
                     <button class="btn btn-success mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1" data-toggle="modal"
-                        (click)="openSectorDialog()">
+                        (click)="onOpenSectorDialog()">
                         <i class="fa fa-plus mr-2"></i>Sector
                     </button>
                 </div>
@@ -93,7 +93,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <button *ngFor="let screen of userGeneralInfo.availableScreens" class="dropdown-item"
-                            type="button" (click)="addScreenToUser(screen)">{{screen.name}}</button>
+                            type="button" (click)="onAssignScreen(screen)">{{screen.name}}</button>
                     </div>
                 </div>
             </div>
