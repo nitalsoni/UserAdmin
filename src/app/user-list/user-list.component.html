@@ -34,8 +34,8 @@
 </div>
 <div class="row">
     <div class="col-md-6 pad2">
-        <div class="col-md-12 pad2">
-            <div class="card bg-light mb-3">
+        <div class="col-md-12 pad2" style="width: 100%;height:100%">
+            <div class="card bg-light mb-3" style="width: 100%;height:100%">
                 <div class="card-header pb-1">
                     Sector coverage
                     <button class="btn btn-success mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1" data-toggle="modal"
@@ -43,30 +43,11 @@
                         <i class="fa fa-plus mr-2"></i>Sector
                     </button>
                 </div>
-                <div class="card-body">
-                    <!-- <table class="table table-hover table-sm">
-                        <thead>
-                            <th>Sector</th>
-                            <th>Sub sector</th>
-                            <th>Account</th>
-                            <th>Delete</th>
-                        </thead>
-
-                        <tbody>
-                            <tr *ngFor="let info of userSectorInfo">
-                                <td>{{info.sector}}</td>
-                                <td>{{info.subSector}}</td>
-                                <td>{{info.other}}</td>
-                                <td><button class="btn" (click)="deleteSector(info)"><i class="fa fa-trash"
-                                            aria-hidden="true"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> -->
-                    <ag-grid-angular #sectorGrid style="width: 100%; height:300px;" id="sectorListGrid"
-                    class="ag-theme-alpine" [modules]="modules" [context]="context"
-                    [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
-                    (gridReady)="onGridReady($event)"></ag-grid-angular>
+                <div class="card-body pad2" style="width: 100%;height:100%">
+                    <ag-grid-angular #sectorGrid style="width: 100%; height:100%;" id="sectorListGrid"
+                        class="ag-theme-alpine" [modules]="modules" [context]="context"
+                        [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
+                        (gridReady)='onGridReady($event)'></ag-grid-angular>
                 </div>
             </div>
         </div>
@@ -82,7 +63,7 @@
         </div>
     </div>
     <div class="col-md-6 pad2">
-        <div class="card bg-light mb-3">
+        <div class="card bg-light mb-3" style="width: 100%;height:100%">
             <div class="card-header">
                 Screen List
                 <div class="btn-group pull-right">
@@ -97,27 +78,11 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <!-- <table class="table table-hover table-sm">
-                    <thead>
-                        <th>Screen Name</th>
-                        <th>Delete</th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let screen of userGeneralInfo.screenList">
-                            <td>
-                                <a href="#" [routerLink]="['/config-list',userGeneralInfo.userId,screen]">{{screen.name}}</a>
-                            </td>
-                            <td><button class="btn" (click)="removeScreen(screen)"><i class="fa fa-trash"
-                                        aria-hidden="true"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
-                <ag-grid-angular #screenGrid style="width: 100%; height:300px;" id="screenListGrid"
-                    class="ag-theme-alpine" [modules]="modules" [context]="context"
-                    [frameworkComponents]="frameworkComponents" [gridOptions]="screenGridOption"
-                    (gridReady)="onGridReady($event)"></ag-grid-angular>
+            <div class="card-body pad2">
+                <ag-grid-angular #screenGrid style="width: 100%;height:100%" id="screenListGrid" class="ag-theme-alpine"
+                    [modules]="modules" [context]="context" [frameworkComponents]="frameworkComponents"
+                    [gridOptions]="screenGridOption" (gridReady)='onGridReady($event)'
+                    (cellClicked)='onCellClicked($event)'></ag-grid-angular>
             </div>
         </div>
     </div>

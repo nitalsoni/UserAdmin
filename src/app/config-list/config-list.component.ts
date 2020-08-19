@@ -61,6 +61,7 @@ export class UsersComponent implements OnInit {
   }
 
   onGridReady(params) {
+    params.api.sizeColumnsToFit();
     // this.gridApi = params.api;
     // this.gridColumnApi = params.columnApi;
   }

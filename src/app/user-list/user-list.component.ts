@@ -23,7 +23,7 @@ import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
 import { ScreenInfo } from '../models/ScreenInfo';
-
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -51,7 +51,8 @@ export class UserListComponent implements OnInit {
   constructor(private userInfo$: UserInfoService, private sectorInfo$: SectorInfoService
     , private usageInfo$: UsageInfoService, private user$: UserService
     , private spinner: NgxSpinnerService, private globalVar: GlobalVars
-    , private shared$: SharedService, private modal$: NgbModal) {
+    , private shared$: SharedService, private modal$: NgbModal
+    , private activatedroute: ActivatedRoute, private router: Router) {
 
   }
 
@@ -131,6 +132,15 @@ export class UserListComponent implements OnInit {
     const modalRef = this.modal$.open(AddUserComponent, { centered: true });
     modalRef.componentInstance.dataService = this.user$;
     modalRef.componentInstance.messageEvent.subscribe(this.userModalCallback);
+  }
+
+  onGridReady(params) {
+    params.api.sizeColumnsToFit();
+  }
+
+  onCellClicked(event) {
+    debugger;
+    this.router.navigate(['/config-list', this.searchUserId, event.data.name]);
   }
 
   public sectorModalCallback: (response: any) => void = (response) => {
@@ -218,12 +228,19 @@ export class UserListComponent implements OnInit {
   initScreenGrid(): GridOptions {
     return <GridOptions>{
       pagination: true,
-      paginationPageSize: 10,
+      paginationPageSize: 5,
       defaultColDef: { resizable: true },
       rowData: [],
       columnDefs: [
-        { headerName: 'Screen', field: 'name', sortable: true, filter: 'agTextColumnFilter', minWidth: 200 },
-        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+        { headerName: 'Screen', field: 'name', sortable: true, filter: 'agTextColumnFilter', minWidth: 200, cellClass: ['hand-pointer'] },
+        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', width: 40, cellClass: ['ag-grid-btn-cell'] },
+        // {
+        //   headerName: 'Screen Href', colId: 'name', cellRenderer: function (params) {
+        //     // let newLink =
+        //     //   `<a href= "/config-list/sbyrne1;id=${params.data.id};name=${params.data.name}">${params.data.name}</a>`;
+        //     // return newLink;
+        //   }
+        // }
       ],
     };
   }
@@ -231,14 +248,14 @@ export class UserListComponent implements OnInit {
   initSectorGrid(): GridOptions {
     return <GridOptions>{
       pagination: true,
-      paginationPageSize: 10,
+      paginationPageSize: 5,
       defaultColDef: { resizable: true },
       rowData: [],
       columnDefs: [
-        { headerName: 'Sector', field: 'sector', sortable: true, filter: 'agTextColumnFilter', minWidth: 150 },
-        { headerName: 'Sub Sector', field: 'subSector', sortable: true, filter: 'agTextColumnFilter', minWidth: 150 },
-        { headerName: 'Account', field: 'account', sortable: true, filter: 'agTextColumnFilter', minWidth: 60 },
-        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+        { headerName: 'Sector', field: 'sector', sortable: true, filter: 'agTextColumnFilter' },
+        { headerName: 'Sub Sector', field: 'subSector', sortable: true, filter: 'agTextColumnFilter' },
+        { headerName: 'Account', field: 'account', sortable: true, filter: 'agTextColumnFilter' },
+        { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', cellClass: ['ag-grid-btn-cell'] },
       ],
     }
   }
