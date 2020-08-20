@@ -42,7 +42,7 @@ export class AddConfigModalComponent implements OnInit {
   saveConfig() {
     
     this.userConfig = new UserConfig(this.configForm.value);
-    let response = { 'isEditAction': this.isEditAction, 'data': this.userConfig, 'userConfigService': this.dataService };
+    let response = { 'isEditAction': this.isEditAction, 'data': this.userConfig, 'data$': this.dataService };
     this.messageEvent.emit(response);
     this.activeModal.close();
   }

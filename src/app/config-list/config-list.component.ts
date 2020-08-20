@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   openDialogEventsubscription: Subscription;
   gridOptions: GridOptions;
   globalSearch: string;
-  routerParam = { "userId": '', "screen": '' };
+  routerParam = { "userId": '', "screenId": -1 };
   @ViewChild('configGrid', { static: false }) configGrid: AgGridAngular;
 
   public modules: any[] = AllCommunityModules;
@@ -47,13 +47,13 @@ export class UsersComponent implements OnInit {
     this.gridOptions = this.initGrid();
     this.context = { componentParent: this };
     this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
-
+debugger;
     this.activatedroute.paramMap.subscribe(params => {
       if (params.keys.length > 0) {
         if (params.get('userid'))
           this.routerParam.userId = params.get('userid');
-        if (params.get('screen'))
-          this.routerParam.screen = params.get('screen');
+        if (params.get('screenid'))
+          this.routerParam.screenId = +params.get('screenid');
 
         this.onSearch();
       }
@@ -99,7 +99,7 @@ export class UsersComponent implements OnInit {
     this.userConfig$.searchConfig({
       'globalSearch': this.globalSearch,
       'userid': this.routerParam.userId,
-      'screen': this.routerParam.screen
+      'screenid': this.routerParam.screenId
     }).subscribe({
       next: (resp: any) => {
         this.gridOptions.rowData = [];
@@ -116,7 +116,8 @@ export class UsersComponent implements OnInit {
   }
 
   doSearch() {
-    this.routerParam.userId = this.routerParam.screen = '';
+    this.routerParam.userId = '';
+    this.routerParam.screenId = -1;
     this.onSearch();
   }
 
@@ -145,8 +146,9 @@ export class UsersComponent implements OnInit {
     }
     //Add action
     else {
+      debugger;
       this.spinner$.show();
-      response.userConfig$.addConfig(response.data).subscribe({
+      response.data$.addConfig(response.data).subscribe({
         next: (resp: any) => {
           this.gridOptions.rowData.push(resp);
           this.gridOptions.api.setRowData(this.gridOptions.rowData);

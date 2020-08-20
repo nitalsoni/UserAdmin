@@ -139,8 +139,7 @@ export class UserListComponent implements OnInit {
   }
 
   onCellClicked(event) {
-    debugger;
-    this.router.navigate(['/config-list', this.searchUserId, event.data.name]);
+    this.router.navigate(['/config-list', this.searchUserId, event.data.id]);
   }
 
   public sectorModalCallback: (response: any) => void = (response) => {

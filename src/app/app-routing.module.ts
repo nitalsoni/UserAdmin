@@ -6,7 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ConfigAuditComponent } from './config-audit/config-audit.component';
 
 const routes: Routes = [
-  { path: 'config-list/:userid/:screen', component: UsersComponent },
+  { path: 'config-list/:userid/:screenid', component: UsersComponent },
   { path: 'config-list/:userid', component: UsersComponent },
   { path: 'config-list', component: UsersComponent },
   { path: 'user-list', component: UserListComponent },

@@ -14,18 +14,20 @@ export class UserConfigService {
   }
 
   searchConfig(searchParams: any): Observable<Response> {
+    debugger;
     let params = new HttpParams();
     if (searchParams.globalSearch)
       params = params.append('globalSearch', searchParams.globalSearch);
     if (searchParams.userid)
       params = params.append('userid', searchParams.userid);
-    if (searchParams.screen)
-      params = params.append('screen', searchParams.screen);
+    if (searchParams.screenid)
+      params = params.append('screenid', searchParams.screenid);
 
     return this.http.get<Response>(this.localUrl, { params: params });
   }
 
   addConfig(newConfig: UserConfig): Observable<Response> {
+    debugger;
     return this.http.post<Response>(this.localUrl, newConfig);
   }
 
