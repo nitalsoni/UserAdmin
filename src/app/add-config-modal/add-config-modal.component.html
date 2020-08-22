@@ -16,16 +16,21 @@
                     formControlName="userId" [readonly]="isEditAction"
                     [ngClass]="{ 'is-invalid': f.userId.touched && f.userId.errors }" />
             </div>
-            <small *ngIf="f.userId.touched && f.userId.errors" class="col-sm-4 text-danger">User Name is required(min 3 chars)</small>
+            <small *ngIf="f.userId.touched && f.userId.errors" class="col-sm-4 text-danger">User Name is required(min 3
+                chars)</small>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputControl">Control Name</label>
             <div class="col-sm-12">
-                <input type="text" class="form-control" id="inputControl" name="inputControl" placeholder="Control Name"
-                    formControlName="controlName" [readonly]="isEditAction"
-                    [ngClass]="{ 'is-invalid': f.controlName.touched && f.controlName.errors }" />
+                <input list="controlNames" formControlName="controlName" class="form-control" id="inputControl"
+                    name="inputControl" placeholder="Control Name" autocomplete="false" [readonly]="isEditAction"
+                    [ngClass]="{ 'is-invalid': f.controlName.touched && f.controlName.errors }">
+                <datalist id="controlNames">
+                    <option *ngFor="let controlName of controlNameList">{{controlName}}</option>
+                </datalist>
             </div>
-            <small *ngIf="f.controlName.touched && f.controlName.errors" class="col-sm-4 text-danger">Control name is required(min 5 chars)</small>
+            <small *ngIf="f.controlName.touched && f.controlName.errors" class="col-sm-4 text-danger">Control name is
+                required</small>
         </div>
         <div class="form-group">
             <label class="col-sm-4 control-label" for="inputItem">Item</label>
@@ -34,7 +39,8 @@
                     formControlName="item" [readonly]="isEditAction"
                     [ngClass]="{ 'is-invalid': f.item.touched && f.item.errors }" />
             </div>
-            <small *ngIf="f.item.touched && f.item.errors" class="col-sm-4 text-danger">Item is required(min 5 chars)</small>
+            <small *ngIf="f.item.touched && f.item.errors" class="col-sm-4 text-danger">Item is required(min 5
+                chars)</small>
         </div>
         <div class="form-group">
             <div class="col-sm-12">
@@ -42,11 +48,13 @@
                     placeholder="Value" formControlName="dataValue"
                     [ngClass]="{ 'is-invalid': f.dataValue.touched && f.dataValue.errors }"></textarea>
             </div>
-            <small *ngIf="f.dataValue.touched && f.dataValue.errors" class="col-sm-4 text-danger">Value is required(min 5 chars)</small>
+            <small *ngIf="f.dataValue.touched && f.dataValue.errors" class="col-sm-4 text-danger">Value is required(min
+                5 chars)</small>
         </div>
         <div class="modal-footer">
             <div>
-                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal" [disabled]="!configForm.valid">Save</button>
+                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal"
+                    [disabled]="!configForm.valid">Save</button>
                 <button type="button" class="btn btn-outline-dark"
                     (click)="activeModal.close('Close click')">Close</button>
             </div>

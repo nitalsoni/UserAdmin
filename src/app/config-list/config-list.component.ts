@@ -4,7 +4,7 @@ import { UserConfigService } from '../services/user-config.service';
 import { AddConfigModalComponent } from '../add-config-modal/add-config-modal.component'
 import { Response, StatusCode } from '../models/Response';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from "ngx-spinner";
+//import { NgxSpinnerService } from "ngx-spinner";
 import * as _ from "lodash";
 import { GlobalVars } from '../services/app.global';
 import { SharedService } from '../services/shared.service';
@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit {
   };
 
   constructor(private userConfig$: UserConfigService, private modal$: NgbModal
-    , private spinner$: NgxSpinnerService, private globalVar: GlobalVars, private shared$: SharedService
+    , private globalVar: GlobalVars, private shared$: SharedService
     , private activatedroute: ActivatedRoute, private router: Router) {
   }
 
@@ -47,7 +47,6 @@ export class UsersComponent implements OnInit {
     this.gridOptions = this.initGrid();
     this.context = { componentParent: this };
     this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
-debugger;
     this.activatedroute.paramMap.subscribe(params => {
       if (params.keys.length > 0) {
         if (params.get('userid'))
@@ -81,7 +80,7 @@ debugger;
   }
 
   onDelete(deleteConfig: UserConfig) {
-    this.spinner$.show();
+    //this.spinner$.show();
     this.userConfig$.deleteConfig(deleteConfig).subscribe({
       next: (resp: any) => {
         _.remove(this.gridOptions.rowData, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
@@ -90,12 +89,12 @@ debugger;
       error: e => {
         console.log(`failed to delete user config ${e}`);
       },
-      complete: () => this.spinner$.hide()
+      //complete: () => this.spinner$.hide()
     });
   }
 
   onSearch() {
-    this.spinner$.show();
+    //this.spinner$.show();
     this.userConfig$.searchConfig({
       'globalSearch': this.globalSearch,
       'userid': this.routerParam.userId,
@@ -111,7 +110,7 @@ debugger;
       error: e => {
         console.log(`failed to find user config ${e}`);
       },
-      complete: () => this.spinner$.hide()
+      //complete: () => this.spinner$.hide()
     });
   }
 
@@ -130,8 +129,8 @@ debugger;
   public modalCallback: (response: any) => void = (response) => {
     //Edit action
     if (response.isEditAction) {
-      this.spinner$.show();
-      response.userConfig$.editConfig(response.data).subscribe({
+      //this.spinner$.show();
+      response.data$.editConfig(response.data).subscribe({
         next: (resp: any) => {
           _.remove(this.gridOptions.rowData, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
           this.gridOptions.rowData.push(response.data);
@@ -141,13 +140,12 @@ debugger;
         error: e => {
           console.log(`failed to edit config ${e}`);
         },
-        complete: () => this.spinner$.hide()
+        //complete: () => this.spinner$.hide()
       });
     }
     //Add action
     else {
-      debugger;
-      this.spinner$.show();
+      //this.spinner$.show();
       response.data$.addConfig(response.data).subscribe({
         next: (resp: any) => {
           this.gridOptions.rowData.push(resp);
@@ -157,7 +155,7 @@ debugger;
         error: e => {
           console.log(`failed to add user config ${e}`);
         },
-        complete: () => this.spinner$.hide()
+        //complete: () => this.spinner$.hide()
       });
     }
   }

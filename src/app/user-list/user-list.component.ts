@@ -34,7 +34,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class UserListComponent implements OnInit {
   searchUserId: string = 'sbyrne1';
   openDialogEventsubscription: Subscription;
-  //userSectorInfo: SectorInfo[] = new Array();
   userGeneralInfo: UserGeneralInfo = new UserGeneralInfo();
   usageInfo: UsageInfo[] = new Array();
 
@@ -50,10 +49,8 @@ export class UserListComponent implements OnInit {
 
   constructor(private userInfo$: UserInfoService, private sectorInfo$: SectorInfoService
     , private usageInfo$: UsageInfoService, private user$: UserService
-    , private spinner: NgxSpinnerService, private globalVar: GlobalVars
     , private shared$: SharedService, private modal$: NgbModal
     , private activatedroute: ActivatedRoute, private router: Router) {
-
   }
 
   ngOnInit() {
@@ -143,7 +140,6 @@ export class UserListComponent implements OnInit {
   }
 
   public sectorModalCallback: (response: any) => void = (response) => {
-    this.spinner.show();
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
         if (this.searchUserId == response.data.userId) {
@@ -155,12 +151,10 @@ export class UserListComponent implements OnInit {
       error: e => {
         console.log(`failed to add new sector ${e}`);
       },
-      complete: () => this.spinner.hide()
     });
   }
 
   public userModalCallback: (response: any) => void = (response) => {
-    this.spinner.show();
     response.service.createNewUser(response.data).subscribe({
       next: (resp: any) => {
         console.log(`succssfully added user ${resp}`);
@@ -168,7 +162,6 @@ export class UserListComponent implements OnInit {
       error: e => {
         console.log(`failed to create new user ${e}`);
       },
-      complete: () => this.spinner.hide()
     });
   }
 
@@ -190,7 +183,6 @@ export class UserListComponent implements OnInit {
   }
 
   getSectorInfo() {
-    this.spinner.show();
     this.sectorInfo$.getSectorInfo(this.searchUserId).subscribe({
       next: (resp: any) => {
         this.sectorGridOption.rowData = [];
@@ -203,7 +195,6 @@ export class UserListComponent implements OnInit {
       error: e => {
         console.log(`failed to get sector Info ${e}`);
       },
-      complete: () => this.spinner.hide()
     });
   }
 

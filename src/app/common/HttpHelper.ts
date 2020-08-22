@@ -9,6 +9,7 @@ export class HttpHelper {
             'userId': G.instance.userId,
             'contenType': 'application/json'
         });
+        console.log(customHeader);
         return request.clone({ headers: customHeader });
     }
 }

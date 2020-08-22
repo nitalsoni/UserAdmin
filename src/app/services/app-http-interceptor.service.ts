@@ -1,23 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError, retry } from 'rxjs/operators';
+import { map, catchError, retry, tap, finalize } from 'rxjs/operators';
 import { HttpHelper } from "../common/HttpHelper";
+import { SpinnerService } from './spinner.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AppHttpInterceptorService implements HttpInterceptor {
+  count = 0;
+
+  constructor(private spinner$: SpinnerService) {
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    this.count++;
+    this.spinner$.action.next('show');
     request = HttpHelper.GetRequestHeader(request);
-
     return next.handle(request).pipe(
       retry(0),
-      catchError(this.handleError)
-    );
+      catchError(this.handleError),
+      finalize(() => {
+        this.count--;
+        if (this.count == 0)
+          this.spinner$.action.next('hide');
+      })
+    )
   }
 
   handleError(error: HttpErrorResponse) {
@@ -34,7 +44,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
             errorMessage = `Error series 4** received --> ${error.status}`;
             return throwError(errorMessage);
           }
-          case 500:{
+          case 500: {
             errorMessage = `Error Code: ${error.status} \nMessage: ${error.error}`;
             return throwError(errorMessage);
           }
@@ -48,8 +58,5 @@ export class AppHttpInterceptorService implements HttpInterceptor {
     else {
       errorMessage = 'some unknown error has occured';
     }
-  }
-
-  constructor() {
   }
 }

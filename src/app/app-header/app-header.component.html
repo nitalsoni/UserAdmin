@@ -6,22 +6,22 @@
           <div class="btn-group btn-group-toggle col-md-7" data-toggle="buttons">
             <button type="radio"
               [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true ,'btn-danger': globalVar.region === 'APAC' }"
-              (click)="globalVar.region = 'APAC'">APAC</button>
+              (click)="globalVar.region = 'APAC';setLocalStorage('APAC')">APAC</button>
             <button type="radio"
               [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true, 'btn-danger': globalVar.region === 'EMEA' }"
-              (click)="globalVar.region = 'EMEA'">EMEA</button>
+              (click)="globalVar.region = 'EMEA';setLocalStorage('EMEA')">EMEA</button>
             <button type="radio"
               [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true , 'btn-danger': globalVar.region === 'AMER' }"
-              (click)="globalVar.region = 'AMER'">AMER</button>
+              (click)="globalVar.region = 'AMER';setLocalStorage('AMER')">AMER</button>
           </div>
 
           <div class="btn-group btn-group-toggle col-md-5" data-toggle="buttons">
             <button type="radio"
               [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 'DEV' }"
-              (click)="globalVar.env = 'DEV'">DEV</button>
+              (click)="globalVar.env = 'DEV';setLocalStorage('DEV')">DEV</button>
             <button type="radio"
               [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 'PROD' }"
-              (click)="globalVar.env = 'PROD'">PROD</button>
+              (click)="globalVar.env = 'PROD';setLocalStorage('PROD')">PROD</button>
           </div>
         </div>
         <div class="col pull-right">
