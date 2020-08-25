@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, Injectable } from '@angular/core';
 import { GlobalVars } from '../services/app.global';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 export class AppHeaderComponent implements OnInit {
   private storageKey: string = 'headerSelection';
 
-  constructor(private globalVar: GlobalVars, @Inject(LOCAL_STORAGE) private storage: StorageService) {
+  constructor(private globalVar: GlobalVars, @Inject(LOCAL_STORAGE) private storage: StorageService, private toastr: ToastrService) {
     if (this.storage.get(this.storageKey)) {
       this.globalVar = this.storage.get(this.storageKey);
     }
@@ -18,9 +19,11 @@ export class AppHeaderComponent implements OnInit {
 
   setLocalStorage() {
     this.storage.set(this.storageKey, this.globalVar);
+    
   }
 
   ngOnInit() {
+    //this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
 }

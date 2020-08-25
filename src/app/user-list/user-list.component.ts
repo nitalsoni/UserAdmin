@@ -24,6 +24,8 @@ import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
 import { ScreenInfo } from '../models/ScreenInfo';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GlobalEventService } from '../services/global-event.service';
+import { ToastrInfo } from '../models/ToastrInfo';
 
 @Component({
   selector: 'app-user-list',
@@ -50,7 +52,8 @@ export class UserListComponent implements OnInit {
   constructor(private userInfo$: UserInfoService, private sectorInfo$: SectorInfoService
     , private usageInfo$: UsageInfoService, private user$: UserService
     , private shared$: SharedService, private modal$: NgbModal
-    , private activatedroute: ActivatedRoute, private router: Router) {
+    , private activatedroute: ActivatedRoute, private router: Router
+    , private globalEvent$: GlobalEventService) {
   }
 
   ngOnInit() {
@@ -113,8 +116,10 @@ export class UserListComponent implements OnInit {
         this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screen);
       },
       error: e => {
-        console.log(`failed to remove screen from user ${e}`);
-      }
+        debugger;
+        this.globalEvent$.notification.next(new ToastrInfo('error', e, 'Failed !'));
+      },
+      complete: () => this.globalEvent$.notification.next(new ToastrInfo('success', 'screen removed from user'))
     });
   }
 
@@ -136,7 +141,10 @@ export class UserListComponent implements OnInit {
   }
 
   onCellClicked(event) {
-    this.router.navigate(['/config-list', this.searchUserId, event.data.id]);
+    debugger;
+    if (event.colDef && event.colDef.headerName && event.colDef.headerName == 'Screen') {
+      this.router.navigate(['/config-list', this.searchUserId, event.data.id]);
+    }
   }
 
   public sectorModalCallback: (response: any) => void = (response) => {

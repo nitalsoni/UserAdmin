@@ -11,7 +11,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { ChartsModule } from 'ng2-charts';
 import { AgGridModule } from 'ag-grid-angular';
 import { StorageServiceModule } from 'ngx-webstorage-service';
-
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
@@ -32,7 +32,7 @@ import { AppHttpInterceptorService } from "./services/app-http-interceptor.servi
 import { GlobalErrorHandlerService } from "./services/global-error-handler.service";
 import { ConfigAuditComponent } from './config-audit/config-audit.component';
 import { ActionBtnRendererComponent } from './action-btn-renderer/action-btn-renderer.component';
-import { SpinnerService } from './services/spinner.service';
+import { GlobalEventService } from './services/global-event.service';
 
 @NgModule({
   declarations: [
@@ -60,14 +60,21 @@ import { SpinnerService } from './services/spinner.service';
     AppRoutingModule,
     ChartsModule,
     AgGridModule.withComponents([ActionBtnRendererComponent]),
-    StorageServiceModule
+    StorageServiceModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true,
+      closeButton: true
+    })
   ],
   providers: [
     UserConfigService,
     SectorInfoService,
     UsageInfoService,
     ScreenConfigItemService,
-    SpinnerService,
+    GlobalEventService,
     NgbActiveModal,
     GlobalVars,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptorService, multi: true },

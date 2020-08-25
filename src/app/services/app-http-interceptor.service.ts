@@ -3,7 +3,7 @@ import { HttpInterceptor, HttpRequest, HttpResponse, HttpHandler, HttpEvent, Htt
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retry, tap, finalize } from 'rxjs/operators';
 import { HttpHelper } from "../common/HttpHelper";
-import { SpinnerService } from './spinner.service';
+import { GlobalEventService } from './global-event.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,12 @@ import { SpinnerService } from './spinner.service';
 export class AppHttpInterceptorService implements HttpInterceptor {
   count = 0;
 
-  constructor(private spinner$: SpinnerService) {
+  constructor(private spinner$: GlobalEventService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.count++;
-    this.spinner$.action.next('show');
+    this.spinner$.spinner.next('show');
     request = HttpHelper.GetRequestHeader(request);
     return next.handle(request).pipe(
       retry(0),
@@ -25,7 +25,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
       finalize(() => {
         this.count--;
         if (this.count == 0)
-          this.spinner$.action.next('hide');
+          this.spinner$.spinner.next('hide');
       })
     )
   }
