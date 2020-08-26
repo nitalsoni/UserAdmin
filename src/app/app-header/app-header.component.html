@@ -1,32 +1,37 @@
 <div>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div>
-      <div class="row">
-        <div class="row">
-          <div class="btn-group btn-group-toggle col-md-7" data-toggle="buttons">
-            <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true ,'btn-danger': globalVar.region === 'APAC' }"
-              (click)="globalVar.region = 'APAC';setLocalStorage('APAC')">APAC</button>
-            <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true, 'btn-danger': globalVar.region === 'EMEA' }"
-              (click)="globalVar.region = 'EMEA';setLocalStorage('EMEA')">EMEA</button>
-            <button type="radio"
-              [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true , 'btn-danger': globalVar.region === 'AMER' }"
-              (click)="globalVar.region = 'AMER';setLocalStorage('AMER')">AMER</button>
-          </div>
+  <nav class="navbar navbar-expand-lg navbar-light" style="border-radius: 10px;background: rgb(46,53,61);">
+    <div class="container-fluid">
+      <!-- <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        <i class="fa fa-bars"></i>
+        <span class="sr-only">Toggle Menu</span>
+      </button>
+      <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+      </button> -->
 
-          <div class="btn-group btn-group-toggle col-md-5" data-toggle="buttons">
-            <button type="radio"
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <button type="radio" style="width: 150px;"
+          [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true ,'btn-danger': globalVar.region === 'APAC' }"
+          (click)="globalVar.region = 'APAC';setLocalStorage('APAC')">APAC</button>
+        <button type="radio" style="width: 150px;"
+          [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true, 'btn-danger': globalVar.region === 'EMEA' }"
+          (click)="globalVar.region = 'EMEA';setLocalStorage('EMEA')">EMEA</button>
+        <button type="radio" style="width: 150px;"
+          [ngClass]="{ 'btn': true , 'btn-info': true , 'header': true , 'btn-danger': globalVar.region === 'AMER' }"
+          (click)="globalVar.region = 'AMER';setLocalStorage('AMER')">AMER</button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <button type="radio" style="width: 150px;"
               [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 'DEV' }"
               (click)="globalVar.env = 'DEV';setLocalStorage('DEV')">DEV</button>
-            <button type="radio"
+            <button type="radio" style="width: 150px;"
               [ngClass]="{ 'btn': true , 'btn-info': true ,'header': true , 'btn-danger': globalVar.env === 'PROD' }"
               (click)="globalVar.env = 'PROD';setLocalStorage('PROD')">PROD</button>
           </div>
-        </div>
-        <div class="col pull-right">
-
-        </div>
+        </ul>
       </div>
     </div>
   </nav>

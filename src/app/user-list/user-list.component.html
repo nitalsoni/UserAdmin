@@ -1,89 +1,95 @@
-<div class="row">
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
+<div style="width: 100%;height:100%">
+    <div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text cyan lighten-1"><i class="fa fa-search"></i></span>
+            </div>
+            <input class="form-control my-0 py-1" type="text" placeholder="search user-id" aria-label="user name"
+                [(ngModel)]="searchUserId" (keydown.enter)="onSearch()" />
+            <button class="btn btn-app"
+                [disabled]="(searchUserId !== undefined && searchUserId !== '') ? false : true"
+                (click)="onSearch()">search</button>
         </div>
-        <input class="form-control my-0 py-1" type="text" placeholder="search user-id" aria-label="user name"
-            [(ngModel)]="searchUserId" (keydown.enter)="onSearch()" />
-        <button class="btn btn-primary" [disabled]="(searchUserId !== undefined && searchUserId !== '') ? false : true"
-            (click)="onSearch()">search</button>
     </div>
-</div>
-<div class="row mt-1">
-    <button class="btn btn-sm btn-success mb-1" data-toggle="modal" (click)="onOpenUserDialog()">
-        <i class="fa fa-plus mr-2"></i>User
-    </button>
-</div>
+    <div class="mt-1">
+        <button class="btn btn-sm mb-1 btn-app" data-toggle="modal" (click)="onOpenUserDialog()">
+            <i class="fa fa-plus mr-2"></i>User
+        </button>
+    </div>
 
-<div class="row">
-    <div class="card bg-light mb-1" style="width: 100%;min-height: 70px;">
-        <div class="card-header">General Info</div>
-        <div class="card-body">
-            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+    <div>
+        <div class="card bg-light mb-1" style="width: 100%;min-height: 70px;">
+            <div class="card-header">General Info</div>
+            <div class="card-body">
+                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
                 content.</p> -->
-            <div class="row" [hidden]="!userGeneralInfo.hostName">
-                <p class="col-md-4 text-primary">
-                    <a href="#" [routerLink]="['/config-list',userGeneralInfo.userId]">{{userGeneralInfo.userId}}</a>
-                </p>
-                <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">{{userGeneralInfo.hostName}}</p>
-                <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">
-                    {{userGeneralInfo.lastAccess | date: 'dd MMM yyyy'}}</p>
+                <div class="row" [hidden]="!userGeneralInfo.hostName">
+                    <p class="col-md-4 text-primary">
+                        <a href="#"
+                            [routerLink]="['/config-list',userGeneralInfo.userId]">{{userGeneralInfo.userId}}</a>
+                    </p>
+                    <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">{{userGeneralInfo.hostName}}
+                    </p>
+                    <p class="col-md-4 text-primary" [hidden]="!userGeneralInfo.hostName">
+                        {{userGeneralInfo.lastAccess | date: 'dd MMM yyyy'}}</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 pad2">
-        <div class="col-md-12 pad2" style="width: 100%;height:100%">
+    <div class="row m-0">
+        <div class="col-md-6 pad2">
+            <div class="col-md-12 pad2" style="width: 100%;height:100%">
+                <div class="card bg-light mb-3" style="width: 100%;height:100%">
+                    <div class="card-header pb-1">
+                        Sector coverage
+                        <button class="btn mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1 btn-app" data-toggle="modal"
+                            (click)="onOpenSectorDialog()">
+                            <i class="fa fa-plus mr-2"></i>Sector
+                        </button>
+                    </div>
+                    <div class="card-body pad2" style="width: 100%;height:100%">
+                        <ag-grid-angular #sectorGrid style="width: 100%; height:100%;" id="sectorListGrid"
+                            class="ag-theme-alpine" [modules]="modules" [context]="context"
+                            [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
+                            (gridReady)='onGridReady($event)'></ag-grid-angular>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 pad2">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Usage information</div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 pad2">
             <div class="card bg-light mb-3" style="width: 100%;height:100%">
-                <div class="card-header pb-1">
-                    Sector coverage
-                    <button class="btn btn-success mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1" data-toggle="modal"
-                        (click)="onOpenSectorDialog()">
-                        <i class="fa fa-plus mr-2"></i>Sector
-                    </button>
+                <div class="card-header">
+                    Screen List
+                    <div class="btn-group pull-right">
+                        <button class="btn btn-app btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"
+                            [disabled]="(userGeneralInfo.availableScreens !== undefined && userGeneralInfo.availableScreens.length > 0) ? false: true">
+                            Add Screen
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <button *ngFor="let screen of userGeneralInfo.availableScreens" class="dropdown-item"
+                                type="button" (click)="onAssignScreen(screen)">{{screen.name}}</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body pad2" style="width: 100%;height:100%">
-                    <ag-grid-angular #sectorGrid style="width: 100%; height:100%;" id="sectorListGrid"
+                <div class="card-body pad2">
+                    <ag-grid-angular #screenGrid style="width: 100%;height:100%" id="screenListGrid"
                         class="ag-theme-alpine" [modules]="modules" [context]="context"
-                        [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
-                        (gridReady)='onGridReady($event)'></ag-grid-angular>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 pad2">
-            <div class="card bg-light mb-3">
-                <div class="card-header">Usage information</div>
-                <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="canvas"></canvas>
-                    </div>
+                        [frameworkComponents]="frameworkComponents" [gridOptions]="screenGridOption"
+                        (gridReady)='onGridReady($event)' (cellClicked)='onCellClicked($event)'></ag-grid-angular>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6 pad2">
-        <div class="card bg-light mb-3" style="width: 100%;height:100%">
-            <div class="card-header">
-                Screen List
-                <div class="btn-group pull-right">
-                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false"
-                        [disabled]="(userGeneralInfo.availableScreens !== undefined && userGeneralInfo.availableScreens.length > 0) ? false: true">
-                        Add Screen
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button *ngFor="let screen of userGeneralInfo.availableScreens" class="dropdown-item"
-                            type="button" (click)="onAssignScreen(screen)">{{screen.name}}</button>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body pad2">
-                <ag-grid-angular #screenGrid style="width: 100%;height:100%" id="screenListGrid" class="ag-theme-alpine"
-                    [modules]="modules" [context]="context" [frameworkComponents]="frameworkComponents"
-                    [gridOptions]="screenGridOption" (gridReady)='onGridReady($event)'
-                    (cellClicked)='onCellClicked($event)'></ag-grid-angular>
-            </div>
-        </div>
-    </div>
+    <div>
 </div>

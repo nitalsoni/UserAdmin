@@ -5,7 +5,6 @@ body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
 }
-
 #toast-container > div {
     opacity:5;
 }
@@ -24,13 +23,9 @@ body {
     padding-right: 50px;
 }
 
-a.header {
-    background-color: #525355;
-}
-
 a.activeTab {
-    background-color: #d0af37;
-    color: #b54d4d;
+    color: #2af327;
+    background:#1f2020;
 }
 
 button.header {
@@ -42,14 +37,22 @@ button.header {
     padding-bottom: 2px;
 }
 
-.btn-xsm {
-    padding-bottom: 0px;
+.btn-app {
+    /* padding-bottom: 0px;
     padding-top: 0px;
     border-top-width: 01px;
     padding-right: 0px;
     padding-left: 6px;
     height: 20px;
-    width: 25px;
+    width: 25px; */
+    background: #4981b9;
+    border-color:#4981b9;
+    color:white;
+}
+
+.btn-app:hover {
+    background: #047ffa;
+    color: yellow;
 }
 
 .card-body {
@@ -111,9 +114,9 @@ a:focus {
 }
 
 #sidebar {
-    min-width: 200px;
-    max-width: 200px;
-    background: black;
+    /* min-width: 200px;
+    max-width: 200px; */
+    background: rgb(46,53,61);
     color: #fff;
     transition: all 0.3s;
 }
@@ -144,15 +147,14 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #b54d4d;
-    background: #bead6e;
+    color: #2af327;;
+    background: #2d2d2e;
 }
-
+/* 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #525355;
-}
+} */
 
 a[data-toggle="collapse"] {
     position: relative;
@@ -169,7 +171,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: rgb(112, 110, 110);
+    background: rgb(46,53,61);
 }
 
 ul.CTAs {
