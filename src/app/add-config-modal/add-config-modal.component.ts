@@ -5,6 +5,8 @@ import { UserConfigService } from '../services/user-config.service';
 import { ScreenConfigItemService } from '../services/screen-config-item.service'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import * as _ from "lodash";
+import { GlobalEventService } from '../services/global-event.service';
+import { ToastrInfo } from '../models/ToastrInfo';
 
 @Component({
   selector: 'app-add-config-modal',
@@ -19,7 +21,7 @@ export class AddConfigModalComponent implements OnInit {
   public controlNameList: Array<string>;
 
   constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder,
-    private screenConfigItem$: ScreenConfigItemService) { }
+    private screenConfigItem$: ScreenConfigItemService, private globalEvent$: GlobalEventService) { }
 
   @Input() public config: UserConfig;
   @Input() public dataService: UserConfigService;
@@ -38,7 +40,7 @@ export class AddConfigModalComponent implements OnInit {
           this.controlNameList = resp;
         },
         error: e => {
-          console.log(`failed to load contorl names ${e}`);
+          this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to load control names'));
         }
       });
     }

@@ -45,11 +45,11 @@ export class AppHttpInterceptorService implements HttpInterceptor {
             return throwError(errorMessage);
           }
           case 500: {
-            errorMessage = `Error Code: ${error.status} \nMessage: ${error.error}`;
+            errorMessage = `Error Code: ${error.status} message: ${error.error}`;
             return throwError(errorMessage);
           }
           default: {
-            errorMessage = `Error Code: ${error.status} \nMessage: ${error.statusText}`;
+            errorMessage = `Error Code: ${error.status} Message: ${error.statusText}`;
             return throwError(errorMessage);
           }
         }

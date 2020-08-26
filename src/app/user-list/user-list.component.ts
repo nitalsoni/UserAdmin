@@ -90,7 +90,7 @@ export class UserListComponent implements OnInit {
         this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
       },
       error: e => {
-        console.log(`failed to  fetch all UserIds ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to delete sector'));
       }
     });
   }
@@ -103,7 +103,7 @@ export class UserListComponent implements OnInit {
         this.screenGridOption.api.setRowData(this.screenGridOption.rowData);
       },
       error: e => {
-        console.log(`failed to add screen to user ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to assign screen'));
       }
     });
   }
@@ -116,7 +116,6 @@ export class UserListComponent implements OnInit {
         this.userGeneralInfo.availableScreens = _.concat(this.userGeneralInfo.availableScreens, screen);
       },
       error: e => {
-        debugger;
         this.globalEvent$.notification.next(new ToastrInfo('error', e, 'Failed !'));
       },
       complete: () => this.globalEvent$.notification.next(new ToastrInfo('success', 'screen removed from user'))
@@ -141,7 +140,6 @@ export class UserListComponent implements OnInit {
   }
 
   onCellClicked(event) {
-    debugger;
     if (event.colDef && event.colDef.headerName && event.colDef.headerName == 'Screen') {
       this.router.navigate(['/config-list', this.searchUserId, event.data.id]);
     }
@@ -154,10 +152,10 @@ export class UserListComponent implements OnInit {
           this.sectorGridOption.rowData.push(response.data);
           this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
         }
-        console.log(`succssfully added sectorInfo ${resp}`);
+        this.globalEvent$.notification.next(new ToastrInfo('success', 'successfully added new sector'));
       },
       error: e => {
-        console.log(`failed to add new sector ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to add new sector'));
       },
     });
   }
@@ -165,10 +163,10 @@ export class UserListComponent implements OnInit {
   public userModalCallback: (response: any) => void = (response) => {
     response.service.createNewUser(response.data).subscribe({
       next: (resp: any) => {
-        console.log(`succssfully added user ${resp}`);
+        this.globalEvent$.notification.next(new ToastrInfo('success', 'successfully added new user'));
       },
       error: e => {
-        console.log(`failed to create new user ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to add new user'));
       },
     });
   }
@@ -185,7 +183,7 @@ export class UserListComponent implements OnInit {
         console.log(`successfully fetched UserGeneralInfo ${resp}`);
       },
       error: e => {
-        console.log(`failed to fetch user general Info ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to fetch user info'));
       },
     });
   }
@@ -198,10 +196,10 @@ export class UserListComponent implements OnInit {
           this.sectorGridOption.rowData.push(s);
         });
         this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
-        console.log(`succssfully added sectorInfo ${resp}`);
+        console.log(`successfully fetched sectorInfo ${resp}`);
       },
       error: e => {
-        console.log(`failed to get sector Info ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to fetch sector list'));
       },
     });
   }
@@ -218,7 +216,7 @@ export class UserListComponent implements OnInit {
         console.log(`successfully fetched UsageInfo ${resp}`);
       },
       error: e => {
-        console.log(`failed to get Usage Info ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to usage information'));
       },
     });
   }

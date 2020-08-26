@@ -15,6 +15,8 @@ import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
+import { GlobalEventService } from '../services/global-event.service';
+import { ToastrInfo } from '../models/ToastrInfo';
 
 @Component({
   selector: 'app-config-list',
@@ -39,8 +41,8 @@ export class UsersComponent implements OnInit {
   };
 
   constructor(private userConfig$: UserConfigService, private modal$: NgbModal
-    , private globalVar: GlobalVars, private shared$: SharedService
-    , private activatedroute: ActivatedRoute, private router: Router) {
+    , private globalVar: GlobalVars, private shared$: SharedService , private activatedroute: ActivatedRoute
+    , private router: Router, private globalEvent$: GlobalEventService) {
   }
 
   ngOnInit() {
@@ -87,7 +89,7 @@ export class UsersComponent implements OnInit {
         this.gridOptions.api.setRowData(this.gridOptions.rowData);
       },
       error: e => {
-        console.log(`failed to delete user config ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to delete config!'));
       },
       //complete: () => this.spinner$.hide()
     });
@@ -108,7 +110,7 @@ export class UsersComponent implements OnInit {
         this.gridOptions.api.setRowData(this.gridOptions.rowData);
       },
       error: e => {
-        console.log(`failed to find user config ${e}`);
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to load user config'));
       },
       //complete: () => this.spinner$.hide()
     });
@@ -135,10 +137,10 @@ export class UsersComponent implements OnInit {
           _.remove(this.gridOptions.rowData, (x => x.userId == response.data.userId && x.controlName == response.data.controlName && x.item == response.data.item));
           this.gridOptions.rowData.push(response.data);
           this.gridOptions.api.setRowData(this.gridOptions.rowData);
-          console.log(`succssfully edited config item ${resp}`);
+          this.globalEvent$.notification.next(new ToastrInfo('success', 'succssfully edited config item'));
         },
         error: e => {
-          console.log(`failed to edit config ${e}`);
+          this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to edit config'));
         },
         //complete: () => this.spinner$.hide()
       });
@@ -150,10 +152,10 @@ export class UsersComponent implements OnInit {
         next: (resp: any) => {
           this.gridOptions.rowData.push(resp);
           this.gridOptions.api.setRowData(this.gridOptions.rowData);
-          console.log(`succssfully added config item ${response.data}`);
+          this.globalEvent$.notification.next(new ToastrInfo('success', 'succssfully added config item'));
         },
         error: e => {
-          console.log(`failed to add user config ${e}`);
+          this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to add config item'));
         },
         //complete: () => this.spinner$.hide()
       });
