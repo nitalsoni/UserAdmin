@@ -96,7 +96,8 @@ export class UserListComponent implements OnInit {
       },
       error: e => {
         this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to delete sector'));
-      }
+      },
+      complete: () => this.globalEvent$.notification.next(new ToastrInfo('success', 'sector removed from user'))
     });
   }
 
