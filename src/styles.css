@@ -26,8 +26,8 @@ body {
 }
 
 .btn-header-active {
-    background-color:lightgreen;
-    color: rgb(225, 65, 86);
+    background-color:#c1c1c1;
+    color: black;
     font-weight: bold ;
 }
 
