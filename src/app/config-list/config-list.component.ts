@@ -28,6 +28,7 @@ export class UsersComponent implements OnInit {
   openDialogEventsubscription: Subscription;
   gridOptions: GridOptions;
   globalSearch: string;
+  //quickFilterText: string;
   routerParam = { "userId": '', "screenId": -1 };
   @ViewChild('configGrid', { static: false }) configGrid: AgGridAngular;
 
@@ -41,7 +42,7 @@ export class UsersComponent implements OnInit {
   };
 
   constructor(private userConfig$: UserConfigService, private modal$: NgbModal
-    , private globalVar: GlobalVars, private shared$: SharedService , private activatedroute: ActivatedRoute
+    , private globalVar: GlobalVars, private shared$: SharedService, private activatedroute: ActivatedRoute
     , private router: Router, private globalEvent$: GlobalEventService) {
   }
 
@@ -93,6 +94,10 @@ export class UsersComponent implements OnInit {
       },
       //complete: () => this.spinner$.hide()
     });
+  }
+
+  onFilterTextBoxChanged(filter) {
+    this.gridOptions.api.setQuickFilter(filter);
   }
 
   onSearch() {
