@@ -9,8 +9,26 @@ body {
     opacity:5;
 }
 
+.bg-gray{
+    background-color: #ced6dd
+}
+
 .hand-pointer{
     cursor: pointer;
+}
+
+.btn-header {
+    text-align: center;
+    vertical-align: center;
+    border-radius: 5px;
+    width: 125px;
+    color:white;
+}
+
+.btn-header-active {
+    background-color:lightgreen;
+    color: rgb(225, 65, 86);
+    font-weight: bold ;
 }
 
 .modal-header {

@@ -38,6 +38,10 @@ export class UserListComponent implements OnInit {
   openDialogEventsubscription: Subscription;
   userGeneralInfo: UserGeneralInfo = new UserGeneralInfo();
   usageInfo: UsageInfo[] = new Array();
+  controlUsageInfo: UsageInfo[] = new Array();
+  barchart: any;
+  piechart: any;
+  selectedDays: number;
 
   screenGridOption: GridOptions;
   sectorGridOption: GridOptions;
@@ -54,6 +58,7 @@ export class UserListComponent implements OnInit {
     , private shared$: SharedService, private modal$: NgbModal
     , private activatedroute: ActivatedRoute, private router: Router
     , private globalEvent$: GlobalEventService) {
+    this.selectedDays = 30;
   }
 
   ngOnInit() {
@@ -145,6 +150,23 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  onChartClick(userid: string, control: string, days: number) {
+    this.usageInfo$.getControlUsageInfo(userid, control, days).subscribe({
+      next: (resp: any) => {
+        this.controlUsageInfo = [];
+        resp.forEach(element => {
+          this.controlUsageInfo.push(element);
+        });
+
+        this.populatePieChart(this.controlUsageInfo);
+        console.log(`successfully fetched UsageInfo ${resp}`);
+      },
+      error: e => {
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to usage information'));
+      },
+    });
+  }
+
   public sectorModalCallback: (response: any) => void = (response) => {
     response.service.addSectorInfo(response.data).subscribe({
       next: (resp: any) => {
@@ -205,7 +227,8 @@ export class UserListComponent implements OnInit {
   }
 
   getUsageInfo() {
-    this.usageInfo$.getUsageInfo(this.searchUserId).subscribe({
+    this.clearPieChart();
+    this.usageInfo$.getUsageInfo(this.searchUserId, this.selectedDays).subscribe({
       next: (resp: any) => {
         this.usageInfo = [];
         resp.forEach(element => {
@@ -260,12 +283,11 @@ export class UserListComponent implements OnInit {
     let data: UsageInfo[];
     let screenNames = [];
     let screenCount = [];
-    let barchart: any = [];
 
     screenNames = usageData.map(({ screenName }) => screenName);
     screenCount = usageData.map(({ usageCount }) => usageCount);
 
-    barchart = new Chart('canvas', {
+    this.barchart = new Chart('canvasUsage', {
       type: 'horizontalBar',
       data: {
         labels: screenNames,
@@ -283,6 +305,13 @@ export class UserListComponent implements OnInit {
         legend: {
           display: false
         },
+        onClick: (evt) => {
+          let bar = this.barchart.getElementAtEvent(evt)
+          if (bar.length > 0) {
+            var screenName = bar[0]._model.label;
+            this.onChartClick(this.searchUserId, screenName, this.selectedDays);
+          }
+        },
         scales: {
           xAxes: [{
             display: true,
@@ -296,5 +325,52 @@ export class UserListComponent implements OnInit {
         }
       }
     });
+  }
+
+  populatePieChart(usageData: UsageInfo[]) {
+    let data: UsageInfo[];
+    let feature = [];
+    let screenCount = [];
+
+    feature = usageData.map(({ feature }) => feature);
+    screenCount = usageData.map(({ usageCount }) => usageCount);
+
+    this.piechart = new Chart('canvasFeature', {
+      type: 'doughnut',
+      data: {
+        labels: feature,
+        datasets: [
+          {
+            data: screenCount,
+            borderColor: 'rgba(0, 0, 0, 1)',
+            backgroundColor: Helper.GetBarColors(),
+            borderWidth: 0.6,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: true
+        },
+        scales: {
+          xAxes: [{
+            display: false,
+            ticks: {
+              beginAtZero: true
+            }
+          }],
+          yAxes: [{
+            display: true
+          }],
+        }
+      }
+    });
+    this.piechart.update();
+  }
+
+  clearPieChart() {
+    if (this.piechart)
+      this.piechart.destroy();
   }
 }

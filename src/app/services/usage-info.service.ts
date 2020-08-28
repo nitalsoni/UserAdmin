@@ -15,8 +15,16 @@ export class UsageInfoService {
   constructor(private http: HttpClient, private globalVar: GlobalVars) {
   }
 
-  getUsageInfo(userId: string): Observable<Response> {
-    let params = new HttpParams().append('userid', userId);
+  getUsageInfo(userId: string, days: number): Observable<Response> {
+    let params = new HttpParams().set('userid', userId)
+      .set('days', days.toString());
     return this.http.get<Response>(this.localUrl, { params: params });
+  }
+
+  getControlUsageInfo(userId: string,control: string, days: number): Observable<Response> {
+    let params = new HttpParams().set('userid', userId)
+      .set('control', control)
+      .set('days', days.toString());
+    return this.http.get<Response>(this.localUrl + '/GetByControl', { params: params });
   }
 }

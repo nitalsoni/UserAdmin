@@ -1,4 +1,4 @@
-<div style="width: 100%;height:100%">
+<div style='height: 450px'>
     <div>
         <div class="input-group">
             <div class="input-group-prepend">
@@ -6,8 +6,7 @@
             </div>
             <input class="form-control my-0 py-1" type="text" placeholder="search user-id" aria-label="user name"
                 [(ngModel)]="searchUserId" (keydown.enter)="onSearch()" />
-            <button class="btn btn-app"
-                [disabled]="(searchUserId !== undefined && searchUserId !== '') ? false : true"
+            <button class="btn btn-app" [disabled]="(searchUserId !== undefined && searchUserId !== '') ? false : true"
                 (click)="onSearch()">search</button>
         </div>
     </div>
@@ -19,10 +18,8 @@
 
     <div>
         <div class="card bg-light mb-1" style="width: 100%;min-height: 70px;">
-            <div class="card-header">General Info</div>
+            <div class="card-header bg-gray">General Info</div>
             <div class="card-body">
-                <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p> -->
                 <div class="row" [hidden]="!userGeneralInfo.hostName">
                     <p class="col-md-4 text-primary">
                         <a href="#"
@@ -36,39 +33,27 @@
             </div>
         </div>
     </div>
-    <div class="row m-0">
+    <div class="row m-0" style="width: 100%;height:100%">
         <div class="col-md-6 pad2">
-            <div class="col-md-12 pad2" style="width: 100%;height:100%">
-                <div class="card bg-light mb-3" style="width: 100%;height:100%">
-                    <div class="card-header pb-1">
-                        Sector coverage
-                        <button class="btn mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1 btn-app" data-toggle="modal"
-                            (click)="onOpenSectorDialog()">
-                            <i class="fa fa-plus mr-2"></i>Sector
-                        </button>
-                    </div>
-                    <div class="card-body pad2" style="width: 100%;height:100%">
-                        <ag-grid-angular #sectorGrid style="width: 100%; height:100%;" id="sectorListGrid"
-                            class="ag-theme-alpine" [modules]="modules" [context]="context"
-                            [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
-                            (gridReady)='onGridReady($event)'></ag-grid-angular>
-                    </div>
+            <div class="card bg-light mb-3" style="width: 100%;height:100%">
+                <div class="card-header bg-gray pb-1">
+                    Sector coverage
+                    <button class="btn mb-1 pull-right btn-sm pt-0 pb-0 pl-1 pr-1 btn-app" data-toggle="modal"
+                        (click)="onOpenSectorDialog()">
+                        <i class="fa fa-plus mr-2"></i>Sector
+                    </button>
                 </div>
-            </div>
-            <div class="col-md-12 pad2">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">Usage information</div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="canvas"></canvas>
-                        </div>
-                    </div>
+                <div class="card-body pad2" style="width: 100%;height:100%">
+                    <ag-grid-angular #sectorGrid style="width: 100%; height:100%;" id="sectorListGrid"
+                        class="ag-theme-alpine" [modules]="modules" [context]="context"
+                        [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
+                        (gridReady)='onGridReady($event)'></ag-grid-angular>
                 </div>
             </div>
         </div>
         <div class="col-md-6 pad2">
             <div class="card bg-light mb-3" style="width: 100%;height:100%">
-                <div class="card-header">
+                <div class="card-header bg-gray">
                     Screen List
                     <div class="btn-group pull-right">
                         <button class="btn btn-app btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
@@ -91,5 +76,29 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="row m-0 pad2" style="width: 100%;height:150px">
+        <div class="col-md-12 pad2 mt-1">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-gray">Usage information
+                    <div class="pull-right">
+                        <select id="cars" class="form-control-sm" [(ngModel)]="selectedDays" (change)="getUsageInfo()">
+                            <option value="7">7 days</option>
+                            <option value="15">15 days</option>
+                            <option value="30">30 days</option>
+                            <option value="60">60 days</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="card-body row">
+                    <div class="chart-container col-md-8">
+                        <canvas id="canvasUsage" height="100px"></canvas>
+                    </div>
+                    <div class="col-md-4" style="vertical-align: center">
+                        <canvas id="canvasFeature" height= "200px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
