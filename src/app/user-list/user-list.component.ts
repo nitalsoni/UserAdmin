@@ -66,6 +66,8 @@ export class UserListComponent implements OnInit {
     this.sectorGridOption = this.initSectorGrid();
     this.context = { componentParent: this };
     this.frameworkComponents = { actionBtnRenderer: ActionBtnRendererComponent };
+    this.initBarChart();
+    this.initPieChart();
 
     this.openDialogEventsubscription = this.shared$.triggerOpenDialogEvent().subscribe(() => {
       this.onOpenSectorDialog();
@@ -159,7 +161,7 @@ export class UserListComponent implements OnInit {
           this.controlUsageInfo.push(element);
         });
 
-        this.populatePieChart(this.controlUsageInfo);
+        this.updatePieChart(this.controlUsageInfo);
         console.log(`successfully fetched UsageInfo ${resp}`);
       },
       error: e => {
@@ -235,8 +237,7 @@ export class UserListComponent implements OnInit {
         resp.forEach(element => {
           this.usageInfo.push(element);
         });
-        this.populateBarChart(this.usageInfo);
-
+        this.updateBarChart(this.usageInfo);
         console.log(`successfully fetched UsageInfo ${resp}`);
       },
       error: e => {
@@ -280,21 +281,14 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  populateBarChart(usageData: UsageInfo[]) {
-    let data: UsageInfo[];
-    let screenNames = [];
-    let screenCount = [];
-
-    screenNames = usageData.map(({ screenName }) => screenName);
-    screenCount = usageData.map(({ usageCount }) => usageCount);
-
+  initBarChart() {
     this.barchart = new Chart('canvasUsage', {
       type: 'horizontalBar',
       data: {
-        labels: screenNames,
+        labels: [],
         datasets: [
           {
-            data: screenCount,
+            data: [],
             borderColor: 'rgba(0, 0, 0, 1)',
             backgroundColor: Helper.GetBarColors(),
             borderWidth: 0.6,
@@ -307,7 +301,7 @@ export class UserListComponent implements OnInit {
           display: false
         },
         onClick: (evt) => {
-          let bar = this.barchart.getElementAtEvent(evt)
+          let bar = this.barchart.getElementAtEvent(evt);
           if (bar.length > 0) {
             var screenName = bar[0]._model.label;
             this.onChartClick(this.searchUserId, screenName, this.selectedDays);
@@ -328,21 +322,14 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  populatePieChart(usageData: UsageInfo[]) {
-    let data: UsageInfo[];
-    let feature = [];
-    let screenCount = [];
-
-    feature = usageData.map(({ feature }) => feature);
-    screenCount = usageData.map(({ usageCount }) => usageCount);
-
+  initPieChart() {
     this.piechart = new Chart('canvasFeature', {
       type: 'doughnut',
       data: {
-        labels: feature,
+        labels: [],
         datasets: [
           {
-            data: screenCount,
+            data: [],
             borderColor: 'rgba(0, 0, 0, 1)',
             backgroundColor: Helper.GetBarColors(),
             borderWidth: 0.6,
@@ -370,8 +357,47 @@ export class UserListComponent implements OnInit {
     this.piechart.update();
   }
 
+  updatePieChart(usageData: UsageInfo[]) {
+    let data: UsageInfo[];
+    let feature = [];
+    let screenCount = [];
+
+    feature = usageData.map(({ feature }) => feature);
+    screenCount = usageData.map(({ usageCount }) => usageCount);
+    this.piechart.data.labels = feature;
+    this.piechart.data.datasets.forEach((dataset) => {
+      dataset.data = [];
+      dataset.data.push(...screenCount);
+    });
+
+    this.piechart.update();
+  }
+
+  updateBarChart(usageData: UsageInfo[]) {
+    let data: UsageInfo[];
+    let screenNames = [];
+    let screenCount = [];
+
+    screenNames = usageData.map(({ screenName }) => screenName);
+    screenCount = usageData.map(({ usageCount }) => usageCount);
+
+    this.barchart.data.labels = screenNames;
+    this.barchart.data.datasets.forEach((dataset) => {
+      dataset.data = [];
+      dataset.data.push(...screenCount);
+    });
+
+    this.barchart.update();
+  }
+
   clearPieChart() {
-    if (this.piechart)
-      this.piechart.destroy();
+    if (this.piechart) {
+      this.piechart.data.labels = [];
+      this.piechart.data.datasets.forEach((dataset) => {
+        dataset.data = [];
+      });
+      this.piechart.update();
+    }
+
   }
 }

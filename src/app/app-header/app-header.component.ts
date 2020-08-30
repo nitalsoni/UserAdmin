@@ -13,13 +13,13 @@ export class AppHeaderComponent implements OnInit {
 
   constructor(private globalVar: GlobalVars, @Inject(LOCAL_STORAGE) private storage: StorageService, private toastr: ToastrService) {
     if (this.storage.get(this.storageKey)) {
-      this.globalVar = this.storage.get(this.storageKey);
+      this.globalVar = GlobalVars.instance = this.storage.get(this.storageKey);
     }
   }
 
   setLocalStorage() {
     this.storage.set(this.storageKey, this.globalVar);
-    
+    GlobalVars.instance = this.globalVar;
   }
 
   ngOnInit() {
