@@ -27,6 +27,10 @@ export class ActionBtnRendererComponent implements ICellRendererAngularComp {
     this.params.context.componentParent.onEdit(this.params.data);
   }
 
+  public onAudit() {
+    this.params.context.componentParent.onAudit(this.params.data);
+  }
+
   refresh(): boolean {
     return false;
   }

@@ -1,19 +1,22 @@
-<div class="row">
-    <div class="col-md-4">
-        <div class="card bg-light mb-1" style="width: 100%">
+<div class="row m-1">
+    <div class="col-md-4 p-1" style="height: 100%;">
+        <div class="card bg-light mb-1" style="height: 600px">
             <div class="card-header bg-gray">Active Users</div>
-            <div class="card-body pad2" style="width: 100%;height:500px">
+            <div class="card-body pad2" style="width: 100%;height:100%">
                 <ag-grid-angular #userGrid style="width: 100%; height:100%;" id="userGrid"
                         class="ag-theme-alpine" [modules]="modules" [context]="context"
-                        [frameworkComponents]="frameworkComponents" [gridOptions]="userGridOption"></ag-grid-angular>
+                        [frameworkComponents]="frameworkComponents" [gridOptions]="userGridOption"
+                        (gridReady)='onGridReady($event)'></ag-grid-angular>
             </div>
         </div>
     </div>
-    <div class="col-md-8">
-        <div class="card bg-light mb-1" style="width: 100%">
+    <div class="col-md-8 p-1">
+        <div class="card bg-light mb-1" style="height: 600px">
             <div class="card-header bg-gray">IOI Info</div>
             <div class="card-body pad2" style="width: 100%;height:100%">
-                Chart-JS
+                <div class="chart-container">
+                    <canvas id="canvasIOI" height="100%"></canvas>
+                </div>
             </div>
         </div>
     </div>

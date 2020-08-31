@@ -6,4 +6,8 @@
     <button class="btn" (click)="onDelete()" *ngIf="action=='delete'">
         <i class="fa fa-trash" aria-hidden="true"></i>
     </button>
+
+    <button class="btn" (click)="onAudit()" *ngIf="action=='audit'">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+    </button>
 </div>

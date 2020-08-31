@@ -249,7 +249,7 @@ export class UserListComponent implements OnInit {
   initScreenGrid(): GridOptions {
     return <GridOptions>{
       pagination: true,
-      paginationPageSize: 5,
+      paginationPageSize: 15,
       defaultColDef: { resizable: true },
       rowData: [],
       columnDefs: [
@@ -269,7 +269,7 @@ export class UserListComponent implements OnInit {
   initSectorGrid(): GridOptions {
     return <GridOptions>{
       pagination: true,
-      paginationPageSize: 5,
+      paginationPageSize: 15,
       defaultColDef: { resizable: true },
       rowData: [],
       columnDefs: [

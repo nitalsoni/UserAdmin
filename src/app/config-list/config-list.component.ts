@@ -133,6 +133,10 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  onAudit(editConfig?: UserConfig) {
+    this.onEdit(editConfig);
+  }
+
   public modalCallback: (response: any) => void = (response) => {
     //Edit action
     if (response.isEditAction) {
@@ -183,6 +187,7 @@ export class UsersComponent implements OnInit {
         { headerName: 'Host Name', field: 'hostName', sortable: true, filter: 'agTextColumnFilter', minWidth: 100 },
         { headerName: 'Edit', cellRenderer: 'actionBtnRenderer', colId: 'edit', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
         { headerName: 'Delete', cellRenderer: 'actionBtnRenderer', colId: 'delete', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
+        { headerName: 'Audit', cellRenderer: 'actionBtnRenderer', colId: 'audit', minWidth: 80, cellClass: ['ag-grid-btn-cell'] },
       ],
       onRowDoubleClicked: (event) => {
         this.onOpenConfigDialog(event.data);

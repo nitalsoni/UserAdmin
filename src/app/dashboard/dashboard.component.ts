@@ -7,6 +7,8 @@ import { ToastrInfo } from '../models/ToastrInfo';
 import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { Chart, ChartOptions, ChartType, ChartDataSets } from 'chart.js'
+import { Helper } from '../common/helper';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +16,7 @@ import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  barchart: any;
   userGridOption: GridOptions;
   public modules: any[] = AllCommunityModules;
   private context;
@@ -27,7 +30,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.context = { componentParent: this };
     this.frameworkComponents = {};
-    this.initUserGrid();
+    this.userGridOption = this.initUserGrid();
+    this.initBarChart();
 
     this.dashboard$.getActiveUserInfo().subscribe({
       next: (resp: any) => {
@@ -46,18 +50,22 @@ export class DashboardComponent implements OnInit {
 
     this.dashboard$.getIOIUserInfo().subscribe({
       next: (resp: any) => {
-        //this.sectorGridOption.rowData = [];
+        let data: any[] = [];
+        debugger;
         resp.forEach(s => {
-          //this.sectorGridOption.rowData.push(s);
-          console.log(s);
+          data.push(s);
         });
-        //this.sectorGridOption.api.setRowData(this.sectorGridOption.rowData);
+        this.updateBarChart(data);
         console.log(`successfully fetched sectorInfo ${resp}`);
       },
       error: e => {
         this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to fetch sector list'));
       },
     });
+  }
+
+  onGridReady(params) {
+    params.api.sizeColumnsToFit();
   }
 
   initUserGrid(): GridOptions {
@@ -67,8 +75,8 @@ export class DashboardComponent implements OnInit {
       defaultColDef: { resizable: true },
       rowData: [],
       columnDefs: [
-        { headerName: 'UserId', field: 'userid', sortable: true, filter: 'agTextColumnFilter', minWidth: 200, cellClass: ['hand-pointer'] },
-        { headerName: 'Host Name', field: 'hostname', sortable: true, filter: 'agTextColumnFilter', minWidth: 200, cellClass: ['hand-pointer'] },
+        { headerName: 'User Id', field: 'userId', sortable: true, filter: 'agTextColumnFilter', minWidth: 200, cellClass: ['hand-pointer'] },
+        { headerName: 'Host Name', field: 'hostName', sortable: true, filter: 'agTextColumnFilter', minWidth: 200, cellClass: ['hand-pointer'] },
         // {
         //   headerName: 'Screen Href', colId: 'name', cellRenderer: function (params) {
         //     // let newLink =
@@ -80,4 +88,51 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  initBarChart() {
+    this.barchart = new Chart('canvasIOI', {
+      type: 'horizontalBar',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            data: [],
+            borderColor: 'rgba(0, 0, 0, 1)',
+            backgroundColor: Helper.GetBarColors(),
+            borderWidth: 0.6,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true
+            }
+          }],
+          yAxes: [{
+            display: true
+          }],
+        }
+      }
+    });
+  }
+
+  updateBarChart(ioiData: any[]) {
+    let data: any[];
+    let senders = [];
+    let ioiCount = [];
+
+    this.barchart.data.labels = ioiData.map(({ sender }) => sender);
+    this.barchart.data.datasets.forEach((dataset) => {
+      dataset.data = [];
+      dataset.data.push(...ioiData.map(({ count }) => count));
+    });
+
+    this.barchart.update();
+  }
 }

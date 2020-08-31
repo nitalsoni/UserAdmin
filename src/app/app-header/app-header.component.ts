@@ -20,6 +20,7 @@ export class AppHeaderComponent implements OnInit {
   setLocalStorage() {
     this.storage.set(this.storageKey, this.globalVar);
     GlobalVars.instance = this.globalVar;
+    console.log(GlobalVars.instance);
   }
 
   ngOnInit() {

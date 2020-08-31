@@ -15,10 +15,10 @@ export class DashboardService {
   }
 
   getActiveUserInfo(): Observable<Response> {
-    return this.http.get<Response>(this.localUrl + 'GetIOIInfo');
+    return this.http.get<Response>(this.localUrl + 'GetActiveUsers');
   }
 
   getIOIUserInfo(): Observable<Response> {
-    return this.http.get<Response>(this.localUrl + 'GetActiveUsers');
+    return this.http.get<Response>(this.localUrl + 'GetIOIInfo');
   }
 }
