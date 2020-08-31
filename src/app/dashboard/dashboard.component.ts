@@ -41,10 +41,10 @@ export class DashboardComponent implements OnInit {
           console.log(s);
         });
         this.userGridOption.api.setRowData(this.userGridOption.rowData);
-        console.log(`successfully fetched sectorInfo ${resp}`);
+        console.log(`successfully fetched dashboard info ${resp}`);
       },
       error: e => {
-        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to fetch sector list'));
+        this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to fetch Dashboard data'));
       },
     });
 

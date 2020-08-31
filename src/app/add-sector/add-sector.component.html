@@ -1,6 +1,8 @@
 <!-- add sector modal dialog -->
 <div class="modal-header">
-    <h4 class="modal-title">Add Sector</h4>
+    <span class="modal-title">
+        <i class="fa fa-plus-square" aria-hidden="true"></i> Add Sector
+    </span>
 </div>
 
 <div class="modal-body">
@@ -34,7 +36,7 @@
         </div>
         <div class="modal-footer">
             <div>
-                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal"
+                <button type="submit" class="btn modal-btn mr-2" data-dismiss="modal"
                     [disabled]="!sectorForm.valid">Save</button>
                 <button type="button" class="btn btn-outline-dark"
                     (click)="activeModal.close('Close click')">Close</button>

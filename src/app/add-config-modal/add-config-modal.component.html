@@ -1,27 +1,25 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="myModalLabel" *ngIf="isEditAction">
-        Edit Config
-    </h4>
-    <h4 class="modal-title" id="myModalLabel" *ngIf="!isEditAction">
-        Add Config
-    </h4>
+    <span class="modal-title" id="myModalLabel" *ngIf="isEditAction">
+        <i class="fa fa-pencil-square" aria-hidden="true"></i> Edit Config
+    </span>
+    <span class="modal-title" id="myModalLabel" *ngIf="!isEditAction">
+        <i class="fa fa-plus-square" aria-hidden="true"></i> Add Config
+    </span>
 </div>
 
 <div class="modal-body">
     <form class="form-horizontal" role="form" [formGroup]="configForm" (ngSubmit)="saveConfig()">
         <div class="form-group">
-            <label class="col-sm-4 control-label" for="inputUserName">User Name</label>
-            <div class="col-sm-12">
-                <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="User_ID"
-                    formControlName="userId" [readonly]="isEditAction"
-                    [ngClass]="{ 'is-invalid': f.userId.touched && f.userId.errors }" />
-            </div>
+            <label class="control-label" for="inputUserName">User Name</label>
+            <input type="text" class="form-control" id="inputUserName" name="inputUserName" placeholder="User_ID"
+                formControlName="userId" [readonly]="isEditAction"
+                [ngClass]="{ 'is-invalid': f.userId.touched && f.userId.errors }" />
             <small *ngIf="f.userId.touched && f.userId.errors" class="col-sm-4 text-danger">User Name is required(min 3
                 chars)</small>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label" for="inputControl">Control Name</label>
-            <div class="col-sm-12">
+            <label class="control-label" for="inputControl">Control Name</label>
+            <div>
                 <input list="controlNames" formControlName="controlName" class="form-control" id="inputControl"
                     name="inputControl" placeholder="Control Name" autocomplete="false" [readonly]="isEditAction"
                     [ngClass]="{ 'is-invalid': f.controlName.touched && f.controlName.errors }">
@@ -33,27 +31,23 @@
                 required</small>
         </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label" for="inputItem">Item</label>
-            <div class="col-sm-12">
-                <input type="text" class="form-control" id="inputItem" name="inputItem" placeholder="Item"
-                    formControlName="item" [readonly]="isEditAction"
-                    [ngClass]="{ 'is-invalid': f.item.touched && f.item.errors }" />
-            </div>
+            <label class="control-label" for="inputItem">Item</label>
+            <input type="text" class="form-control" id="inputItem" name="inputItem" placeholder="Item"
+                formControlName="item" [readonly]="isEditAction"
+                [ngClass]="{ 'is-invalid': f.item.touched && f.item.errors }" />
             <small *ngIf="f.item.touched && f.item.errors" class="col-sm-4 text-danger">Item is required(min 5
                 chars)</small>
         </div>
         <div class="form-group">
-            <div class="col-sm-12">
-                <textarea name="message" rows="3" cols="30" class="form-control" id="inputValue" name="inputValue"
-                    placeholder="Value" formControlName="dataValue"
-                    [ngClass]="{ 'is-invalid': f.dataValue.touched && f.dataValue.errors }"></textarea>
-            </div>
+            <textarea name="message" rows="3" cols="30" class="form-control" id="inputValue" name="inputValue"
+                placeholder="Value" formControlName="dataValue"
+                [ngClass]="{ 'is-invalid': f.dataValue.touched && f.dataValue.errors }"></textarea>
             <small *ngIf="f.dataValue.touched && f.dataValue.errors" class="col-sm-4 text-danger">Value is required(min
                 5 chars)</small>
         </div>
         <div class="modal-footer">
             <div>
-                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal"
+                <button type="submit" class="btn modal-btn mr-2" data-dismiss="modal"
                     [disabled]="!configForm.valid">Save</button>
                 <button type="button" class="btn btn-outline-dark"
                     (click)="activeModal.close('Close click')">Close</button>

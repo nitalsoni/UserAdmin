@@ -9,6 +9,29 @@ body {
     opacity:5;
 }
 
+.modal-header {
+    background: rgb(46,53,61);
+    color: #2af327;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    vertical-align: center;
+}
+
+.modal-body {
+    padding: 10px;
+    padding-bottom: 2px;
+}
+
+.modal-footer {
+    padding: 2px;
+} 
+
+.modal-btn{
+    background: rgb(46,53,61);
+    color: white;
+}
+
 .bg-gray{
     background-color: #ced6dd
 }
