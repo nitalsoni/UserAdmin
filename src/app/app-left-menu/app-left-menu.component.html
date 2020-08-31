@@ -1,12 +1,15 @@
 <nav id="sidebar" style="height: 100%;">
-  <div class="sidebar-header bg-dark">
-    <h5><span class="fa fa-users"> User Admin</span></h5>
+  <div class="sidebar-header">
+    <span class="fa fa-user-md" style="font-size: xx-large;color: #54d464;"> Admin Tool</span>
   </div>
 
   <ul class="list-unstyled">
+    <li><a href="#" routerLink="/dashboard" routerLinkActive="activeTab">
+        <i class="fa fa-tachometer mr-2" aria-hidden="true"></i>Dashboard</a></li>
     <li>
-      <a href="#configMenu" data-toggle="collapse" aria-expanded="false"
-        class="dropdown-toggle header">Users</a>
+      <a href="#configMenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle header" style="color: #6ab8d0;">
+        <i class="fa fa-users mr-2" aria-hidden="true"></i>Users
+      </a>
       <ul class="list-unstyled" id="configMenu">
         <li>
           <a href="#" routerLink="/user-list" routerLinkActive="activeTab">
@@ -24,12 +27,32 @@
     </li>
 
     <li>
-      <a href="#screenMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle header">Screens</a>
+      <a href="#screenMenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle header" style="color: #6ab8d0;">
+        <i class="fa fa-television mr-2" aria-hidden="true"></i>Screens
+      </a>
       <ul class="list-unstyled" id="screenMenu">
         <li>
-          <a href="#" [ngClass]="{activeTab: activeTab === 'screenSearch'}" (click)="activeTab = 'screenSearch'"
-          routerLink="/screen-list" routerLinkActive="active">
-          <i class="fa fa-desktop mr-2" aria-hidden="true"></i>List Screen</a>
+          <a href="#" routerLink="/screen-list" routerLinkActive="activeTab">
+            <i class="fa fa-list mr-2" aria-hidden="true"></i>List Screen</a>
+        </li>
+        <li>
+          <a href="#" routerLink="/screen-items" routerLinkActive="activeTab">
+            <i class="fa fa-th mr-2" aria-hidden="true"></i>Screen Items</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="#otherMenu" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle header" style="color: #6ab8d0;">
+        <i class="fa fa-cog mr-2" aria-hidden="true"></i>Other
+      </a>
+      <ul class="list-unstyled" id="otherMenu">
+        <li>
+          <a href="#" routerLink="/cda-coverage" routerLinkActive="activeTab">
+            <i class="fa fa-list-alt mr-2" aria-hidden="true"></i>CDA Client Coverage</a>
+        </li>
+        <li>
+          <a href="#" routerLink="/ioi-portfolio" routerLinkActive="activeTab">
+            <i class="fa fa-list-alt mr-2" aria-hidden="true"></i>IOI Portfolio</a>
         </li>
       </ul>
     </li>

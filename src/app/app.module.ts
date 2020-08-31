@@ -33,6 +33,8 @@ import { GlobalErrorHandlerService } from "./services/global-error-handler.servi
 import { ConfigAuditComponent } from './config-audit/config-audit.component';
 import { ActionBtnRendererComponent } from './action-btn-renderer/action-btn-renderer.component';
 import { GlobalEventService } from './services/global-event.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardService } from './services/dashboard.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { GlobalEventService } from './services/global-event.service';
     AddSectorComponent,
     AddUserComponent,
     ConfigAuditComponent,
-    ActionBtnRendererComponent
+    ActionBtnRendererComponent,
+    DashboardComponent
   ],
   imports: [
     FormsModule,
@@ -74,6 +77,7 @@ import { GlobalEventService } from './services/global-event.service';
     SectorInfoService,
     UsageInfoService,
     ScreenConfigItemService,
+    DashboardService,
     GlobalEventService,
     NgbActiveModal,
     GlobalVars,
