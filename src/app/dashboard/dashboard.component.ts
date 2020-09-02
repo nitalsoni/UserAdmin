@@ -4,7 +4,6 @@ import { IOIInfo } from '../models/IOIInfo';
 import { DashboardService } from "../services/dashboard.service";
 import { GlobalEventService } from '../services/global-event.service';
 import { ToastrInfo } from '../models/ToastrInfo';
-import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { Chart, ChartOptions, ChartType, ChartDataSets } from 'chart.js'
@@ -18,7 +17,6 @@ import { Helper } from '../common/helper';
 export class DashboardComponent implements OnInit {
   barchart: any;
   userGridOption: GridOptions;
-  public modules: any[] = AllCommunityModules;
   private context;
   private frameworkComponents;
   @ViewChild('userGrid', { static: false }) userGrid: AgGridAngular;
@@ -51,7 +49,6 @@ export class DashboardComponent implements OnInit {
     this.dashboard$.getIOIUserInfo().subscribe({
       next: (resp: any) => {
         let data: any[] = [];
-        debugger;
         resp.forEach(s => {
           data.push(s);
         });
@@ -107,6 +104,7 @@ export class DashboardComponent implements OnInit {
         legend: {
           display: false
         },
+        responsive: true,
         scales: {
           xAxes: [{
             display: true,

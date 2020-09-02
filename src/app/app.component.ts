@@ -12,7 +12,7 @@ import { ToastrInfo } from './models/ToastrInfo';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'playground-app';
+  title = 'Lighthouse Admin Tool';
 
   constructor(private modalService: NgbModal, private ngxSpinner$: NgxSpinnerService
     , private globalEvent$: GlobalEventService, private toastr: ToastrService) {

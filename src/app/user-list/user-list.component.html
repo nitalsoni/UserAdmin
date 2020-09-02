@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body pad2" style="width: 100%;height:100%">
                     <ag-grid-angular #sectorGrid style="width: 100%; height:100%;" id="sectorListGrid"
-                        class="ag-theme-alpine" [modules]="modules" [context]="context"
+                        class="ag-theme-alpine" [context]="context"
                         [frameworkComponents]="frameworkComponents" [gridOptions]="sectorGridOption"
                         (gridReady)='onGridReady($event)'></ag-grid-angular>
                 </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="card-body pad2">
                     <ag-grid-angular #screenGrid style="width: 100%;height:100%" id="screenListGrid"
-                        class="ag-theme-alpine" [modules]="modules" [context]="context"
+                        class="ag-theme-alpine" [context]="context"
                         [frameworkComponents]="frameworkComponents" [gridOptions]="screenGridOption"
                         (gridReady)='onGridReady($event)' (cellClicked)='onCellClicked($event)'></ag-grid-angular>
                 </div>

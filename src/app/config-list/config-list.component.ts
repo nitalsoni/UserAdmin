@@ -11,7 +11,6 @@ import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Column } from 'ag-grid-community';
-import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
@@ -32,7 +31,6 @@ export class UsersComponent implements OnInit {
   routerParam = { "userId": '', "screenId": -1 };
   @ViewChild('configGrid', { static: false }) configGrid: AgGridAngular;
 
-  public modules: any[] = AllCommunityModules;
   private context;
   private frameworkComponents;
 

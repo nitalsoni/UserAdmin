@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ChartsModule } from 'ng2-charts';
-import { AgGridModule } from 'ag-grid-angular';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -35,6 +34,8 @@ import { ActionBtnRendererComponent } from './action-btn-renderer/action-btn-ren
 import { GlobalEventService } from './services/global-event.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardService } from './services/dashboard.service';
+import { NgxTypeaheadModule } from "ngx-typeahead";
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { DashboardService } from './services/dashboard.service';
     ChartsModule,
     AgGridModule.withComponents([ActionBtnRendererComponent]),
     StorageServiceModule,
+    NgxTypeaheadModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',

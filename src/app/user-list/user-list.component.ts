@@ -7,7 +7,7 @@ import { UserService } from '../services/user.service';
 import { SectorInfoService } from '../services/sector-info.service'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
-import * as _ from "lodash";
+import  * as _ from "lodash";
 import { GlobalVars } from '../services/app.global';
 import { SharedService } from '../services/shared.service';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,6 @@ import { AddSectorComponent } from '../add-sector/add-sector.component';
 import { AddUserComponent } from '../add-user/add-user.component';
 import { Response, StatusCode } from '../models/Response';
 import { UsageInfoService } from '../services/usage-info.service';
-import { AllCommunityModules } from 'ag-grid-community/dist/ag-grid-community';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
@@ -46,7 +45,6 @@ export class UserListComponent implements OnInit {
   screenGridOption: GridOptions;
   sectorGridOption: GridOptions;
 
-  public modules: any[] = AllCommunityModules;
   private context;
   private frameworkComponents;
 
@@ -269,7 +267,7 @@ export class UserListComponent implements OnInit {
   initSectorGrid(): GridOptions {
     return <GridOptions>{
       pagination: true,
-      paginationPageSize: 15,
+      paginationPageSize: 5,
       defaultColDef: { resizable: true },
       rowData: [],
       columnDefs: [

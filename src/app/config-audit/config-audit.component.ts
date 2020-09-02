@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxTypeaheadModule } from "ngx-typeahead";
 
 @Component({
   selector: 'app-config-audit',
