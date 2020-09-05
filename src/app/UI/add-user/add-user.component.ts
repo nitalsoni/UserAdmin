@@ -1,11 +1,11 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { NewUser } from '../models/NewUser';
-import { Response, StatusCode } from '../models/Response';
-import { GlobalEventService } from '../services/global-event.service';
-import { ToastrInfo } from '../models/ToastrInfo';
+import { NewUser } from '../../models/NewUser';
+import { Response, StatusCode } from '../../models/Response';
+import { GlobalEventService } from '../../services/global-event.service';
+import { ToastrInfo } from '../../models/ToastrInfo';
 
 @Component({
   selector: 'app-add-user',

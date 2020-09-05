@@ -1,30 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserGeneralInfo } from '../models/UserGeneralInfo';
-import { SectorInfo } from '../models/sectorInfo';
-import { UsageInfo } from '../models/UsageInfo';
-import { UserInfoService } from '../services/user-info.service';
-import { UserService } from '../services/user.service';
-import { SectorInfoService } from '../services/sector-info.service'
+import { UserGeneralInfo } from '../../models/UserGeneralInfo';
+import { SectorInfo } from '../../models/sectorInfo';
+import { UsageInfo } from '../../models/UsageInfo';
+import { UserInfoService } from '../../services/user-info.service';
+import { UserService } from '../../services/user.service';
+import { SectorInfoService } from '../../services/sector-info.service'
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
 import  * as _ from "lodash";
-import { GlobalVars } from '../services/app.global';
-import { SharedService } from '../services/shared.service';
+import { GlobalVars } from '../../services/app.global';
+import { SharedService } from '../../services/shared.service';
 import { Subscription } from 'rxjs';
 import { Chart, ChartOptions, ChartType, ChartDataSets } from 'chart.js'
 import { Label } from 'ng2-charts';
-import { Helper } from '../common/helper';
+import { Helper } from '../../common/helper';
 import { AddSectorComponent } from '../add-sector/add-sector.component';
 import { AddUserComponent } from '../add-user/add-user.component';
-import { Response, StatusCode } from '../models/Response';
-import { UsageInfoService } from '../services/usage-info.service';
+import { Response, StatusCode } from '../../models/Response';
+import { UsageInfoService } from '../../services/usage-info.service';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
-import { ScreenInfo } from '../models/ScreenInfo';
+import { ScreenInfo } from '../../models/ScreenInfo';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GlobalEventService } from '../services/global-event.service';
-import { ToastrInfo } from '../models/ToastrInfo';
+import { GlobalEventService } from '../../services/global-event.service';
+import { ToastrInfo } from '../../models/ToastrInfo';
 
 @Component({
   selector: 'app-user-list',
@@ -76,6 +76,7 @@ export class UserListComponent implements OnInit {
     this.getSectorInfo();
     this.getUserGeneralInfo();
     this.getUsageInfo();
+
   }
 
   onDelete(data: any) {

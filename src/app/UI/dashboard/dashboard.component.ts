@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActiveUser } from '../models/activeUser';
-import { IOIInfo } from '../models/IOIInfo';
-import { DashboardService } from "../services/dashboard.service";
-import { GlobalEventService } from '../services/global-event.service';
-import { ToastrInfo } from '../models/ToastrInfo';
+import { ActiveUser } from '../../models/activeUser';
+import { IOIInfo } from '../../models/IOIInfo';
+import { DashboardService } from "../../services/dashboard.service";
+import { GlobalEventService } from '../../services/global-event.service';
+import { ToastrInfo } from '../../models/ToastrInfo';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { Chart, ChartOptions, ChartType, ChartDataSets } from 'chart.js'
-import { Helper } from '../common/helper';
+import { Helper } from '../../common/helper';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Injectable } from '@angular/core';
-import { GlobalVars } from '../services/app.global';
+import { GlobalVars } from '../../../services/app.global';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { ToastrService } from 'ngx-toastr';
 

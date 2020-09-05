@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UserListComponent } from './user-list/user-list.component';
-import { UsersComponent } from './config-list/config-list.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ConfigAuditComponent } from './config-audit/config-audit.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { UserListComponent } from './UI/user-list/user-list.component';
+import { UsersComponent } from './UI/config-list/config-list.component';
+import { PageNotFoundComponent } from './UI/page-not-found/page-not-found.component';
+import { ConfigAuditComponent } from './UI/config-audit/config-audit.component';
+import { DashboardComponent } from './UI/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'config-list/:userid/:screenid', component: UsersComponent },

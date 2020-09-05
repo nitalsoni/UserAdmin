@@ -1,12 +1,12 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserConfig } from '../models/userConfig';
-import { UserConfigService } from '../services/user-config.service';
-import { ScreenConfigItemService } from '../services/screen-config-item.service'
+import { UserConfig } from '../../models/userConfig';
+import { UserConfigService } from '../../services/user-config.service';
+import { ScreenConfigItemService } from '../../services/screen-config-item.service'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import * as _ from "lodash";
-import { GlobalEventService } from '../services/global-event.service';
-import { ToastrInfo } from '../models/ToastrInfo';
+import { GlobalEventService } from '../../services/global-event.service';
+import { ToastrInfo } from '../../models/ToastrInfo';
 
 @Component({
   selector: 'app-add-config-modal',

@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserConfig } from '../models/userConfig';
-import { UserConfigService } from '../services/user-config.service';
+import { UserConfig } from '../../models/userConfig';
+import { UserConfigService } from '../../services/user-config.service';
 import { AddConfigModalComponent } from '../add-config-modal/add-config-modal.component'
-import { Response, StatusCode } from '../models/Response';
+import { Response, StatusCode } from '../../models/Response';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 //import { NgxSpinnerService } from "ngx-spinner";
 import * as _ from "lodash";
-import { GlobalVars } from '../services/app.global';
-import { SharedService } from '../services/shared.service';
+import { GlobalVars } from '../../services/app.global';
+import { SharedService } from '../../services/shared.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Column } from 'ag-grid-community';
 import { GridOptions } from 'ag-grid-community';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { ActionBtnRendererComponent } from '../action-btn-renderer/action-btn-renderer.component';
-import { GlobalEventService } from '../services/global-event.service';
-import { ToastrInfo } from '../models/ToastrInfo';
+import { GlobalEventService } from '../../services/global-event.service';
+import { ToastrInfo } from '../../models/ToastrInfo';
 
 @Component({
   selector: 'app-config-list',

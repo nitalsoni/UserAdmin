@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { SectorInfo } from '../models/sectorInfo';
-import { UserInfoService } from '../services/user-info.service';
+import { SectorInfo } from '../../models/sectorInfo';
+import { UserInfoService } from '../../services/user-info.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import * as _ from "lodash";
 
