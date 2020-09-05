@@ -1,4 +1,10 @@
-<div class="search-results">
-    <input [value]="search" ngxTypeahead [taUrl]="url" [taParams]="params"
-        (taSelected)="handleResultSelected($event)" />
-</div>
+<div class="search-results style-http style-3">
+    <input type="text" [value]="query" placeholder="type to see http response"
+      ngxTypeahead  class="form-control"
+      [taUrl]="url"
+      [taParams]="params"
+      [taApi]="api"
+      (taSelected)="handleHttpResultSelected($event)"
+      [taDebounce] = "debounce"
+    >
+  </div>
