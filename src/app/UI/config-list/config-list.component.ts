@@ -86,6 +86,7 @@ export class UsersComponent implements OnInit {
       next: (resp: any) => {
         _.remove(this.gridOptions.rowData, (x => x.userId == deleteConfig.userId && x.controlName == deleteConfig.controlName && x.item == deleteConfig.item));
         this.gridOptions.api.setRowData(this.gridOptions.rowData);
+        this.globalEvent$.notification.next(new ToastrInfo('success', 'succssfully deleted config item'));
       },
       error: e => {
         this.globalEvent$.notification.next(new ToastrInfo('error', 'Failed to delete config!'));

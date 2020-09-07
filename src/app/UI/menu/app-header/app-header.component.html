@@ -17,15 +17,20 @@
           (click)="globalVar.region = 'AMER';setLocalStorage('AMER')" href="#"><span>AMER</span></a>
       </div>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="nav navbar-nav ml-auto">
-          <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <a [ngClass]="{ 'nav-link' : true, 'btn-header': true , 'header': true ,'btn-header-active': globalVar.env === 'DEV' }"
-              (click)="globalVar.env = 'DEV';setLocalStorage('DEV')" href="#">DEV</a>
-            <a [ngClass]="{ 'nav-link' : true, 'header': true ,'btn-header': true,'btn-header-active': globalVar.env === 'PROD' }"
-              (click)="globalVar.env = 'PROD';setLocalStorage('PROD')" href="#">PROD</a>
-          </div>
-        </ul>
+      <div class="ml-auto row">
+        <div class="collapse navbar-collapse col-md-8" id="navbarSupportedContent">
+          <ul class="nav navbar-nav">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <a [ngClass]="{ 'nav-link' : true, 'btn-header': true , 'header': true ,'btn-header-active': globalVar.env === 'DEV' }"
+                (click)="globalVar.env = 'DEV';setLocalStorage('DEV')" href="#">DEV</a>
+              <a [ngClass]="{ 'nav-link' : true, 'header': true ,'btn-header': true,'btn-header-active': globalVar.env === 'PROD' }"
+                (click)="globalVar.env = 'PROD';setLocalStorage('PROD')" href="#">PROD</a>
+            </div>
+          </ul>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+          <img src="../../../../assets/lighthouse_icon.png" alt="test" class="rounded-circle" height="40px" width="40px" title="tool tip here">
+        </div>
       </div>
     </div>
   </nav>
